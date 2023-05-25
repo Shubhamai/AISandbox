@@ -8,6 +8,9 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  Connection,
+  Edge,
+  BackgroundVariant,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -23,7 +26,7 @@ export default function Home() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
 
@@ -38,7 +41,7 @@ export default function Home() {
       >
         <Controls />
         <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>
   );
