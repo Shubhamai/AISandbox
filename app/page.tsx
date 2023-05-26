@@ -11,24 +11,44 @@ import ReactFlow, {
   Connection,
   Edge,
   BackgroundVariant,
+  Panel,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
+import ToolBar from "./components/ToolBar/ToolBar";
+import TextInputNode from "./components/Inputs/Text/Node";
+import TextOutputNode from "./components/Output/Text/Node";
+import OpenAIChatGPT from "./components/Model/OpenAIChatGPT/Node";
 
-const initialNodes = [
-  { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
-  { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
-];
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
+import { shallow } from "zustand/shallow";
+import useStore from "./state/store";
+
+const selector = (state: {
+  nodes: any;
+  edges: any;
+  nodeTypes: any;
+  onNodesChange: any;
+  onEdgesChange: any;
+  onConnect: any;
+}) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  nodeTypes: state.nodeTypes,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
 
 export default function Home() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  // const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
+    useStore(selector, shallow);
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  // const onConnect = useCallback(
+  //   (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+  //   [setEdges]
+  // );
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -38,9 +58,12 @@ export default function Home() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        fitView
       >
-        <Controls />
-        <MiniMap />
+        <Controls position="bottom-right" />
+        <ToolBar />
+        {/* <MiniMap zoomable pannable /> */}
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>
