@@ -19,18 +19,35 @@ import initialEdges from "./edges";
 import nodeTypes from "./nodeTypes";
 
 type RFState = {
+  id: number;
   nodes: Node[];
   edges: Edge[];
   nodeTypes: NodeTypes;
+  reactFlowWrapper: null | HTMLDivElement;
+  reactFlowInstance: any;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  setReactFlowWrapper: (ref: React.RefObject<HTMLDivElement>) => void;
+  setReactFlowInstance: (instance: any) => void;
+  onDragOver: (event: DragEvent) => void;
+  onDrop: (event: DragEvent) => void;
+  getId: () => string;
 };
 
 const useStore = create<RFState>((set, get) => ({
+  id: 0, // TODO : Could be problematic, either numerical or string id
   nodes: initialNodes,
   edges: initialEdges,
   nodeTypes: nodeTypes,
+  reactFlowWrapper: null,
+  reactFlowInstance: null,
+  setReactFlowWrapper: (ref: React.RefObject<HTMLDivElement>) => {
+    set({ reactFlowWrapper: ref.current });
+  },
+  setReactFlowInstance: (instance: any) => {
+    set({ reactFlowInstance: instance });
+  },
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -45,6 +62,50 @@ const useStore = create<RFState>((set, get) => ({
     set({
       edges: addEdge(connection, get().edges),
     });
+  },
+  onDragOver: (event: DragEvent) => {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "move";
+    }
+  },
+  onDrop: (event: DragEvent) => {
+    event.preventDefault();
+
+    const reactFlowBounds = get().reactFlowWrapper?.getBoundingClientRect();
+    const type = event.dataTransfer?.getData("application/reactflow");
+
+    // check if the dropped element is valid
+    if (typeof type === "undefined" || !type) {
+      console.log("Invalid type");
+      return;
+    }
+
+    if (!reactFlowBounds) {
+      console.log("Invalid reactFlowBounds");
+      return;
+    }
+    const position = get().reactFlowInstance?.project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    });
+
+    const newNode = {
+      id: get().getId(),
+      type,
+      position,
+      data: { label: `${type} node` },
+    };
+
+    set({
+      nodes: get().nodes.concat(newNode),
+    });
+  },
+  getId: () => {
+    // TODO : Clean this up
+    let id = get().id + 1;
+    set({ id: id });
+    return `dndnode_${id}`;
   },
 }));
 

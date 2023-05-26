@@ -1,8 +1,9 @@
 import ReactFlow, { Background, Panel } from "reactflow";
 import Image from "next/image";
+import { DragEvent } from "react";
 
 const ToolBar = () => {
-  const onDragStart = (event, nodeType) => {
+  const onDragStart = (event: DragEvent<HTMLDivElement>, nodeType: string) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
@@ -18,21 +19,21 @@ const ToolBar = () => {
       <aside className="flex gap-3">
         <div
           className="dndnode input"
-          onDragStart={(event) => onDragStart(event, "input")}
+          onDragStart={(event) => onDragStart(event, "TextInputNode")}
           draggable
         >
           Input Node
         </div>
         <div
           className="dndnode"
-          onDragStart={(event) => onDragStart(event, "model")}
+          onDragStart={(event) => onDragStart(event, "OpenAIChatGPTNode")}
           draggable
         >
           Model Node
         </div>
         <div
           className="dndnode output"
-          onDragStart={(event) => onDragStart(event, "output")}
+          onDragStart={(event) => onDragStart(event, "TextOutputNode")}
           draggable
         >
           Output Node

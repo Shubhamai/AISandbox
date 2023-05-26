@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, NodeProps, NodeToolbarProps, Position } from "reactflow";
 
-const TextOutputNode = memo(({ data, isConnectable }) => {
+const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
   return (
     <div className="bg-white rounded-md p-2">
       <Handle

@@ -7,7 +7,7 @@ export default [
   },
   {
     id: "2",
-    type: "OpenAIChatGPT",
+    type: "OpenAIChatGPTNode",
     position: { x: 500, y: 0 },
     data: { label: "Model" },
   },

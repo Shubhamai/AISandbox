@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, NodeProps, Position } from "reactflow";
 
-const TextInputNode = memo(({ data, isConnectable }) => {
+const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
   return (
     <div className="bg-white rounded-md p-2">
       <Handle

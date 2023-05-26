@@ -1,71 +1,90 @@
 "use client";
 
-import React, { useCallback } from "react";
 import ReactFlow, {
-  MiniMap,
   Controls,
   Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  Connection,
-  Edge,
   BackgroundVariant,
-  Panel,
+  ReactFlowProvider,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
 import ToolBar from "./components/ToolBar/ToolBar";
-import TextInputNode from "./components/Inputs/Text/Node";
-import TextOutputNode from "./components/Output/Text/Node";
-import OpenAIChatGPT from "./components/Model/OpenAIChatGPT/Node";
 
 import { shallow } from "zustand/shallow";
 import useStore from "./state/store";
+import { useEffect, useRef } from "react";
 
 const selector = (state: {
   nodes: any;
   edges: any;
   nodeTypes: any;
+  setReactFlowWrapper: any;
+  setReactFlowInstance: any;
+  reactFlowWrapper: any;
   onNodesChange: any;
   onEdgesChange: any;
   onConnect: any;
+  onDragOver: any;
+  onDrop: any;
 }) => ({
   nodes: state.nodes,
   edges: state.edges,
   nodeTypes: state.nodeTypes,
+  setReactFlowWrapper: state.setReactFlowWrapper,
+  setReactFlowInstance: state.setReactFlowInstance,
+  reactFlowWrapper: state.reactFlowWrapper,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onDragOver: state.onDragOver,
+  onDrop: state.onDrop,
 });
 
 export default function Home() {
-  // const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  // const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
-    useStore(selector, shallow);
+  const reactFlowWrapper = useRef(null);
+  const {
+    nodes,
+    edges,
+    nodeTypes,
+    setReactFlowWrapper,
+    setReactFlowInstance,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onDragOver,
+    onDrop,
+  } = useStore(selector, shallow);
 
-  // const onConnect = useCallback(
-  //   (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
-  //   [setEdges]
-  // );
+  useEffect(() => {
+    setReactFlowWrapper(reactFlowWrapper.current);
+  }, [setReactFlowWrapper, reactFlowWrapper]);
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        fitView
-      >
-        <Controls position="bottom-right" />
-        <ToolBar />
-        {/* <MiniMap zoomable pannable /> */}
-        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      </ReactFlow>
+    <div className="dndflow">
+      <ReactFlowProvider>
+        <div
+          className="reactflow-wrapper"
+          style={{ width: "100vw", height: "100vh" }}
+          ref={reactFlowWrapper}
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onInit={setReactFlowInstance}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            fitView
+          >
+            <ToolBar />
+            <Controls position="bottom-right" />
+            <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+          </ReactFlow>
+        </div>
+      </ReactFlowProvider>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, NodeProps, Position } from "reactflow";
 
-const OpenAIChatGPT = memo(({ data, isConnectable }) => {
+const OpenAIChatGPTNode = memo(({ data, isConnectable } : NodeProps) => {
   return (
     <div className="bg-white rounded-md p-2">
       <Handle
@@ -20,6 +20,6 @@ const OpenAIChatGPT = memo(({ data, isConnectable }) => {
   );
 });
 
-OpenAIChatGPT.displayName = "OpenAIChatGPT";
+OpenAIChatGPTNode.displayName = "OpenAIChatGPTNode";
 
-export default OpenAIChatGPT;
+export default OpenAIChatGPTNode;
