@@ -28,7 +28,7 @@ type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setReactFlowWrapper: (ref: React.RefObject<HTMLDivElement>) => void;
+  setReactFlowWrapper: (ref: HTMLDivElement) => void;
   setReactFlowInstance: (instance: any) => void;
   onDragOver: (event: DragEvent) => void;
   onDrop: (event: DragEvent) => void;
@@ -42,8 +42,8 @@ const useStore = create<RFState>((set, get) => ({
   nodeTypes: nodeTypes,
   reactFlowWrapper: null,
   reactFlowInstance: null,
-  setReactFlowWrapper: (ref: React.RefObject<HTMLDivElement>) => {
-    set({ reactFlowWrapper: ref.current });
+  setReactFlowWrapper: (ref: HTMLDivElement) => {
+    set({ reactFlowWrapper: ref });
   },
   setReactFlowInstance: (instance: any) => {
     set({ reactFlowInstance: instance });
