@@ -10,6 +10,7 @@ const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
         isConnectable={isConnectable}
       />
       <div className="text-black">{data.label}</div>
+      <div className="text-slate-600">{data.output}</div>
     </div>
   );
 });

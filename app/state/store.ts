@@ -27,6 +27,7 @@ type RFState = {
   reactFlowInstance: any;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
+  updateNodeData: (nodeId: string, data: any) => void;
   onConnect: OnConnect;
   setReactFlowWrapper: (ref: HTMLDivElement) => void;
   setReactFlowInstance: (instance: any) => void;
@@ -56,6 +57,16 @@ const useStore = create<RFState>((set, get) => ({
   onEdgesChange: (changes: EdgeChange[]) => {
     set({
       edges: applyEdgeChanges(changes, get().edges),
+    });
+  },
+  updateNodeData: (nodeId: string, data: any) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, ...data };
+        }
+        return node;
+      }),
     });
   },
   onConnect: (connection: Connection) => {
