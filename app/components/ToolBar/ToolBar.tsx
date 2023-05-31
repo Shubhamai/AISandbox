@@ -73,7 +73,7 @@ const ToolBar = () => {
   };
 
   useEffect(() => {
-    const keyDownHandler = (e) => {
+    const keyDownHandler = (e: KeyboardEvent) => {
       if (e.key === "Enter") Execute();
     };
     document.addEventListener("keydown", keyDownHandler);
