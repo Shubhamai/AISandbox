@@ -19,6 +19,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import Header from "./components/Header/header";
+import Sidebar from "./components/SideBar/SideBar";
 
 const selector = (state: {
   nodes: any;
@@ -70,6 +72,10 @@ export default function Home() {
       <ContextMenu>
         <ContextMenuTrigger>
           <ReactFlowProvider>
+            <Header />
+            <ToolBar />
+            <Sidebar />
+
             <div
               className="reactflow-wrapper"
               style={{ width: "100vw", height: "100vh" }}
@@ -85,9 +91,7 @@ export default function Home() {
                 onInit={setReactFlowInstance}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
-                fitView
               >
-                <ToolBar />
                 <Controls position="bottom-right" />
                 <Background
                   variant={BackgroundVariant.Dots}
@@ -105,7 +109,6 @@ export default function Home() {
           <ContextMenuItem>Subscription</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      {/* <ContextMenuComponent /> */}
     </div>
   );
 }

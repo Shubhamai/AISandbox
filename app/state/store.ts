@@ -106,7 +106,10 @@ const useStore = create<RFState>((set, get) => ({
       id: get().getId(),
       type,
       position,
-      data: { label: `${type} node`, ...defaultNodeData },
+      data: {
+        label: `${type} node`,
+        ...JSON.parse(JSON.stringify(defaultNodeData)),
+      },
     };
 
     set({

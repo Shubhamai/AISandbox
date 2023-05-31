@@ -11,13 +11,9 @@ import { DragEvent, useEffect } from "react";
 import useStore from "@/app/state/store";
 import nodeTypes from "@/app/state/nodeTypes";
 import nodeExecution from "./Execution";
+import { PlayIcon } from "lucide-react";
 
 const ToolBar = () => {
-  const onDragStart = (event: DragEvent<HTMLDivElement>, nodeType: string) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
-  };
-
   const updateNodeData = useStore((s) => s.updateNodeData);
 
   const getStartingInputNodes = () => {
@@ -89,44 +85,11 @@ const ToolBar = () => {
     >
       <button
         onClick={Execute}
-        className="bg-slate-600 text-white font-bold py-2 px-4 rounded"
+        className="flex flex-row gap-3 items-center font-bold py-2 px-4 rounded"
       >
-        <Image src="/play.svg" width={20} height={20} alt="Run Inference" />
+        <PlayIcon size={20} />
+        Run Inference
       </button>
-      <aside className="flex gap-3">
-        {Object.keys(nodeTypes).map((key) => (
-          <div
-            className={`dndnode input ${key}`}
-            key={key}
-            onDragStart={(event) => onDragStart(event, key)}
-            draggable
-          >
-            {key}
-          </div>
-        ))}
-
-        {/* <div
-          className="dndnode input"
-          onDragStart={(event) => onDragStart(event, "TextInputNode")}
-          draggable
-        >
-          Input Node
-        </div>
-        <div
-          className="dndnode"
-          onDragStart={(event) => onDragStart(event, "OpenAIChatGPTNode")}
-          draggable
-        >
-          Model Node
-        </div>
-        <div
-          className="dndnode output"
-          onDragStart={(event) => onDragStart(event, "TextOutputNode")}
-          draggable
-        >
-          Output Node
-        </div> */}
-      </aside>
     </Panel>
   );
 };
