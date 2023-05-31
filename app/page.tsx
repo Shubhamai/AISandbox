@@ -13,6 +13,12 @@ import ToolBar from "./components/ToolBar/ToolBar";
 import { shallow } from "zustand/shallow";
 import useStore from "./state/store";
 import { useEffect, useRef } from "react";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 const selector = (state: {
   nodes: any;
@@ -61,30 +67,45 @@ export default function Home() {
 
   return (
     <div className="dndflow">
-      <ReactFlowProvider>
-        <div
-          className="reactflow-wrapper"
-          style={{ width: "100vw", height: "100vh" }}
-          ref={reactFlowWrapper}
-        >
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            fitView
-          >
-            <ToolBar />
-            <Controls position="bottom-right" />
-            <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-          </ReactFlow>
-        </div>
-      </ReactFlowProvider>
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <ReactFlowProvider>
+            <div
+              className="reactflow-wrapper"
+              style={{ width: "100vw", height: "100vh" }}
+              ref={reactFlowWrapper}
+            >
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onInit={setReactFlowInstance}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                fitView
+              >
+                <ToolBar />
+                <Controls position="bottom-right" />
+                <Background
+                  variant={BackgroundVariant.Dots}
+                  gap={12}
+                  size={1}
+                />
+              </ReactFlow>
+            </div>
+          </ReactFlowProvider>
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem>Profile</ContextMenuItem>
+          <ContextMenuItem>Billing</ContextMenuItem>
+          <ContextMenuItem>Team</ContextMenuItem>
+          <ContextMenuItem>Subscription</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      {/* <ContextMenuComponent /> */}
     </div>
   );
 }

@@ -1,7 +1,9 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { Handle, NodeProps, NodeToolbarProps, Position } from "reactflow";
 
 const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
+  const outputData = data.output.text;
+
   return (
     <div className="bg-white rounded-md p-2">
       <Handle
@@ -10,7 +12,12 @@ const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
         isConnectable={isConnectable}
       />
       <div className="text-black">{data.label}</div>
-      <div className="text-slate-600">{data.output}</div>
+      <div className="text-slate-600">{outputData}</div>
+      <Handle
+        type="source"
+        position={Position.Right}
+        isConnectable={isConnectable}
+      />
     </div>
   );
 });

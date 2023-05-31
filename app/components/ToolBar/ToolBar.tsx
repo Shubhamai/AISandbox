@@ -7,48 +7,10 @@ import ReactFlow, {
   Edge,
 } from "reactflow";
 import Image from "next/image";
-import { DragEvent } from "react";
+import { DragEvent, useEffect } from "react";
 import useStore from "@/app/state/store";
-import TextInputNode from "../Inputs/Text/Node";
-
-const executeCode = (node: Node, previousNode: Node) => {
-  const type = node.type;
-  const data = node.data;
-
-  if (type === "TextInputNode") {
-    return node;
-  } else if (type === "OpenAIChatGPTNode") {
-    const modelOutput = {
-      ...data,
-      output:
-        "Here is the output from the model : " + previousNode.data.input_data,
-    };
-
-    return { ...node, data: modelOutput };
-  } else if (type === "TextOutputNode") {
-    if (previousNode.type === "OpenAIChatGPTNode") {
-      const output = {
-        ...data,
-        output: previousNode.data.output,
-      };
-      return { ...node, data: output };
-    } else if (previousNode.type === "TextInputNode") {
-      const output = {
-        ...data,
-        output: previousNode.data.input_data,
-      };
-      return { ...node, data: output };
-    } else {
-      const output = {
-        ...data,
-        output: "Invalid Input",
-      };
-      return { ...node, data: output };
-    }
-  } else {
-    console.log("Invalid Node...");
-  }
-};
+import nodeTypes from "@/app/state/nodeTypes";
+import nodeExecution from "./Execution";
 
 const ToolBar = () => {
   const onDragStart = (event: DragEvent<HTMLDivElement>, nodeType: string) => {
@@ -73,8 +35,6 @@ const ToolBar = () => {
     return inputNodes;
   };
 
-  // TODO : Execute all the nodes on a breath first search while previous the previous node data
-  // TODO : Update the components with data as necessary
   const Execute = () => {
     const { nodes, edges } = useStore.getState();
 
@@ -97,20 +57,30 @@ const ToolBar = () => {
       const incomingNodes = getIncomers(node, nodes, edges);
       const outgoingNodes = getOutgoers(node, nodes, edges);
 
+      console.log("Incoming nodes:", incomingNodes);
+
       for (const incomingNode of incomingNodes) {
         // console.log(incomingNode);
-        const updatedNode = executeCode(node, incomingNode);
+        const updatedNode = nodeExecution(node, incomingNode);
         if (updatedNode) {
           updateNodeData(updatedNode.id, { ...updatedNode.data });
         }
       }
 
-      console.log("Updated node:", node);
-
       queue.push(...incomingNodes.filter((n) => !visited.has(n.id)));
       queue.push(...outgoingNodes.filter((n) => !visited.has(n.id)));
     }
   };
+
+  useEffect(() => {
+    const keyDownHandler = (e) => {
+      if (e.key === "Enter") Execute();
+    };
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, []);
 
   return (
     <Panel
@@ -124,7 +94,18 @@ const ToolBar = () => {
         <Image src="/play.svg" width={20} height={20} alt="Run Inference" />
       </button>
       <aside className="flex gap-3">
-        <div
+        {Object.keys(nodeTypes).map((key) => (
+          <div
+            className={`dndnode input ${key}`}
+            key={key}
+            onDragStart={(event) => onDragStart(event, key)}
+            draggable
+          >
+            {key}
+          </div>
+        ))}
+
+        {/* <div
           className="dndnode input"
           onDragStart={(event) => onDragStart(event, "TextInputNode")}
           draggable
@@ -144,7 +125,7 @@ const ToolBar = () => {
           draggable
         >
           Output Node
-        </div>
+        </div> */}
       </aside>
     </Panel>
   );

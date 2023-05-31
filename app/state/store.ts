@@ -17,6 +17,7 @@ import {
 import initialNodes from "./nodes";
 import initialEdges from "./edges";
 import nodeTypes from "./nodeTypes";
+import defaultNodeData from "@/app/data/nodes.json";
 
 type RFState = {
   id: number;
@@ -105,7 +106,7 @@ const useStore = create<RFState>((set, get) => ({
       id: get().getId(),
       type,
       position,
-      data: { label: `${type} node` },
+      data: { label: `${type} node`, ...defaultNodeData },
     };
 
     set({
