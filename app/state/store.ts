@@ -29,6 +29,7 @@ type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   updateNodeData: (nodeId: string, data: any) => void;
+  resetNodesIsComputed: () => void;
   onConnect: OnConnect;
   setReactFlowWrapper: (ref: HTMLDivElement) => void;
   setReactFlowInstance: (instance: any) => void;
@@ -70,10 +71,26 @@ const useStore = create<RFState>((set, get) => ({
       }),
     });
   },
-  onConnect: (connection: Connection) => {
+  resetNodesIsComputed: () => {
     set({
-      edges: addEdge(connection, get().edges),
+      nodes: get().nodes.map((node) => {
+        node.data = {
+          ...node.data,
+          hasComputed: false,
+          // ...JSON.parse(JSON.stringify(defaultNodeData)),
+        };
+        return node;
+      }),
     });
+  },
+  onConnect: (connection: Connection) => {
+    if (connection.sourceHandle === connection.targetHandle) {
+      set({
+        edges: addEdge(connection, get().edges),
+      });
+    } else {
+      console.log("Invalid connection");
+    }
   },
   onDragOver: (event: DragEvent) => {
     event.preventDefault();
@@ -107,7 +124,7 @@ const useStore = create<RFState>((set, get) => ({
       type,
       position,
       data: {
-        label: `${type} node`,
+        label: type,
         ...JSON.parse(JSON.stringify(defaultNodeData)),
       },
     };

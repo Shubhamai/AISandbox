@@ -1,13 +1,36 @@
+import useStore from "@/app/state/store";
 import React, { memo } from "react";
-import { Handle, NodeProps, Position } from "reactflow";
+import { Handle, NodeProps, Position, Node } from "reactflow";
+
+export const executeStableDiffusionNode = (
+  node: Node,
+  previousNodes: Node[]
+) => {
+  console.log("Executing Stable Diffusion Node ", previousNodes);
+
+  let image;
+  let text;
+  for (const prevNode of previousNodes) {
+    if (prevNode.data.output.image) {
+      image = prevNode.data.output.image;
+    }
+    if (prevNode.data.output.text) {
+      text = prevNode.data.output.text;
+    }
+  }
+  node.data.hasComputed = true;
+  node.data.output.image = "Output Image : " + image + "__" + text;
+  console.log("Output Node : " + node);
+  return node;
+};
 
 const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
   return (
     <div className="bg-white rounded-md p-2 relative">
       <Handle
         type="target"
-        key="0"
-        id="0"
+        id="image"
+        key="image"
         position={Position.Left}
         isConnectable={isConnectable}
         style={{
@@ -16,8 +39,8 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
       />
       <Handle
         type="target"
-        key="1"
-        id="1"
+        id="text"
+        key="text"
         position={Position.Left}
         isConnectable={isConnectable}
         style={{
@@ -28,6 +51,7 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
       <div className="text-black">{data.label}</div>
       <Handle
         type="source"
+        id="image"
         position={Position.Right}
         isConnectable={isConnectable}
       />

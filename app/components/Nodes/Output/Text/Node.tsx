@@ -8,6 +8,7 @@ const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
     <div className="bg-white rounded-md p-2">
       <Handle
         type="target"
+        id="text"
         position={Position.Left}
         isConnectable={isConnectable}
       />
@@ -15,6 +16,7 @@ const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
       <div className="text-slate-600">{outputData}</div>
       <Handle
         type="source"
+        id="text"
         position={Position.Right}
         isConnectable={isConnectable}
       />

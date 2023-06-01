@@ -13,7 +13,7 @@ const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
       <Handle
         type="source"
         position={Position.Right}
-        id="a"
+        id="text"
         isConnectable={isConnectable}
       />
       <div className="text-black">{data.label}</div>

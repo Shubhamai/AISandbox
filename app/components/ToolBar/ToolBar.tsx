@@ -15,6 +15,7 @@ import { PlayIcon } from "lucide-react";
 
 const ToolBar = () => {
   const updateNodeData = useStore((s) => s.updateNodeData);
+  const resetNodesIsComputed = useStore((s) => s.resetNodesIsComputed);
 
   const getStartingInputNodes = () => {
     const { nodes, edges } = useStore.getState();
@@ -33,6 +34,8 @@ const ToolBar = () => {
 
   const Execute = () => {
     const { nodes, edges } = useStore.getState();
+
+    resetNodesIsComputed();
 
     // Create a queue to manage nodes to process and a set to keep track of visited nodes
     let queue = getStartingInputNodes();
@@ -53,18 +56,15 @@ const ToolBar = () => {
       const incomingNodes = getIncomers(node, nodes, edges);
       const outgoingNodes = getOutgoers(node, nodes, edges);
 
-      console.log("Incoming nodes:", incomingNodes);
+      const allInputsComputed = incomingNodes.every((n) => n.data.hasComputed);
 
-      for (const incomingNode of incomingNodes) {
-        // console.log(incomingNode);
-        const updatedNode = nodeExecution(node, incomingNode);
-        if (updatedNode) {
-          updateNodeData(updatedNode.id, { ...updatedNode.data });
-        }
+      if (allInputsComputed) {
+        const updatedNode = nodeExecution(node, incomingNodes);
+        updateNodeData(updatedNode.id, { ...updatedNode.data });
+        queue.push(...outgoingNodes.filter((n) => !visited.has(n.id)));
       }
 
       queue.push(...incomingNodes.filter((n) => !visited.has(n.id)));
-      queue.push(...outgoingNodes.filter((n) => !visited.has(n.id)));
     }
   };
 
