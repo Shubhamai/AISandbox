@@ -2,11 +2,14 @@ import { Node } from "reactflow";
 import { executeOpenAIChatGPTNode } from "../Nodes/Models/OpenAIChatGPT/Node";
 import { executeStableDiffusionNode } from "../Nodes/Models/StableDiffusion/Node";
 
-const nodeExecution = (node: Node, previousNodes: Node[]): Node => {
+const nodeExecution = async (
+  node: Node,
+  previousNodes: Node[]
+): Promise<Node> => {
   const type = node.type;
 
   if (type === "OpenAIChatGPTNode" && previousNodes.length === 1) {
-    return executeOpenAIChatGPTNode(node, previousNodes[0]);
+    return await executeOpenAIChatGPTNode(node, previousNodes[0]);
   } else if (type === "StableDiffusionNode" && previousNodes.length === 2) {
     return executeStableDiffusionNode(node, previousNodes);
   } else if (previousNodes.length === 0) {

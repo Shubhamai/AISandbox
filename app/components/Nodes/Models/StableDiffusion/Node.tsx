@@ -6,7 +6,6 @@ export const executeStableDiffusionNode = (
   node: Node,
   previousNodes: Node[]
 ) => {
-  console.log("Executing Stable Diffusion Node ", previousNodes);
 
   let image;
   let text;
@@ -20,7 +19,6 @@ export const executeStableDiffusionNode = (
   }
   node.data.hasComputed = true;
   node.data.output.image = "Output Image : " + image + "__" + text;
-  console.log("Output Node : " + node);
   return node;
 };
 

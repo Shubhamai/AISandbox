@@ -5,6 +5,7 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   ReactFlowProvider,
+  SelectionMode,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -31,6 +32,10 @@ const selector = (state: {
   reactFlowWrapper: any;
   onNodesChange: any;
   onEdgesChange: any;
+  setEdgeUpdateSuccessful: any;
+  onEdgeUpdateStart: any;
+  onEdgeUpdate: any;
+  onEdgeUpdateEnd: any;
   onConnect: any;
   onDragOver: any;
   onDrop: any;
@@ -43,6 +48,10 @@ const selector = (state: {
   reactFlowWrapper: state.reactFlowWrapper,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
+  setEdgeUpdateSuccessful: state.setEdgeUpdateSuccessful,
+  onEdgeUpdateStart: state.onEdgeUpdateStart,
+  onEdgeUpdate: state.onEdgeUpdate,
+  onEdgeUpdateEnd: state.onEdgeUpdateEnd,
   onConnect: state.onConnect,
   onDragOver: state.onDragOver,
   onDrop: state.onDrop,
@@ -50,6 +59,8 @@ const selector = (state: {
 
 export default function Home() {
   const reactFlowWrapper = useRef(null);
+  const edgeUpdateSuccessful = useRef(true);
+
   const {
     nodes,
     edges,
@@ -58,6 +69,10 @@ export default function Home() {
     setReactFlowInstance,
     onNodesChange,
     onEdgesChange,
+    setEdgeUpdateSuccessful,
+    onEdgeUpdateStart,
+    onEdgeUpdate,
+    onEdgeUpdateEnd,
     onConnect,
     onDragOver,
     onDrop,
@@ -66,6 +81,10 @@ export default function Home() {
   useEffect(() => {
     setReactFlowWrapper(reactFlowWrapper.current);
   }, [setReactFlowWrapper, reactFlowWrapper]);
+
+  useEffect(() => {
+    setEdgeUpdateSuccessful(edgeUpdateSuccessful.current);
+  }, [setEdgeUpdateSuccessful, edgeUpdateSuccessful]);
 
   return (
     <div className="dndflow">
@@ -87,10 +106,16 @@ export default function Home() {
                 nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
+                onEdgeUpdate={onEdgeUpdate}
+                onEdgeUpdateStart={onEdgeUpdateStart}
+                onEdgeUpdateEnd={onEdgeUpdateEnd}
                 onConnect={onConnect}
                 onInit={setReactFlowInstance}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
+                // selectionOnDrag
+                // panOnDrag={[2, 1]}
+                selectionMode={SelectionMode.Partial}
               >
                 <Controls position="bottom-right" />
                 <Background

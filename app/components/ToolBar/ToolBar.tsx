@@ -5,6 +5,8 @@ import ReactFlow, {
   getIncomers,
   getOutgoers,
   Edge,
+  EdgeChange,
+  getConnectedEdges,
 } from "reactflow";
 import Image from "next/image";
 import { DragEvent, useEffect } from "react";
@@ -15,6 +17,8 @@ import { PlayIcon } from "lucide-react";
 
 const ToolBar = () => {
   const updateNodeData = useStore((s) => s.updateNodeData);
+  const updateEdgeData = useStore((s) => s.updateEdgeData);
+
   const resetNodesIsComputed = useStore((s) => s.resetNodesIsComputed);
 
   const getStartingInputNodes = () => {
@@ -32,7 +36,7 @@ const ToolBar = () => {
     return inputNodes;
   };
 
-  const Execute = () => {
+  const Execute = async () => {
     const { nodes, edges } = useStore.getState();
 
     resetNodesIsComputed();
@@ -49,9 +53,6 @@ const ToolBar = () => {
         continue;
       }
 
-      // Mark the node as visited
-      visited.add(node.id);
-
       // Get incoming and outgoing nodes
       const incomingNodes = getIncomers(node, nodes, edges);
       const outgoingNodes = getOutgoers(node, nodes, edges);
@@ -59,12 +60,26 @@ const ToolBar = () => {
       const allInputsComputed = incomingNodes.every((n) => n.data.hasComputed);
 
       if (allInputsComputed) {
-        const updatedNode = nodeExecution(node, incomingNodes);
+        visited.add(node.id);
+
+        const updatedNode = await nodeExecution(node, incomingNodes);
         updateNodeData(updatedNode.id, { ...updatedNode.data });
         queue.push(...outgoingNodes.filter((n) => !visited.has(n.id)));
+
+        // Update edges
+        for (const edge of getConnectedEdges(queue, edges)) {
+          // if (edge.source === node.id) {
+          // const updatedEdge = await nodeExecution(edge, incomingNodes);
+          updateEdgeData(edge.id, { animated: true });
+          // }
+        }
       }
 
       queue.push(...incomingNodes.filter((n) => !visited.has(n.id)));
+    }
+
+    for (const edge of edges) {
+      updateEdgeData(edge.id, { animated: false });
     }
   };
 

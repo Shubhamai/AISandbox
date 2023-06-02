@@ -12,6 +12,7 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
   NodeTypes,
+  updateEdge,
 } from "reactflow";
 
 import initialNodes from "./nodes";
@@ -28,11 +29,17 @@ type RFState = {
   reactFlowInstance: any;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
+  edgeUpdateSuccessful: any;
+  onEdgeUpdateStart: () => void;
+  onEdgeUpdate: (oldEdge: Edge, newConnection: Connection) => void;
+  onEdgeUpdateEnd: (_:any, edge: Edge) => void;
   updateNodeData: (nodeId: string, data: any) => void;
+  updateEdgeData: (edgeId: string, data: any) => void;
   resetNodesIsComputed: () => void;
   onConnect: OnConnect;
   setReactFlowWrapper: (ref: HTMLDivElement) => void;
   setReactFlowInstance: (instance: any) => void;
+  setEdgeUpdateSuccessful: (success: any) => void;
   onDragOver: (event: DragEvent) => void;
   onDrop: (event: DragEvent) => void;
   getId: () => string;
@@ -43,6 +50,7 @@ const useStore = create<RFState>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
   nodeTypes: nodeTypes,
+  edgeUpdateSuccessful: null,
   reactFlowWrapper: null,
   reactFlowInstance: null,
   setReactFlowWrapper: (ref: HTMLDivElement) => {
@@ -61,6 +69,25 @@ const useStore = create<RFState>((set, get) => ({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
+  setEdgeUpdateSuccessful: (success: boolean) => {
+    set({ edgeUpdateSuccessful: success });
+  },
+  onEdgeUpdateStart: () => {
+    get().setEdgeUpdateSuccessful(false);
+  },
+  onEdgeUpdate: (oldEdge: Edge, newConnection: Connection) => {
+    get().setEdgeUpdateSuccessful(false);
+    set({
+      edges: updateEdge(oldEdge, newConnection, get().edges),
+    });
+  },
+  onEdgeUpdateEnd: (_, edge) => {
+    if (!get().edgeUpdateSuccessful) {
+      set({
+        edges: get().edges.filter((e) => e.id !== edge.id),
+      });
+    }
+  },
   updateNodeData: (nodeId: string, data: any) => {
     set({
       nodes: get().nodes.map((node) => {
@@ -71,12 +98,23 @@ const useStore = create<RFState>((set, get) => ({
       }),
     });
   },
+  updateEdgeData: (edgeId: string, data: any) => {
+    set({
+      edges: get().edges.map((edge) => {
+        if (edge.id === edgeId) {
+          edge = { ...edge, ...data };
+        }
+        return edge;
+      }),
+    });
+  },
   resetNodesIsComputed: () => {
     set({
       nodes: get().nodes.map((node) => {
         node.data = {
           ...node.data,
           hasComputed: false,
+          // output: defaultNodeData.output,
           // ...JSON.parse(JSON.stringify(defaultNodeData)),
         };
         return node;
@@ -86,7 +124,10 @@ const useStore = create<RFState>((set, get) => ({
   onConnect: (connection: Connection) => {
     if (connection.sourceHandle === connection.targetHandle) {
       set({
-        edges: addEdge(connection, get().edges),
+        edges: addEdge(
+          { ...connection, animated: false, type: "smoothstep" },
+          get().edges
+        ),
       });
     } else {
       console.log("Invalid connection");
