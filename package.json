@@ -22,6 +22,7 @@
     "clsx": "^1.2.1",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
+    "html-to-image": "^1.11.11",
     "lucide-react": "^0.224.0",
     "next": "13.4.3",
     "postcss": "8.4.23",

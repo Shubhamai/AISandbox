@@ -27,12 +27,13 @@ type RFState = {
   nodeTypes: NodeTypes;
   reactFlowWrapper: null | HTMLDivElement;
   reactFlowInstance: any;
+  updateGraph: (nodes: Node[], edges: Edge[]) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   edgeUpdateSuccessful: any;
   onEdgeUpdateStart: () => void;
   onEdgeUpdate: (oldEdge: Edge, newConnection: Connection) => void;
-  onEdgeUpdateEnd: (_:any, edge: Edge) => void;
+  onEdgeUpdateEnd: (_: any, edge: Edge) => void;
   updateNodeData: (nodeId: string, data: any) => void;
   updateEdgeData: (edgeId: string, data: any) => void;
   resetNodesIsComputed: () => void;
@@ -45,7 +46,7 @@ type RFState = {
   getId: () => string;
 };
 
-const useStore = create<RFState>((set, get) => ({
+const graphState = create<RFState>((set, get) => ({
   id: 0, // TODO : Could be problematic, either numerical or string id
   nodes: initialNodes,
   edges: initialEdges,
@@ -58,6 +59,9 @@ const useStore = create<RFState>((set, get) => ({
   },
   setReactFlowInstance: (instance: any) => {
     set({ reactFlowInstance: instance });
+  },
+  updateGraph: (nodes: Node[], edges: Edge[]) => {
+    set({ nodes, edges });
   },
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -182,4 +186,4 @@ const useStore = create<RFState>((set, get) => ({
   },
 }));
 
-export default useStore;
+export default graphState;

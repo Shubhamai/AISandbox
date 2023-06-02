@@ -10,19 +10,19 @@ import ReactFlow, {
 } from "reactflow";
 import Image from "next/image";
 import { DragEvent, useEffect } from "react";
-import useStore from "@/app/state/store";
+import graphState from "@/app/state/graphState";
 import nodeTypes from "@/app/state/nodeTypes";
 import nodeExecution from "./Execution";
 import { PlayIcon } from "lucide-react";
 
 const ToolBar = () => {
-  const updateNodeData = useStore((s) => s.updateNodeData);
-  const updateEdgeData = useStore((s) => s.updateEdgeData);
+  const updateNodeData = graphState((s) => s.updateNodeData);
+  const updateEdgeData = graphState((s) => s.updateEdgeData);
 
-  const resetNodesIsComputed = useStore((s) => s.resetNodesIsComputed);
+  const resetNodesIsComputed = graphState((s) => s.resetNodesIsComputed);
 
   const getStartingInputNodes = () => {
-    const { nodes, edges } = useStore.getState();
+    const { nodes, edges } = graphState.getState();
 
     const inputNodes = [];
     for (const node of nodes) {
@@ -37,7 +37,7 @@ const ToolBar = () => {
   };
 
   const Execute = async () => {
-    const { nodes, edges } = useStore.getState();
+    const { nodes, edges } = graphState.getState();
 
     resetNodesIsComputed();
 

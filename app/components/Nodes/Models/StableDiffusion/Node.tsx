@@ -1,4 +1,3 @@
-import useStore from "@/app/state/store";
 import React, { memo } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
 
@@ -6,7 +5,6 @@ export const executeStableDiffusionNode = (
   node: Node,
   previousNodes: Node[]
 ) => {
-
   let image;
   let text;
   for (const prevNode of previousNodes) {

@@ -1,4 +1,4 @@
-import useStore from "@/app/state/store";
+import graphState from "@/app/state/graphState";
 import React, { memo, useEffect } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
 import { useNodeId } from "reactflow";
@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 
 const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
-  const updateNodeData = useStore((s) => s.updateNodeData);
+  const updateNodeData = graphState((s) => s.updateNodeData);
 
   return (
     <div className="bg-white rounded-md p-2">

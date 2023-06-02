@@ -12,7 +12,7 @@ import "reactflow/dist/style.css";
 import ToolBar from "./components/ToolBar/ToolBar";
 
 import { shallow } from "zustand/shallow";
-import useStore from "./state/store";
+import graphState from "./state/graphState";
 import { useEffect, useRef } from "react";
 import {
   ContextMenu,
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/context-menu";
 import Header from "./components/Header/header";
 import Sidebar from "./components/SideBar/SideBar";
+import ContextItems from "./components/Context/ContextItems";
 
 const selector = (state: {
   nodes: any;
@@ -76,7 +77,7 @@ export default function Home() {
     onConnect,
     onDragOver,
     onDrop,
-  } = useStore(selector, shallow);
+  } = graphState(selector, shallow);
 
   useEffect(() => {
     setReactFlowWrapper(reactFlowWrapper.current);
@@ -127,12 +128,7 @@ export default function Home() {
             </div>
           </ReactFlowProvider>
         </ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuItem>Profile</ContextMenuItem>
-          <ContextMenuItem>Billing</ContextMenuItem>
-          <ContextMenuItem>Team</ContextMenuItem>
-          <ContextMenuItem>Subscription</ContextMenuItem>
-        </ContextMenuContent>
+        <ContextItems />
       </ContextMenu>
     </div>
   );

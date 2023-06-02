@@ -1,4 +1,4 @@
-import useStore from "@/app/state/store";
+import graphState from "@/app/state/graphState";
 import React, { memo, useEffect } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
 import { useNodeId } from "reactflow";
@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 
 const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
-  const updateNodeData = useStore((s) => s.updateNodeData);
+  const updateNodeData = graphState((s) => s.updateNodeData);
 
   return (
     <div className="bg-white rounded-md p-2">
@@ -17,7 +17,7 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
         isConnectable={isConnectable}
       />
       <div className="text-black">{data.label}</div>
-      <input
+      <Input
         className="border-2 border-black text-slate-900 h-24"
         type="text"
         onChange={(e) =>
