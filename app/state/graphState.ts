@@ -15,10 +15,7 @@ import {
   updateEdge,
 } from "reactflow";
 
-import initialNodes from "./nodes";
-import initialEdges from "./edges";
-import nodeTypes from "./nodeTypes";
-import defaultNodeData from "@/app/data/nodes.json";
+import nodeTypes from "../types/nodeTypes";
 
 type RFState = {
   id: number;
@@ -48,8 +45,8 @@ type RFState = {
 
 const graphState = create<RFState>((set, get) => ({
   id: 0, // TODO : Could be problematic, either numerical or string id
-  nodes: initialNodes,
-  edges: initialEdges,
+  nodes: [], // TODO : Maybe load from local storage
+  edges: [], // TODO : Maybe load from local storage
   nodeTypes: nodeTypes,
   edgeUpdateSuccessful: null,
   reactFlowWrapper: null,
@@ -170,7 +167,17 @@ const graphState = create<RFState>((set, get) => ({
       position,
       data: {
         label: type,
-        ...JSON.parse(JSON.stringify(defaultNodeData)),
+
+        // TODO : Default data now lives, might need to be moved
+        input: {
+          text: null,
+          image: null,
+        },
+        output: {
+          text: null,
+          image: null,
+        },
+        hasComputed: false,
       },
     };
 

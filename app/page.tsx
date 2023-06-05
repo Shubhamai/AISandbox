@@ -22,7 +22,9 @@ import {
 } from "@/components/ui/context-menu";
 import Header from "./components/Header/header";
 import Sidebar from "./components/SideBar/SideBar";
+import Settings from "./components/Settings/Settings";
 import ContextItems from "./components/Context/ContextItems";
+import useAppState from "./state/appState";
 
 const selector = (state: {
   nodes: any;
@@ -78,6 +80,7 @@ export default function Home() {
     onDragOver,
     onDrop,
   } = graphState(selector, shallow);
+  const { zenMode } = useAppState();
 
   useEffect(() => {
     setReactFlowWrapper(reactFlowWrapper.current);
@@ -95,6 +98,7 @@ export default function Home() {
             <Header />
             <ToolBar />
             <Sidebar />
+            <Settings />
 
             <div
               className="reactflow-wrapper"
@@ -118,7 +122,7 @@ export default function Home() {
                 // panOnDrag={[2, 1]}
                 selectionMode={SelectionMode.Partial}
               >
-                <Controls position="bottom-right" />
+                <Controls position="bottom-right" hidden={zenMode} />
                 <Background
                   variant={BackgroundVariant.Dots}
                   gap={12}

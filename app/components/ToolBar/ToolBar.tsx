@@ -1,17 +1,6 @@
-import ReactFlow, {
-  Background,
-  Panel,
-  Node,
-  getIncomers,
-  getOutgoers,
-  Edge,
-  EdgeChange,
-  getConnectedEdges,
-} from "reactflow";
-import Image from "next/image";
-import { DragEvent, useEffect } from "react";
+import { Panel, getIncomers, getOutgoers, getConnectedEdges } from "reactflow";
+import { useEffect } from "react";
 import graphState from "@/app/state/graphState";
-import nodeTypes from "@/app/state/nodeTypes";
 import nodeExecution from "./Execution";
 import { PlayIcon } from "lucide-react";
 

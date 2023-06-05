@@ -22,8 +22,13 @@ import {
   Image,
   HelpCircle,
   Trash2,
+  ChevronLeft,
+  ChevronRight,
+  WorkflowIcon,
 } from "lucide-react";
 import graphState from "@/app/state/graphState";
+import useAppState from "@/app/state/appState";
+import { Button } from "@/components/ui/button";
 
 // TODO : Move this to a utils file or something...
 function downloadImage(dataUrl: any) {
@@ -37,6 +42,11 @@ function downloadImage(dataUrl: any) {
 const Header = () => {
   const updateGraph = graphState((s) => s.updateGraph);
   const { reactFlowInstance, nodes } = graphState.getState();
+
+  const { showSidebar, setShowSidebar } = useAppState((s) => ({
+    showSidebar: s.showSidebar,
+    setShowSidebar: s.setShowSidebar,
+  }));
 
   const resetCanvas = () => {
     updateGraph([], []);
@@ -96,10 +106,27 @@ const Header = () => {
   return (
     <Panel
       position="top-center"
-      className="bg-white flex flax-row items-center justify-between w-screen px-6 py-4"
+      className="bg-white flex flax-row items-center justify-between w-screen px-6 py-4 shadow-sm"
       style={{ margin: 0 }}
     >
-      <div></div>
+      <div className="flex gap-2 items-center">
+        <div className="flex gap-1 items-center">
+          <WorkflowIcon />
+          <h1 className="text-md font-bold text-slate-900 italic underline decoration-1 underline-offset-4 decoration-wavy decoration-slate-500">
+            AI Sandbox
+          </h1>
+        </div>
+
+        <Button
+          className="ml-16"
+          variant="outline"
+          size="sm"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          {showSidebar ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+          {/* {showSidebar ? "Hide" : "Show"} Sidebar */}
+        </Button>
+      </div>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger className="border-transparent w-10">
