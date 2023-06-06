@@ -1,12 +1,9 @@
-import { MessagesSquareIcon } from "lucide-react";
+import { FileAudioIcon, MessagesSquareIcon } from "lucide-react";
 import React, { memo } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
 
-export const executeOpenAIChatGPTNode = async (
-  node: Node,
-  previousNode: Node
-) => {
-  const dataJSON = await fetch("/api/chatgpt", {
+export const executeWhisperNode = async (node: Node, previousNode: Node) => {
+  const dataJSON = await fetch("/api/whisper", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,14 +13,12 @@ export const executeOpenAIChatGPTNode = async (
 
   const data = await dataJSON.json();
 
-  // node.data.output.text =
-  //   "Here is the output from the model : " + previousNode.data.output.text;
   node.data.output.text = data.data;
-  node.data.hasComputed = true;
+  node.data.hasComputed = true; // TODO : Is hasComputed needed?
   return node;
 };
 
-const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
+const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
 
   return (
@@ -33,8 +28,7 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
           hover ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">GPT4</h1>
-        {/* <p className="text-sm text-slate-600">Text Input</p> */}
+        <h1 className="text-md font-semibold text-slate-800">Whisper</h1>
       </div>
 
       <div
@@ -42,13 +36,13 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <MessagesSquareIcon size={32} />
+        <FileAudioIcon size={32} />
 
         <Handle
           className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
           type="target"
           position={Position.Left}
-          id="text"
+          id="audio"
           isConnectable={isConnectable}
         />
 
@@ -62,9 +56,8 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
       </div>
     </div>
   );
-
 });
 
-OpenAIChatGPTNode.displayName = "OpenAIChatGPTNode";
+WhisperNode.displayName = "WhisperNode";
 
-export default OpenAIChatGPTNode;
+export default WhisperNode;

@@ -1,24 +1,32 @@
-import { Panel } from "reactflow";
+import { Node, Panel, useOnSelectionChange } from "reactflow";
 import nodeTypes, {
   inputNodes,
   outputNodes,
   modelNodes,
 } from "@/app/types/nodeTypes";
-import { DragEvent } from "react";
+import { DragEvent, useState } from "react";
 import { Separator } from "@radix-ui/react-context-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const SideBar = () => {
-  const onDragStart = (event: DragEvent<HTMLDivElement>, nodeType: string) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
-  };
+const Settings = () => {
+
+  // TODO : Incomplete work
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+
+  useOnSelectionChange({
+    onChange: ({ nodes, edges }) => {
+      console.log("changed selection", nodes, edges), setSelectedNode(nodes[0]);
+    },
+  });
+
+  // TODO ends
 
   return (
     <Panel
       position="top-right"
-      className="flex flex-col w-[320px] px-4 py-4 bg-white shadow-lg"
+      // !!selectedNode ? "translate-x-0" : "translate-x-full"
+      className={`flex flex-col w-[320px] px-4 py-4 bg-white shadow-lg transition-transform`}
       style={{ margin: 0, top: 72, height: "calc(100vh - 72px)" }}
     >
       <h6 className="text-xl font-bold text-slate-900">GPT4 Node</h6>
@@ -41,4 +49,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Settings;

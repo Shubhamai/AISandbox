@@ -1,13 +1,19 @@
 import graphState from "@/app/state/graphState";
 import React, { memo, useEffect, useState } from "react";
-import { Handle, NodeProps, Position } from "reactflow";
+import {
+  Handle,
+  NodeProps,
+  NodeResizeControl,
+  NodeResizer,
+  Position,
+} from "reactflow";
 import { useNodeId } from "reactflow";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BoxSelect } from "lucide-react";
+import { BoxSelect, MoveDiagonal2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
-const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
+const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const [hover, setHover] = useState(false);
 
   const nodeId = useNodeId() || ""; // TODO : Fix this
@@ -15,6 +21,15 @@ const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
+      <NodeResizeControl
+        color="#ff0071"
+        // isVisible={selected}
+        // lineStyle={{ borderWidth: 10 }}
+        minWidth={100}
+        minHeight={100}
+      >
+        <MoveDiagonal2 />
+      </NodeResizeControl>
       <div
         className={`flex-col ml-2 mb-1 transition-opacity ${
           hover ? "visible opacity-100" : "invisible opacity-0"
@@ -29,7 +44,13 @@ const TextInputNode = memo(({ data, isConnectable }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <Textarea placeholder="Input text" />
+        <Textarea
+          className="resize-none"
+          placeholder="Input text"
+          onChange={(e) =>
+            updateNodeData(nodeId, { output: { text: e.target.value } })
+          }
+        />
 
         <div className="flex justify-between items-center gap-2 h-full">
           {/* <div className="border-[1px] border-solid border-slate-200 flex-1" /> */}

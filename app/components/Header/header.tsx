@@ -2,6 +2,7 @@ import {
   Panel,
   getRectOfNodes,
   getTransformForBounds,
+  useOnSelectionChange,
   useReactFlow,
 } from "reactflow";
 import { toPng } from "html-to-image";

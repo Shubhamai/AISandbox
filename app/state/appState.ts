@@ -8,7 +8,7 @@ type appState = {
 };
 
 const useAppState = create<appState>()((set) => ({
-  showSidebar: false,
+  showSidebar: true,
   zenMode: false,
   setShowSidebar: (value: boolean) => set((state) => ({ showSidebar: value })),
   setZenMode: (value: boolean) => set((state) => ({ zenMode: value })),

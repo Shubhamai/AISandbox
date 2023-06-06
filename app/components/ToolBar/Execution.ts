@@ -1,6 +1,7 @@
 import { Node } from "reactflow";
 import { executeOpenAIChatGPTNode } from "../Nodes/Models/OpenAIChatGPT/Node";
 import { executeStableDiffusionNode } from "../Nodes/Models/StableDiffusion/Node";
+import { executeWhisperNode } from "../Nodes/Models/Whisper/Node";
 
 const nodeExecution = async (
   node: Node,
@@ -8,10 +9,14 @@ const nodeExecution = async (
 ): Promise<Node> => {
   const type = node.type;
 
+  // TODO : Improve this bad logic
+
   if (type === "OpenAIChatGPTNode" && previousNodes.length === 1) {
     return await executeOpenAIChatGPTNode(node, previousNodes[0]);
   } else if (type === "StableDiffusionNode" && previousNodes.length === 2) {
     return executeStableDiffusionNode(node, previousNodes);
+  } else if (type === "WhisperNode" && previousNodes.length === 1) {
+    return executeWhisperNode(node, previousNodes[0]);
   } else if (previousNodes.length === 0) {
     node.data.hasComputed = true;
     return node;
