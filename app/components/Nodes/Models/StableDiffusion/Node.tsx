@@ -1,3 +1,4 @@
+import { Brush, Hexagon } from "lucide-react";
 import React, { memo } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
 
@@ -21,36 +22,56 @@ export const executeStableDiffusionNode = (
 };
 
 const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
-  return (
-    <div className="bg-white rounded-md p-2 relative">
-      <Handle
-        type="target"
-        id="image"
-        key="image"
-        position={Position.Left}
-        isConnectable={isConnectable}
-        style={{
-          top: "calc(50% + -5px)",
-        }}
-      />
-      <Handle
-        type="target"
-        id="text"
-        key="text"
-        position={Position.Left}
-        isConnectable={isConnectable}
-        style={{
-          top: "calc(50% + 5px)",
-        }}
-      />
+  const [hover, setHover] = React.useState(false);
 
-      <div className="text-black">{data.label}</div>
-      <Handle
-        type="source"
-        id="image"
-        position={Position.Right}
-        isConnectable={isConnectable}
-      />
+  return (
+    <div>
+      <div
+        className={`flex-col ml-2 mb-1 transition-opacity ${
+          hover ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <h1 className="text-md font-semibold text-slate-800">SD</h1>
+      </div>
+
+      <div
+        className="bg-white flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative p-6"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Handle
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          type="target"
+          id="image"
+          key="image"
+          position={Position.Left}
+          isConnectable={isConnectable}
+          style={{
+            top: "calc(50% + -20px)",
+          }}
+        />
+        <Handle
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          type="target"
+          id="text"
+          key="text"
+          position={Position.Left}
+          isConnectable={isConnectable}
+          style={{
+            top: "calc(50% + 20px)",
+          }}
+        />
+
+        {/* <div className="text-black">{data.label}</div> */}
+        <Brush size={36} />
+        <Handle
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          type="source"
+          id="image"
+          position={Position.Right}
+          isConnectable={isConnectable}
+        />
+      </div>
     </div>
   );
 });
