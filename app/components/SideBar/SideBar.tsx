@@ -21,7 +21,7 @@ const SideBar = () => {
   return (
     <Panel
       position="top-left"
-      className={`flex flex-col items-center gap-2 w-[250px] px-4 py-4 bg-white shadow-lg transition ${
+      className={`flex flex-col items-center gap-2 w-[250px] px-4 py-4 bg-white shadow-lg transition overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 ${
         showSidebar ? "translate-x-0" : "-translate-x-full"
       }`}
       style={{ margin: 0, top: 72, height: "calc(100vh - 72px)" }}

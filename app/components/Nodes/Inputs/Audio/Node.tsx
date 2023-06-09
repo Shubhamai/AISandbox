@@ -16,6 +16,14 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
+  const handleChange = (e) => {
+    const audioFile = e.target.files[0];
+
+    updateNodeData(nodeId, {
+      output: { audio: audioFile },
+    });
+  };
+
   return (
     <div>
       <div
@@ -31,7 +39,13 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <Input id="audio" type="file" />
+        <Input
+          id="audio"
+          type="file"
+          className="text-slate-900"
+          accept=".webm, .mp3, .mp4, .m4a"
+          onChange={handleChange}
+        />
 
         <div className="flex justify-between items-center gap-2 h-full">
           <Handle

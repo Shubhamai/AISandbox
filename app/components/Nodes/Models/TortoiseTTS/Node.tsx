@@ -1,6 +1,7 @@
 import {
   FileAudio,
   FileAudioIcon,
+  FileVolume2,
   MessagesSquareIcon,
   View,
 } from "lucide-react";
@@ -45,7 +46,7 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <FileAudio size={32} />
+        <FileVolume2 size={32} />
 
         <Handle
           className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"

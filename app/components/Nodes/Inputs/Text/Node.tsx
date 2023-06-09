@@ -21,7 +21,7 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
 
   return (
     <div>
-      <NodeResizeControl
+      {/* <NodeResizeControl
         color="#ff0071"
         // isVisible={selected}
         // lineStyle={{ borderWidth: 10 }}
@@ -29,7 +29,7 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
         minHeight={100}
       >
         <MoveDiagonal2 />
-      </NodeResizeControl>
+      </NodeResizeControl> */}
       <div
         className={`flex-col ml-2 mb-1 transition-opacity ${
           hover ? "visible opacity-100" : "invisible opacity-0"

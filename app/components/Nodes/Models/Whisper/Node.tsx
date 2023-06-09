@@ -1,19 +1,17 @@
 import { FileAudioIcon, MessagesSquareIcon } from "lucide-react";
 import React, { memo } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
+import axios from "axios";
 
 export const executeWhisperNode = async (node: Node, previousNode: Node) => {
-  const dataJSON = await fetch("/api/whisper", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text: previousNode.data.output.text }),
-  });
+  const newForm = new FormData();
+  newForm.append("model", "whisper-1");
 
-  const data = await dataJSON.json();
+  newForm.append("file", previousNode.data.output.audio, "audio.webm");
 
-  node.data.output.text = data.data;
+  const response = await axios.post("/api/whisper", newForm);
+
+  node.data.output.text = response.data.text;
   node.data.hasComputed = true; // TODO : Is hasComputed needed?
   return node;
 };

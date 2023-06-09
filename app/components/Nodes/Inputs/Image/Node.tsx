@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Trash2 } from "lucide-react";
 
 const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
+  const [hover, setHover] = useState(false);
+
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
@@ -25,33 +27,46 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
 
     const url = URL.createObjectURL(e.target.files[0]);
     setFile(url);
-    // updateNodeData(nodeId, {
-    //   output: { image: e.target.files[0] },
-    // });
+ 
   }
 
   return (
-    <div className="bg-white rounded-md p-2">
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="image"
-        isConnectable={isConnectable}
-      />
-      <div className="text-black">{data.label}</div>
+    <div>
+      <div
+        className={`flex-col ml-2 mb-1 transition-opacity ${
+          hover ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <h1 className="text-md font-semibold text-slate-800">Image Input</h1>
+      </div>
 
-      {file ? (
-        <Image src={file} width={300} height={300} alt="Input Image" />
-      ) : (
-        <Input
-          className="text-slate-900"
-          type="file"
-          accept=".jpg, .jpeg, .png"
-          onChange={handleChange}
+      <div
+        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Handle
+          type="source"
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          position={Position.Right}
+          id="image"
+          isConnectable={isConnectable}
         />
-      )}
 
-      {file ? <Trash2 /> : <div></div>}
+        {file ? (
+          <Image src={file} width={300} height={300} alt="Input Image" />
+        ) : (
+          <Input
+            className="text-slate-900"
+            id="files"
+            type="file"
+            accept=".jpg, .jpeg, .png"
+            onChange={handleChange}
+          />
+        )}
+
+        {file ? <Trash2 /> : <div></div>}
+      </div>
     </div>
   );
 });

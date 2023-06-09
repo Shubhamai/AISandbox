@@ -82,6 +82,9 @@ dependencies:
   tailwind-merge:
     specifier: ^1.13.0
     version: 1.13.0
+  tailwind-scrollbar:
+    specifier: ^3.0.4
+    version: 3.0.4(tailwindcss@3.3.2)
   tailwindcss:
     specifier: 3.3.2
     version: 3.3.2
@@ -9194,6 +9197,15 @@ packages:
 
   /tailwind-merge@1.13.0:
     resolution: {integrity: sha512-mUTmDbcU+IhOvJ0c42eLQ/nRkvolTqfpVaVQRSxfJAv9TabS6Y2zW/1wKpKLdKzyL3Gh8j6NTLl6MWNmvOM6kA==}
+    dev: false
+
+  /tailwind-scrollbar@3.0.4(tailwindcss@3.3.2):
+    resolution: {integrity: sha512-X/QBsn/C5u9x6/YvTc1Zo7b09Gqs5BfDe0UK/8LDQUv8IEBKF+p2ISTRwvAr50MH0hn/wTyCEOann7uXoa1/2Q==}
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: 3.x
+    dependencies:
+      tailwindcss: 3.3.2
     dev: false
 
   /tailwindcss-animate@1.0.5(tailwindcss@3.3.2):
