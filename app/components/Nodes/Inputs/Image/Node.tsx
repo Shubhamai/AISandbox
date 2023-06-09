@@ -5,19 +5,21 @@ import { useNodeId } from "reactflow";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = useState(false);
+  const [showTrash, setShowTrash] = useState(false); // add this
+  const [file, setFile] = useState("");
 
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
-  const [file, setFile] = useState("");
-  function handleChange(e) {
+  function handleChange(e : any) {
     var reader = new FileReader();
     reader.onloadend = function () {
       var base64Image = reader.result;
-      console.log(base64Image);
+
       updateNodeData(nodeId, {
         output: { image: base64Image },
       });
@@ -27,8 +29,15 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
 
     const url = URL.createObjectURL(e.target.files[0]);
     setFile(url);
- 
   }
+
+  const trashButtonHandler = () => {
+    console.log("trash button clicked");
+    setFile("");
+    updateNodeData(nodeId, {
+      output: { image: "" },
+    });
+  };
 
   return (
     <div>
@@ -45,16 +54,21 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <Handle
-          type="source"
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
-          position={Position.Right}
-          id="image"
-          isConnectable={isConnectable}
-        />
-
         {file ? (
-          <Image src={file} width={300} height={300} alt="Input Image" />
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTrash(true)}
+            onMouseLeave={() => setShowTrash(false)}
+          >
+            <Image src={file} width={300} height={300} alt="Input Image" />
+            {showTrash && (
+              <div className="absolute top-0 right-0 p-0">
+                <Button className="bg-transparent" onClick={trashButtonHandler}>
+                  <Trash2 className=" text-slate-400" />
+                </Button>
+              </div>
+            )}
+          </div>
         ) : (
           <Input
             className="text-slate-900"
@@ -65,7 +79,13 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
           />
         )}
 
-        {file ? <Trash2 /> : <div></div>}
+        <Handle
+          type="source"
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          position={Position.Right}
+          id="image"
+          isConnectable={isConnectable}
+        />
       </div>
     </div>
   );

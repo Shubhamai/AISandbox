@@ -10,13 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const Settings = () => {
-
   // TODO : Incomplete work
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
   useOnSelectionChange({
     onChange: ({ nodes, edges }) => {
-      console.log("changed selection", nodes, edges), setSelectedNode(nodes[0]);
+      // console.log("changed selection", nodes, edges), setSelectedNode(nodes[0]);
     },
   });
 

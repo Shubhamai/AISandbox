@@ -7,6 +7,8 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
   const outputAudioFile = data.input.audio;
   const audioRef = useRef<null | HTMLAudioElement>(null); // useRef hook
 
+  const [hover, setHover] = useState(false);
+
   useEffect(() => {
     if (outputAudioFile) {
       audioRef.current = new Audio(URL.createObjectURL(outputAudioFile));
@@ -34,28 +36,43 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
     }
   };
 
-
   return (
-    <div className="bg-white rounded-md p-2">
-      <Handle
-        className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
-        type="target"
-        id="audio"
-        position={Position.Left}
-        isConnectable={isConnectable}
-      />
-      {outputAudioFile ? (
-        <Button onClick={handlePlay}>{buttonIcon}</Button>
-      ) : (
-        <div>No audio file</div>
-      )}
-      <Handle
-        className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
-        type="source"
-        id="audio"
-        position={Position.Right}
-        isConnectable={isConnectable}
-      />
+    <div>
+      <div
+        className={`flex-col ml-2 mb-1 transition-opacity ${
+          hover ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <h1 className="text-md font-semibold text-slate-800">Audio Output</h1>
+      </div>
+
+      <div
+        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Handle
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          type="target"
+          id="audio"
+          position={Position.Left}
+          isConnectable={isConnectable}
+        />
+        {outputAudioFile ? (
+          <Button className="bg-white text-black hover:bg-slate-300" onClick={handlePlay}>
+            {buttonIcon}
+          </Button>
+        ) : (
+          <div>No audio file</div>
+        )}
+        <Handle
+          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          type="source"
+          id="audio"
+          position={Position.Right}
+          isConnectable={isConnectable}
+        />
+      </div>
     </div>
   );
 });

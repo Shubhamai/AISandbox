@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Replicate from "replicate";
 
 const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
+  auth: process.env.REPLICATE_API_TOKEN as string,
 });
 
 export const runtime = "edge";
@@ -20,9 +20,11 @@ export async function POST(request: NextRequest) {
     }
   );
 
-  console.log(output);
+  // console.log(output);
+
+  // TODO : Need to get the audio from the output url
 
   return NextResponse.json({
-    text: output.json_str,
+    text: output,
   });
 }

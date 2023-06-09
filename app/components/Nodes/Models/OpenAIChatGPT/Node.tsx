@@ -16,8 +16,6 @@ export const executeOpenAIChatGPTNode = async (
 
   const data = await dataJSON.json();
 
-  // node.data.output.text =
-  //   "Here is the output from the model : " + previousNode.data.output.text;
   node.data.output.text = data.data;
   node.data.hasComputed = true;
   return node;
@@ -42,8 +40,6 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <MessagesSquareIcon size={32} />
-
         <Handle
           className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
           type="target"
@@ -62,7 +58,6 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
       </div>
     </div>
   );
-
 });
 
 OpenAIChatGPTNode.displayName = "OpenAIChatGPTNode";

@@ -62,7 +62,6 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
           }}
         />
 
-        {/* <div className="text-black">{data.label}</div> */}
         <Brush size={36} />
         <Handle
           className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"

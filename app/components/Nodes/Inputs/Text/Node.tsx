@@ -45,7 +45,7 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
         onMouseLeave={() => setHover(false)}
       >
         <Textarea
-          className="resize-none"
+          className="resize-none border-transparent focus:border-transparent focus:ring-0"
           placeholder="Input text"
           onChange={(e) =>
             updateNodeData(nodeId, { output: { text: e.target.value } })

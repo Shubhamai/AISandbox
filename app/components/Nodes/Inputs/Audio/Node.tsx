@@ -16,12 +16,16 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
-  const handleChange = (e) => {
-    const audioFile = e.target.files[0];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const audioFile = e.target.files[0];
 
-    updateNodeData(nodeId, {
-      output: { audio: audioFile },
-    });
+      updateNodeData(nodeId, {
+        output: { audio: audioFile },
+      });
+    } else {
+      console.log("no files");
+    }
   };
 
   return (
