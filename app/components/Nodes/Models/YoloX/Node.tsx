@@ -1,6 +1,12 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { FileAudioIcon, MessagesSquareIcon, View } from "lucide-react";
 import React, { memo } from "react";
-import { Handle, NodeProps, Position, Node } from "reactflow";
+import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
 
 export const executeYoloXNode = async (node: Node, previousNode: Node) => {
   // const newForm = new FormData();
@@ -12,7 +18,7 @@ export const executeYoloXNode = async (node: Node, previousNode: Node) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ image : previousNode.data.output.image }),
+    body: JSON.stringify({ image: previousNode.data.output.image }),
   });
 
   const data = await dataJSON.json();
@@ -23,6 +29,8 @@ export const executeYoloXNode = async (node: Node, previousNode: Node) => {
 };
 
 const YoloXNode = memo(({ data, isConnectable }: NodeProps) => {
+
+  const nodeId = useNodeId() || ""; // TODO : Fix this
   const [hover, setHover] = React.useState(false);
 
   return (
@@ -50,13 +58,22 @@ const YoloXNode = memo(({ data, isConnectable }: NodeProps) => {
           isConnectable={isConnectable}
         />
 
-        <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
-          type="source"
-          position={Position.Right}
-          id="text"
-          isConnectable={isConnectable}
-        />
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Handle
+                className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+                type="source"
+                position={Position.Right}
+                id="text"
+                isConnectable={isConnectable}
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{nodeId}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );

@@ -13,8 +13,8 @@ import YoloXNode from "./YoloX/Node";
 
 export const modelsNodesData = {
   OpenAIChatGPTNode: {
-    name: "OpenAI Chat GPT",
-    description: "OpenAI Chat GPT",
+    name: "OpenAI ChatGPT",
+    description: "OpenAI ChatGPT",
     icon: <MessagesSquareIcon />,
   },
   StableDiffusionNode: {

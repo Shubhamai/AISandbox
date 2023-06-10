@@ -66,6 +66,12 @@ const Header = () => {
     if (flow) {
       console.log("Loading canvas from local storage");
       const parsedFlow = JSON.parse(flow);
+
+      // Disable animation on all edges
+      for (let edgeId in parsedFlow.edges) {
+        parsedFlow.edges[edgeId].animated = false;
+      }
+
       updateGraph(parsedFlow.nodes, parsedFlow.edges);
     } else {
       console.log("No canvas found in local storage");

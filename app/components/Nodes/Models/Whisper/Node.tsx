@@ -1,7 +1,13 @@
 import { FileAudioIcon, MessagesSquareIcon } from "lucide-react";
 import React, { memo } from "react";
-import { Handle, NodeProps, Position, Node } from "reactflow";
+import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
 import axios from "axios";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const executeWhisperNode = async (node: Node, previousNode: Node) => {
   const newForm = new FormData();
@@ -17,6 +23,8 @@ export const executeWhisperNode = async (node: Node, previousNode: Node) => {
 };
 
 const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
+  const nodeId = useNodeId() || ""; // TODO : Fix this
+
   const [hover, setHover] = React.useState(false);
 
   return (
@@ -44,13 +52,22 @@ const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
           isConnectable={isConnectable}
         />
 
-        <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
-          type="source"
-          position={Position.Right}
-          id="text"
-          isConnectable={isConnectable}
-        />
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Handle
+                className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+                type="source"
+                position={Position.Right}
+                id="text"
+                isConnectable={isConnectable}
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{nodeId}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );

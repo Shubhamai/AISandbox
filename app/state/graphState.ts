@@ -189,7 +189,7 @@ const graphState = create<RFState>((set, get) => ({
     // TODO : Clean this up
     let id = get().id + 1;
     set({ id: id });
-    return `dndnode_${id}`;
+    return `${id}`;
   },
 }));
 

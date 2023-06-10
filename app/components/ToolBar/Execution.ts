@@ -4,6 +4,7 @@ import { executeStableDiffusionNode } from "../Nodes/Models/StableDiffusion/Node
 import { executeWhisperNode } from "../Nodes/Models/Whisper/Node";
 import { executeYoloXNode } from "../Nodes/Models/YoloX/Node";
 import { executeTortoiseTTSNode } from "../Nodes/Models/TortoiseTTS/Node";
+import { executeCreatePromptNode } from "../Nodes/Utils/CreatePrompt";
 
 const nodeExecution = async (
   node: Node,
@@ -26,6 +27,8 @@ const nodeExecution = async (
   } else if (previousNodes.length === 0) {
     node.data.hasComputed = true;
     return node;
+  } else if (type === "CreatePromptNode") {
+    return executeCreatePromptNode(node, previousNodes);
   } else if (previousNodes.length === 1) {
     node.data = {
       ...node.data,
