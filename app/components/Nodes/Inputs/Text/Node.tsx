@@ -14,6 +14,7 @@ import { BoxSelect, MoveDiagonal2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
+import useAppState from "@/app/state/appState";
 
 const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const [hover, setHover] = useState(false);
@@ -21,24 +22,16 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
+  const { zenMode } = useAppState();
+
   return (
     <div>
-      {/* <NodeResizeControl
-        color="#ff0071"
-        // isVisible={selected}
-        // lineStyle={{ borderWidth: 10 }}
-        minWidth={100}
-        minHeight={100}
-      >
-        <MoveDiagonal2 />
-      </NodeResizeControl> */}
       <div
         className={`flex-col ml-2 mb-1 transition-opacity ${
-          hover ? "visible opacity-100" : "invisible opacity-0"
+          hover || !zenMode ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
         <h1 className="text-md font-semibold text-slate-800">Text Input</h1>
-        {/* <p className="text-sm text-slate-600">Text Input</p> */}
       </div>
 
       <div

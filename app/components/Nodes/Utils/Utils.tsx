@@ -1,4 +1,4 @@
-import {  FormInput } from "lucide-react";
+import { FormInput } from "lucide-react";
 import CreatePromptNode from "./CreatePrompt";
 
 export const utilsNodesData = {

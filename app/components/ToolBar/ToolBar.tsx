@@ -1,10 +1,21 @@
-import { Panel, getIncomers, getOutgoers, getConnectedEdges } from "reactflow";
-import { useEffect } from "react";
+import {
+  Panel,
+  getIncomers,
+  getOutgoers,
+  getConnectedEdges,
+  useReactFlow,
+} from "reactflow";
+import { useCallback, useEffect } from "react";
 import graphState from "@/app/state/graphState";
 import nodeExecution from "./Execution";
-import { PlayIcon } from "lucide-react";
+import { LayoutGrid, Maximize, PlayIcon, ZoomIn, ZoomOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import useAppState from "@/app/state/appState";
 
 const ToolBar = () => {
+  const { fitView, zoomIn, zoomOut } = useReactFlow();
+  const { zenMode } = useAppState();
+
   const updateNodeData = graphState((s) => s.updateNodeData);
   const updateEdgeData = graphState((s) => s.updateEdgeData);
 
@@ -82,18 +93,54 @@ const ToolBar = () => {
     };
   }, []);
 
+  {
+    /* flex-row gap-96 items-center */
+    // className={`flex flex-row items-start w-[270px] transition rounded-lg ${
+    //   showSidebar ? "translate-x-0" : "-translate-x-full"
+    // }`}
+    // className={`flex flex-row items-start w-[270px] transition rounded-lg ${
+    //   showSidebar ? "translate-x-0" : "-translate-x-full"
+    // }`}
+    // style={{ top: 150 }}
+  }
   return (
     <Panel
       position="bottom-center"
-      className="flex items-center justify-between gap-3 mx-auto"
+      className={`w-full px-10 transition ${
+        zenMode ? "hidden" : ""
+      }`}
     >
-      <button
-        onClick={Execute}
-        className="flex flex-row gap-3 items-center font-bold py-2 px-4 rounded"
-      >
-        <PlayIcon size={20} />
-        Run Inference
-      </button>
+      <div className="flex flex-row items-center transition justify-between ">
+        <div></div>
+        <div className="bg-white shadow-lg rounded-full">
+          <Button variant="link" onClick={Execute} className="px-3">
+            <PlayIcon size={20} />
+          </Button>
+        </div>
+        <div className="flex items-center justify-between bg-white shadow-lg rounded-full">
+          <Button
+            variant="link"
+            className="p-2"
+            onClick={() => zoomIn({ duration: 300 })}
+          >
+            <ZoomIn size={20} />
+          </Button>
+          <Button
+            variant="link"
+            className="p-2"
+            onClick={() => zoomOut({ duration: 300 })}
+          >
+            <ZoomOut size={20} />
+          </Button>
+          <Button
+            variant="link"
+            className="p-2"
+            onClick={() => fitView({ duration: 500 })}
+          >
+            <Maximize size={20} />
+          </Button>
+        </div>
+      </div>
     </Panel>
   );
 };

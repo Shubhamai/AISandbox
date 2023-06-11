@@ -12,21 +12,24 @@ import SidebarSection from "./SidebarSection";
 import { modelsNodesData } from "../Nodes/Models/models";
 import { outputNodesData } from "../Nodes/Output/outputs";
 import { utilsNodesData } from "../Nodes/Utils/Utils";
+import { Brain, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const SideBar = () => {
-  const { showSidebar } = useAppState((s) => ({
-    showSidebar: s.showSidebar,
-  }));
+  const { showSidebar, setShowSidebar, zenMode } = useAppState();
 
   return (
     <Panel
       position="top-left"
-      className={`flex flex-col items-center gap-2 w-[250px] px-4 py-4 bg-white shadow-lg transition overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 ${
+      className={`flex flex-row items-start w-[270px] transition rounded-lg  ${
         showSidebar ? "translate-x-0" : "-translate-x-full"
-      }`}
-      style={{ margin: 0, top: 72, height: "calc(100vh - 72px)" }}
+      } ${zenMode ? "hidden" : ""}`}
+      style={{ top: 150 }}
     >
-      <Accordion type="multiple" className="w-full">
+      <Accordion
+        type="multiple"
+        className="w-full bg-white px-2 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-white"
+      >
         <AccordionItem value="item-1">
           <AccordionTrigger>Inputs</AccordionTrigger>
           <AccordionContent>
@@ -35,7 +38,7 @@ const SideBar = () => {
         </AccordionItem>
 
         <AccordionItem value="item-2">
-          <AccordionTrigger>Models</AccordionTrigger>
+          <AccordionTrigger className="items-start">Models</AccordionTrigger>
           <AccordionContent>
             <SidebarSection nodesData={modelsNodesData} />
           </AccordionContent>
@@ -53,6 +56,20 @@ const SideBar = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      {zenMode ? (
+        <></>
+      ) : (
+        <Button
+          className={`${
+            showSidebar ? "translate-x-2" : "translate-x-10"
+          } bg-white shadow-lg rounded-full p-[10px]`}
+          variant="outline"
+          size="sm"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          {showSidebar ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+        </Button>
+      )}
     </Panel>
   );
 };

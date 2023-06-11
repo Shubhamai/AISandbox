@@ -6,6 +6,7 @@ import ReactFlow, {
   BackgroundVariant,
   ReactFlowProvider,
   SelectionMode,
+  MiniMap,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -80,7 +81,7 @@ export default function Home() {
     onDragOver,
     onDrop,
   } = graphState(selector, shallow);
-  const { zenMode } = useAppState();
+  const { zenMode, showMiniMap, background } = useAppState();
 
   useEffect(() => {
     setReactFlowWrapper(reactFlowWrapper.current);
@@ -122,12 +123,16 @@ export default function Home() {
                 // panOnDrag={[2, 1]}
                 selectionMode={SelectionMode.Partial}
               >
-                <Controls position="bottom-right" hidden={zenMode} />
-                <Background
-                  variant={BackgroundVariant.Dots}
-                  gap={12}
-                  size={1}
-                />
+                {showMiniMap ? (
+                  <MiniMap nodeStrokeWidth={3} zoomable pannable />
+                ) : (
+                  <></>
+                )}
+                {background.enable ? <Background
+                  variant={background.variant}
+                  gap={background.gap}
+                  size={background.size}
+                /> : <></>}
               </ReactFlow>
             </div>
           </ReactFlowProvider>

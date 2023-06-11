@@ -17,8 +17,7 @@ const SidebarSection = (props: any) => {
           onDragStart={(event) => onDragStart(event, key)}
           draggable
         >
-          {nodesData[key].icon}
-
+          <div className="text-slate-500">{nodesData[key].icon}</div>
           <div>
             <h6 className="text-sm font-semibold text-slate-800">
               {nodesData[key].name}
