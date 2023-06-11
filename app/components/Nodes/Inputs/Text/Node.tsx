@@ -12,7 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BoxSelect, MoveDiagonal2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import useAppState from "@/app/state/appState";
 
@@ -31,11 +35,11 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
           hover || !zenMode ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">Text Input</h1>
+        <h1 className="text-md font-semibold text-foreground">Text Input</h1>
       </div>
 
       <div
-        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        className="bg-background flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
@@ -54,7 +58,7 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Handle
-                  className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+                  className="!bg-foreground/50 !border-none"
                   type="source"
                   position={Position.Right}
                   id="text"

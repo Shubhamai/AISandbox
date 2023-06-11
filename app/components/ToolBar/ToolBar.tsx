@@ -106,35 +106,35 @@ const ToolBar = () => {
   return (
     <Panel
       position="bottom-center"
-      className={`w-full px-10 transition ${
-        zenMode ? "hidden" : ""
-      }`}
+      className={`w-full px-10 transition ${zenMode ? "hidden" : ""}`}
     >
       <div className="flex flex-row items-center transition justify-between ">
         <div></div>
-        <div className="bg-white shadow-lg rounded-full">
-          <Button variant="link" onClick={Execute} className="px-3">
-            <PlayIcon size={20} />
-          </Button>
-        </div>
-        <div className="flex items-center justify-between bg-white shadow-lg rounded-full">
+        <Button
+          variant="outline"
+          onClick={Execute}
+          className="bg-background shadow-lg rounded-full px-3"
+        >
+          <PlayIcon size={20} />
+        </Button>
+        <div className="dark:border-x-gray-500 dark:border px-1 flex items-center justify-between bg-background shadow-lg rounded-full">
           <Button
-            variant="link"
-            className="p-2"
+            variant="ghost"
+            className="p-2 rounded-full"
             onClick={() => zoomIn({ duration: 300 })}
           >
             <ZoomIn size={20} />
           </Button>
           <Button
-            variant="link"
-            className="p-2"
+            variant="ghost"
+            className="p-2 rounded-full"
             onClick={() => zoomOut({ duration: 300 })}
           >
             <ZoomOut size={20} />
           </Button>
           <Button
-            variant="link"
-            className="p-2"
+            variant="ghost"
+            className="p-2 rounded-full"
             onClick={() => fitView({ duration: 500 })}
           >
             <Maximize size={20} />

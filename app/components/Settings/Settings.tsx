@@ -27,7 +27,7 @@ const Settings = () => {
     <Panel
       position="top-right"
       // !!selectedNode ? "translate-x-0" : "translate-x-full"
-      className={`flex flex-col w-[320px] px-4 py-4 bg-white shadow-lg transition-transform ${
+      className={`flex flex-col w-[320px] px-4 py-4 bg-background shadow-lg transition-transform ${
         showSettingsbar ? "translate-x-0" : "translate-x-full"
       }`}
       style={{ margin: 0, top: 72, height: "calc(100vh - 72px)" }}

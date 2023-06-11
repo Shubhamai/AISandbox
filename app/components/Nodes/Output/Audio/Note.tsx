@@ -43,30 +43,33 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
           hover ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">Audio Output</h1>
+        <h1 className="text-md font-semibold text-foreground">Audio Output</h1>
       </div>
 
       <div
-        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        className="bg-background flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          className="!bg-foreground/50 !border-none"
           type="target"
           id="audio"
           position={Position.Left}
           isConnectable={isConnectable}
         />
         {outputAudioFile ? (
-          <Button className="bg-white text-black hover:bg-slate-300" onClick={handlePlay}>
+          <Button
+            className="bg-background text-foreground hover:bg-background"
+            onClick={handlePlay}
+          >
             {buttonIcon}
           </Button>
         ) : (
           <div>No audio file</div>
         )}
         <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          className="!bg-foreground/50 !border-none"
           type="source"
           id="audio"
           position={Position.Right}

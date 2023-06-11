@@ -116,9 +116,9 @@ const Header = () => {
       style={{ top: 0 }}
     >
       <div className="flex gap-2 items-center">
-        <div className="flex gap-1 bg-white pr-4 pl-2 py-2 items-center rounded-full shadow-lg">
+        <div className="flex gap-1 bg-background pr-4 pl-2 py-2 items-center rounded-full shadow-lg">
           <WorkflowIcon />
-          <h1 className="text-md font-bold text-slate-900 italic underline decoration-1 underline-offset-4 decoration-wavy decoration-slate-500">
+          <h1 className="text-md font-bold text-foreground italic underline decoration-1 underline-offset-4 decoration-wavy decoration-foreground/50">
             AI Sandbox
           </h1>
         </div>
@@ -127,7 +127,7 @@ const Header = () => {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="rounded-full shadow-lg bg-white p-3"
+            className="rounded-full shadow-lg bg-background p-3"
           >
             <AlignJustify size={16} />
           </Button>

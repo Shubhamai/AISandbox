@@ -29,9 +29,11 @@ import { BackgroundVariant } from "reactflow";
 
 const ContextItems = () => {
   const {
+    theme,
     zenMode,
     background,
     showMiniMap,
+    setTheme,
     setZenMode,
     setShowSidebar,
     setShowMiniMap,
@@ -57,6 +59,17 @@ const ContextItems = () => {
 
   return (
     <ContextMenuContent className="shadow-lg">
+      <ContextMenuItem
+        onClick={() => {
+          if (theme === "light") {
+            setTheme("dark");
+          } else {
+            setTheme("light");
+          }
+        }}
+      >
+        {theme[0].toUpperCase() + theme.slice(1)} theme
+      </ContextMenuItem>
       <ContextMenuItem onClick={handleShowMiniMap}>
         {showMiniMap ? <Check className="mr-2 h-4 w-4" /> : <></>}
         Show MiniMap

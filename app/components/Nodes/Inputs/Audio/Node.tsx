@@ -35,25 +35,25 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
           hover ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">Audio Input</h1>
+        <h1 className="text-md font-semibold text-foreground">Audio Input</h1>
       </div>
 
       <div
-        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        className="bg-background text-foreground flex flex-col rounded-md drop-shadow-lg"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <Input
           id="audio"
           type="file"
-          className="text-slate-900"
+          className="text-foreground"
           accept=".webm, .mp3, .mp4, .m4a"
           onChange={handleChange}
         />
 
         <div className="flex justify-between items-center gap-2 h-full">
           <Handle
-            className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+            className="!bg-foreground/50 !border-none"
             type="source"
             position={Position.Right}
             id="audio"

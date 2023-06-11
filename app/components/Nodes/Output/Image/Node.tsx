@@ -4,9 +4,9 @@ import Image from "next/image";
 
 const ImageOutputNode = memo(({ data, isConnectable }: NodeProps) => {
   return (
-    <div className="bg-white rounded-md p-1">
+    <div className="bg-background rounded-md p-1">
       <Handle
-        className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+        className="!bg-foreground/50 !border-none"
         type="target"
         id="image"
         position={Position.Left}
@@ -23,7 +23,7 @@ const ImageOutputNode = memo(({ data, isConnectable }: NodeProps) => {
         <div></div>
       )}
       <Handle
-        className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+        className="!bg-foreground/50 !border-none"
         type="source"
         id="image"
         position={Position.Right}

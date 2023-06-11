@@ -31,17 +31,16 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
           hover ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">GPT4</h1>
-        {/* <p className="text-sm text-slate-600">Text Input</p> */}
+        <h1 className="text-md font-semibold text-foreground">GPT4</h1>
       </div>
 
       <div
-        className="bg-white flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative p-6"
+        className="bg-background flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative p-6"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          className="!bg-foreground/50 !border-none"
           type="target"
           position={Position.Left}
           id="text"
@@ -51,7 +50,7 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
         <MessagesSquareIcon size={32} />
 
         <Handle
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          className="!bg-foreground/50 !border-none"
           type="source"
           position={Position.Right}
           id="text"

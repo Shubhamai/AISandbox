@@ -35,11 +35,11 @@ type RFState = {
   updateEdgeData: (edgeId: string, data: any) => void;
   resetNodesIsComputed: () => void;
   onConnect: OnConnect;
-  setReactFlowWrapper: (ref: HTMLDivElement) => void;
+  setReactFlowWrapper: (ref: HTMLDivElement | null) => void;
   setReactFlowInstance: (instance: any) => void;
   setEdgeUpdateSuccessful: (success: any) => void;
-  onDragOver: (event: DragEvent) => void;
-  onDrop: (event: DragEvent) => void;
+  onDragOver: (event: any) => void;
+  onDrop: (event: any) => void;
   getId: () => string;
 };
 
@@ -51,7 +51,7 @@ const graphState = create<RFState>((set, get) => ({
   edgeUpdateSuccessful: null,
   reactFlowWrapper: null,
   reactFlowInstance: null,
-  setReactFlowWrapper: (ref: HTMLDivElement) => {
+  setReactFlowWrapper: (ref: HTMLDivElement | null) => {
     set({ reactFlowWrapper: ref });
   },
   setReactFlowInstance: (instance: any) => {
@@ -134,13 +134,13 @@ const graphState = create<RFState>((set, get) => ({
       console.log("Invalid connection");
     }
   },
-  onDragOver: (event: DragEvent) => {
+  onDragOver: (event: any) => {
     event.preventDefault();
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "move";
     }
   },
-  onDrop: (event: DragEvent) => {
+  onDrop: (event: any) => {
     event.preventDefault();
 
     const reactFlowBounds = get().reactFlowWrapper?.getBoundingClientRect();

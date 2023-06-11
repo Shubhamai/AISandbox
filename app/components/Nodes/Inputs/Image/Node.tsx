@@ -15,7 +15,7 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
 
-  function handleChange(e : any) {
+  function handleChange(e: any) {
     var reader = new FileReader();
     reader.onloadend = function () {
       var base64Image = reader.result;
@@ -46,11 +46,11 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
           hover ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <h1 className="text-md font-semibold text-slate-800">Image Input</h1>
+        <h1 className="text-md font-semibold text-foreground">Image Input</h1>
       </div>
 
       <div
-        className="bg-white flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-slate-200 relative"
+        className="bg-background text-foreground flex flex-col rounded-md drop-shadow-lg relative"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
@@ -64,14 +64,14 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
             {showTrash && (
               <div className="absolute top-0 right-0 p-0">
                 <Button className="bg-transparent" onClick={trashButtonHandler}>
-                  <Trash2 className=" text-slate-400" />
+                  <Trash2 className="text-foreground" />
                 </Button>
               </div>
             )}
           </div>
         ) : (
           <Input
-            className="text-slate-900"
+            className="text-foreground"
             id="files"
             type="file"
             accept=".jpg, .jpeg, .png"
@@ -81,7 +81,7 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
 
         <Handle
           type="source"
-          className="!bg-slate-400 !scale-[1.4] !w-1.5 !h-1.5 rotate-45 !border-none"
+          className="!bg-foreground/50 !border-none"
           position={Position.Right}
           id="image"
           isConnectable={isConnectable}

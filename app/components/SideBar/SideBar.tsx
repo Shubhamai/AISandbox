@@ -28,7 +28,7 @@ const SideBar = () => {
     >
       <Accordion
         type="multiple"
-        className="w-full bg-white px-2 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-white"
+        className="w-full bg-background px-2 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Inputs</AccordionTrigger>
@@ -62,7 +62,7 @@ const SideBar = () => {
         <Button
           className={`${
             showSidebar ? "translate-x-2" : "translate-x-10"
-          } bg-white shadow-lg rounded-full p-[10px]`}
+          } bg-background shadow-lg rounded-full p-[10px]`}
           variant="outline"
           size="sm"
           onClick={() => setShowSidebar(!showSidebar)}
