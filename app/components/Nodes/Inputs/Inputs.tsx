@@ -6,18 +6,18 @@ import TextInputNode from "./Text/Node";
 export const inputNodesData = {
   AudioInputNode: {
     name: "Audio",
-    description: "Audio Input",
+    description: "Record or Upload Audio Input",
     icon: <Mic2 />,
   },
   ImageInputNode: {
     name: "Image",
-    description: "Image Input",
+    description: "Upload your Image",
     // eslint-disable-next-line jsx-a11y/alt-text
     icon: <Image />,
   },
   TextInputNode: {
     name: "Text",
-    description: "Text Input",
+    description: "Text as input",
     icon: <FileType2 />,
   },
 };

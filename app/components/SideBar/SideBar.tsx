@@ -14,6 +14,7 @@ import { outputNodesData } from "../Nodes/Output/outputs";
 import { utilsNodesData } from "../Nodes/Utils/Utils";
 import { Brain, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 const SideBar = () => {
   const { showSidebar, setShowSidebar, zenMode } = useAppState();
@@ -28,7 +29,7 @@ const SideBar = () => {
     >
       <Accordion
         type="multiple"
-        className="w-full bg-background px-2 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background"
+        className="w-full bg-background px-4 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px] border-solid border-foreground/10"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Inputs</AccordionTrigger>
@@ -36,7 +37,6 @@ const SideBar = () => {
             <SidebarSection nodesData={inputNodesData} />
           </AccordionContent>
         </AccordionItem>
-
         <AccordionItem value="item-2">
           <AccordionTrigger className="items-start">Models</AccordionTrigger>
           <AccordionContent>

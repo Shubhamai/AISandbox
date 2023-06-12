@@ -113,7 +113,7 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
     <div>
       <NodeTitle hover={hover} zenMode={zenMode} title="Audio Input" />
       <NodeBody setHover={setHover}>
-        <div className="flex flex-col items-center py-5 px-3 gap-5">
+        <div className="flex flex-col items-center py-5 px-3 gap-5 justy-stat">
           <Input
             className="text-foreground hidden"
             id="audio-uploader"
@@ -150,7 +150,7 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
               }}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Device" />
+                <SelectValue defaultValue={selectedDevice} placeholder="Device" />
               </SelectTrigger>
               <SelectContent>
                 {Devices.map((device) => (

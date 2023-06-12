@@ -52,56 +52,52 @@ export default function Home() {
 
   return (
     <div className="dndflow">
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <ReactFlowProvider>
-            <Header />
-            <ToolBar />
-            <Sidebar />
-            <Settings />
-
-            <div
-              className="reactflow-wrapper"
-              style={{ width: "100vw", height: "100vh" }}
-              ref={reactFlowWrapper}
+      <ReactFlowProvider>
+        <Header />
+        <ToolBar />
+        <Sidebar />
+        <Settings />
+        <ContextItems>
+          <div
+            className="reactflow-wrapper"
+            style={{ width: "100vw", height: "100vh" }}
+            ref={reactFlowWrapper}
+          >
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onEdgeUpdate={onEdgeUpdate}
+              onEdgeUpdateStart={onEdgeUpdateStart}
+              onEdgeUpdateEnd={onEdgeUpdateEnd}
+              onConnect={onConnect}
+              onInit={setReactFlowInstance}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              // selectionOnDrag
+              // panOnDrag={[2, 1]}
+              selectionMode={SelectionMode.Partial}
             >
-              <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                nodeTypes={nodeTypes}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onEdgeUpdate={onEdgeUpdate}
-                onEdgeUpdateStart={onEdgeUpdateStart}
-                onEdgeUpdateEnd={onEdgeUpdateEnd}
-                onConnect={onConnect}
-                onInit={setReactFlowInstance}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                // selectionOnDrag
-                // panOnDrag={[2, 1]}
-                selectionMode={SelectionMode.Partial}
-              >
-                {showMiniMap ? (
-                  <MiniMap nodeStrokeWidth={3} zoomable pannable />
-                ) : (
-                  <></>
-                )}
-                {background.enable ? (
-                  <Background
-                    variant={background.variant}
-                    gap={background.gap}
-                    size={background.size}
-                  />
-                ) : (
-                  <></>
-                )}
-              </ReactFlow>
-            </div>
-          </ReactFlowProvider>
-        </ContextMenuTrigger>
-        <ContextItems />
-      </ContextMenu>
+              {showMiniMap ? (
+                <MiniMap nodeStrokeWidth={3} zoomable pannable />
+              ) : (
+                <></>
+              )}
+              {background.enable ? (
+                <Background
+                  variant={background.variant}
+                  gap={background.gap}
+                  size={background.size}
+                />
+              ) : (
+                <></>
+              )}
+            </ReactFlow>
+          </div>
+        </ContextItems>
+      </ReactFlowProvider>
     </div>
   );
 }

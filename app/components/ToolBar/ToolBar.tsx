@@ -11,6 +11,8 @@ import nodeExecution from "./Execution";
 import { LayoutGrid, Maximize, PlayIcon, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAppState from "@/app/state/appState";
+import ToolBarItem from "./ToolBarItem";
+import { ToolsNodesData } from "../Nodes/Tools/tools";
 
 const ToolBar = () => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();
@@ -108,16 +110,26 @@ const ToolBar = () => {
       position="bottom-center"
       className={`w-full px-10 transition ${zenMode ? "hidden" : ""}`}
     >
-      <div className="flex flex-row items-center transition justify-between ">
+      <div className="flex flex-row items-center transition justify-between">
         <div></div>
-        <Button
-          variant="outline"
-          onClick={Execute}
-          className="bg-background shadow-lg rounded-full px-3"
-        >
-          <PlayIcon size={20} />
-        </Button>
-        <div className="dark:border-x-gray-500 dark:border px-1 flex items-center justify-between bg-background shadow-lg rounded-full">
+        <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
+          <ToolBarItem
+            nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
+          />
+
+          <Button
+            variant="link"
+            onClick={Execute}
+            className="bg-foreground rounded-full px-[10px]"
+          >
+            <PlayIcon onClick={Execute} className="text-background" size={20} />
+          </Button>
+
+          <ToolBarItem
+            nodesData={{ HeadingTool: ToolsNodesData.HeadingTool }}
+          />
+        </div>
+        <div className="border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full">
           <Button
             variant="ghost"
             className="p-2 rounded-full"

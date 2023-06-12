@@ -32,12 +32,9 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
-     
       <NodeTitle hover={hover} title="GPT4" zenMode={zenMode} />
 
-    
       <NodeBody setHover={setHover} className="p-6">
-      
         <NodeHandle
           type="target"
           position={Position.Left}
@@ -48,7 +45,6 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
 
         <MessagesSquareIcon size={32} />
 
-      
         <NodeHandle
           type="source"
           position={Position.Right}
@@ -56,7 +52,6 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
           isConnectable={isConnectable}
           nodeId={nodeId}
         />
-      
       </NodeBody>
     </div>
   );

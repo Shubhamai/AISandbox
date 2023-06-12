@@ -13,28 +13,28 @@ import YoloXNode from "./YoloX/Node";
 
 export const modelsNodesData = {
   OpenAIChatGPTNode: {
-    name: "OpenAI ChatGPT",
-    description: "OpenAI ChatGPT",
+    name: "ChatGPT",
+    description: "OpenAI's ChatGPT model",
     icon: <MessagesSquareIcon />,
   },
   StableDiffusionNode: {
     name: "Stable Diffusion",
-    description: "Stable Diffusion",
+    description: "Image generation using Stable Diffusion",
     icon: <Brush />,
   },
   TortoiseTTSNode: {
     name: "Tortoise TTS",
-    description: "Tortoise TTS",
+    description: "Text to speech using Tortoise TTS",
     icon: <FileVolume2 />,
   },
   WhisperNode: {
     name: "Whisper",
-    description: "Whisper",
+    description: "Speech to text using OpenAI Whisper",
     icon: <FileAudioIcon />,
   },
   YoloXNode: {
     name: "YoloX",
-    description: "YoloX",
+    description: "Object detection using YoloX",
     icon: <View />,
   },
 };

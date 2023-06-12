@@ -32,8 +32,7 @@ const ImageOutputNode = memo(({ data, isConnectable }: NodeProps) => {
           />
         ) : (
           <div className="w-80 h-56 flex flex-row items-center justify-center">
-            {" "}
-            No Image Found{" "}
+            No Image Found
           </div>
         )}
 

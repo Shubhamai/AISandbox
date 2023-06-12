@@ -6,18 +6,18 @@ import TextOutputNode from "./Text/Node";
 export const outputNodesData = {
   AudioOutputNode: {
     name: "Audio",
-    description: "Audio Output",
+    description: "Output audio",
     icon: <Speaker />,
   },
   ImageOutputNode: {
     name: "Image",
-    description: "Image Output",
+    description: "Output image",
     // eslint-disable-next-line jsx-a11y/alt-text
     icon: <ImagePlus />,
   },
   TextOutputNode: {
     name: "Text",
-    description: "Text Output",
+    description: "Output text",
     icon: <ScrollText />,
   },
 };
