@@ -8,6 +8,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import NodeHandle from "../../Shared/Handle";
+import NodeBody from "../../Shared/Body";
+import useAppState from "@/app/state/appState";
+import NodeTitle from "../../Shared/Title";
 
 export const executeWhisperNode = async (node: Node, previousNode: Node) => {
   const newForm = new FormData();
@@ -24,51 +28,36 @@ export const executeWhisperNode = async (node: Node, previousNode: Node) => {
 
 const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
-
+  const { zenMode } = useAppState();
   const [hover, setHover] = React.useState(false);
 
   return (
     <div>
-      <div
-        className={`flex-col ml-2 mb-1 transition-opacity ${
-          hover ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <h1 className="text-md font-semibold text-foreground">Whisper</h1>
-      </div>
+     
+      <NodeTitle hover={hover} title="Whisper" zenMode={zenMode} />
 
-      <div
-        className="bg-background flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative p-6"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
+     
+      <NodeBody setHover={setHover} className="p-6">
         <FileAudioIcon size={32} />
 
-        <Handle
-          className="!bg-foreground/50 !border-none"
+       
+        <NodeHandle
           type="target"
           position={Position.Left}
-          id="audio"
           isConnectable={isConnectable}
+          id="audio"
+          nodeId={nodeId}
         />
 
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Handle
-                className="!bg-foreground/50 !border-none"
-                type="source"
-                position={Position.Right}
-                id="text"
-                isConnectable={isConnectable}
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{nodeId}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+       
+        <NodeHandle
+          id="text"
+          type="source"
+          position={Position.Right}
+          isConnectable={isConnectable}
+          nodeId={nodeId}
+        />
+      </NodeBody>
     </div>
   );
 });

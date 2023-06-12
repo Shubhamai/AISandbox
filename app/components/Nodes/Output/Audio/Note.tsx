@@ -1,13 +1,25 @@
+import useAppState from "@/app/state/appState";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Handle, NodeProps, NodeToolbarProps, Position } from "reactflow";
+import {
+  Handle,
+  NodeProps,
+  NodeToolbarProps,
+  Position,
+  useNodeId,
+} from "reactflow";
+import NodeTitle from "../../Shared/Title";
+import NodeBody from "../../Shared/Body";
+import NodeHandle from "../../Shared/Handle";
 
 const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
   const outputAudioFile = data.input.audio;
   const audioRef = useRef<null | HTMLAudioElement>(null); // useRef hook
 
   const [hover, setHover] = useState(false);
+  const { zenMode } = useAppState();
+  const nodeId = useNodeId() || ""; // TODO : Fix this
 
   useEffect(() => {
     if (outputAudioFile) {
@@ -38,25 +50,15 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
-      <div
-        className={`flex-col ml-2 mb-1 transition-opacity ${
-          hover ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <h1 className="text-md font-semibold text-foreground">Audio Output</h1>
-      </div>
+      <NodeTitle hover={hover} zenMode={zenMode} title="Audio Output" />
 
-      <div
-        className="bg-background flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <Handle
-          className="!bg-foreground/50 !border-none"
+      <NodeBody setHover={setHover} className="py-3 px-10">
+        <NodeHandle
           type="target"
           id="audio"
           position={Position.Left}
           isConnectable={isConnectable}
+          nodeId={nodeId}
         />
         {outputAudioFile ? (
           <Button
@@ -66,16 +68,17 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
             {buttonIcon}
           </Button>
         ) : (
-          <div>No audio file</div>
+          <div>No audio Output</div>
         )}
-        <Handle
-          className="!bg-foreground/50 !border-none"
+
+        <NodeHandle
           type="source"
           id="audio"
           position={Position.Right}
           isConnectable={isConnectable}
+          nodeId={nodeId}
         />
-      </div>
+      </NodeBody>
     </div>
   );
 });

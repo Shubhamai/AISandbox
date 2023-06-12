@@ -6,8 +6,14 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import NodeHandle from "../../Shared/Handle";
+import NodeBody from "../../Shared/Body";
+import NodeTitle from "../../Shared/Title";
+import useAppState from "@/app/state/appState";
 
 const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
+  const { zenMode } = useAppState();
+
   const [hover, setHover] = useState(false);
   const [showTrash, setShowTrash] = useState(false); // add this
   const [file, setFile] = useState("");
@@ -32,7 +38,6 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
   }
 
   const trashButtonHandler = () => {
-    console.log("trash button clicked");
     setFile("");
     updateNodeData(nodeId, {
       output: { image: "" },
@@ -41,19 +46,9 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
-      <div
-        className={`flex-col ml-2 mb-1 transition-opacity ${
-          hover ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <h1 className="text-md font-semibold text-foreground">Image Input</h1>
-      </div>
+      <NodeTitle hover={hover} title="Image Input" zenMode={zenMode} />
 
-      <div
-        className="bg-background text-foreground flex flex-col rounded-md drop-shadow-lg relative"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
+      <NodeBody setHover={setHover}>
         {file ? (
           <div
             className="relative"
@@ -63,30 +58,38 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
             <Image src={file} width={300} height={300} alt="Input Image" />
             {showTrash && (
               <div className="absolute top-0 right-0 p-0">
-                <Button className="bg-transparent" onClick={trashButtonHandler}>
+                <Button
+                  className="bg-transparent hover:bg-background/50 p-2 rounded-full"
+                  onClick={trashButtonHandler}
+                >
                   <Trash2 className="text-foreground" />
                 </Button>
               </div>
             )}
           </div>
         ) : (
-          <Input
-            className="text-foreground"
-            id="files"
-            type="file"
-            accept=".jpg, .jpeg, .png"
-            onChange={handleChange}
-          />
+          <>
+            <Input
+              className="text-foreground hidden"
+              id="image-uploader"
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+            />
+            <label htmlFor="image-uploader" className="p-20">
+              <i className="fa-solid fa-upload"></i>Choose Or Drop Images
+            </label>
+          </>
         )}
 
-        <Handle
+        <NodeHandle
           type="source"
-          className="!bg-foreground/50 !border-none"
           position={Position.Right}
           id="image"
           isConnectable={isConnectable}
+          nodeId={nodeId}
         />
-      </div>
+      </NodeBody>
     </div>
   );
 });

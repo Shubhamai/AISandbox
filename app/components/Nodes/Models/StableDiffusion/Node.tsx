@@ -1,6 +1,10 @@
+import useAppState from "@/app/state/appState";
 import { Brush, Hexagon } from "lucide-react";
 import React, { memo } from "react";
-import { Handle, NodeProps, Position, Node } from "reactflow";
+import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
+import NodeTitle from "../../Shared/Title";
+import NodeBody from "../../Shared/Body";
+import NodeHandle from "../../Shared/Handle";
 
 export const executeStableDiffusionNode = (
   node: Node,
@@ -23,54 +27,50 @@ export const executeStableDiffusionNode = (
 
 const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
+  const nodeId = useNodeId() || ""; // TODO : Fix this
+
+  const { zenMode } = useAppState();
 
   return (
     <div>
-      <div
-        className={`flex-col ml-2 mb-1 transition-opacity ${
-          hover ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <h1 className="text-md font-semibold text-foreground">SD</h1>
-      </div>
 
-      <div
-        className="bg-background flex flex-col items-center justify-center rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative p-6"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <Handle
-          className="!bg-foreground/50 !border-none"
+      <NodeTitle hover={hover} title="SD" zenMode={zenMode} />
+
+     
+      <NodeBody setHover={setHover} className="p-6">
+      
+        <NodeHandle
           type="target"
           id="image"
-          key="image"
           position={Position.Left}
           isConnectable={isConnectable}
+          nodeId={nodeId}
           style={{
             top: "calc(50% + -20px)",
           }}
         />
-        <Handle
-          className="!bg-foreground/50 !border-none"
+      
+        <NodeHandle
           type="target"
           id="text"
-          key="text"
           position={Position.Left}
           isConnectable={isConnectable}
+          nodeId={nodeId}
           style={{
             top: "calc(50% + 20px)",
           }}
         />
 
         <Brush size={36} />
-        <Handle
-          className="!bg-foreground/50 !border-none"
+      
+        <NodeHandle
           type="source"
           id="image"
           position={Position.Right}
           isConnectable={isConnectable}
+          nodeId={nodeId}
         />
-      </div>
+      </NodeBody>
     </div>
   );
 });

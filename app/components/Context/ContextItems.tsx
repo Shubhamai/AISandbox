@@ -61,18 +61,10 @@ const ContextItems = () => {
     <ContextMenuContent className="shadow-lg">
       <ContextMenuItem
         onClick={() => {
-          if (theme === "light") {
-            setTheme("dark");
-          } else {
-            setTheme("light");
-          }
+          theme === "light" ? setTheme("dark") : setTheme("light");
         }}
       >
-        {theme[0].toUpperCase() + theme.slice(1)} theme
-      </ContextMenuItem>
-      <ContextMenuItem onClick={handleShowMiniMap}>
-        {showMiniMap ? <Check className="mr-2 h-4 w-4" /> : <></>}
-        Show MiniMap
+        Enable {theme === "light" ? "dark" : "light"} theme
       </ContextMenuItem>
       <ContextMenuSub>
         <ContextMenuSubTrigger
@@ -156,6 +148,10 @@ const ContextItems = () => {
       <ContextMenuItem onClick={handleZenMode}>
         {zenMode ? <Check className="mr-2 h-4 w-4" /> : <></>}
         Zen mode
+      </ContextMenuItem>
+      <ContextMenuItem onClick={handleShowMiniMap}>
+        {showMiniMap ? <Check className="mr-2 h-4 w-4" /> : <></>}
+        Show MiniMap
       </ContextMenuItem>
       <ContextMenuItem>Stats for nerds</ContextMenuItem>
     </ContextMenuContent>

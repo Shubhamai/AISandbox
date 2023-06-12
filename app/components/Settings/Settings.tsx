@@ -5,7 +5,6 @@ import nodeTypes, {
   modelNodes,
 } from "@/app/types/nodeTypes";
 import { DragEvent, useState } from "react";
-import { Separator } from "@radix-ui/react-context-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
