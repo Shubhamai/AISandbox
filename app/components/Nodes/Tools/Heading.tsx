@@ -26,7 +26,7 @@ const HeadingTool = ({ data, isConnectable, selected }: NodeProps) => {
       />
       <input
         style={{ fontSize: `${w * 0.1 || 20}px` }}
-        className={`text-foreground bg-transparent border-[0px] focus-visible:ring-0 focus-visible:ring-ring w-full h-full`}
+        className={`text-foreground bg-transparent border-[0px] focus-visible:ring-0 focus-visible:ring-ring w-full h-full outline-none`}
         placeholder="Heading"
       />
     </div>

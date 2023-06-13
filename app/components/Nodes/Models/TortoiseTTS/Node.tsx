@@ -11,6 +11,7 @@ import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
 import NodeTitle from "../../Shared/Title";
 import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
+import NodeExecutionTime from "../../Shared/ExecutionTime";
 
 export const executeTortoiseTTSNode = async (
   node: Node,
@@ -38,10 +39,8 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
-     
       <NodeTitle hover={hover} title="TTS" zenMode={zenMode} />
 
-     
       <NodeBody setHover={setHover} className="p-6">
         <FileVolume2 size={32} />
 
@@ -53,7 +52,6 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
           nodeId={nodeId}
         />
 
-      
         <NodeHandle
           type="source"
           position={Position.Right}
@@ -62,6 +60,7 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
           nodeId={nodeId}
         />
       </NodeBody>
+      {/* <NodeExecutionTime showStats={showStats} data={data} /> */}
     </div>
   );
 });

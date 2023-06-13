@@ -35,11 +35,13 @@ const ContextItems = ({ children }: { children: React.ReactNode }) => {
     zenMode,
     background,
     showMiniMap,
+    showStats,
     setTheme,
     setZenMode,
     setShowSidebar,
     setShowMiniMap,
     setBackground,
+    setShowStats,
   } = useAppState();
 
   const handleZenMode = () => {
@@ -64,7 +66,8 @@ const ContextItems = ({ children }: { children: React.ReactNode }) => {
       <ContextMenuTrigger>
         {children}
         <ContextMenuContent className="shadow-lg w-64">
-          <ContextMenuCheckboxItem checked={theme === "dark"}
+          <ContextMenuCheckboxItem
+            checked={theme === "dark"}
             onClick={() => {
               theme === "light" ? setTheme("dark") : setTheme("light");
             }}
@@ -153,17 +156,34 @@ const ContextItems = ({ children }: { children: React.ReactNode }) => {
             )}
           </ContextMenuSub>
           <Separator />
-          <ContextMenuCheckboxItem onClick={handleZenMode} checked={zenMode}>
+          <ContextMenuCheckboxItem
+            onClick={() => {
+              if (zenMode) {
+                setZenMode(false);
+              } else {
+                setZenMode(true);
+                setShowSidebar(false);
+              }
+            }}
+            checked={zenMode}
+          >
             Zen mode
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem
-            onClick={handleShowMiniMap}
+            onClick={() => {
+              setShowMiniMap(!showMiniMap);
+            }}
             checked={showMiniMap}
           >
             Show MiniMap
           </ContextMenuCheckboxItem>
           <Separator />
-          <ContextMenuCheckboxItem checked={showMiniMap}>
+          <ContextMenuCheckboxItem
+            onClick={() => {
+              setShowStats(!showStats);
+            }}
+            checked={showStats}
+          >
             Stats for nerds
           </ContextMenuCheckboxItem>
         </ContextMenuContent>

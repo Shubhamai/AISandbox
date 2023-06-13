@@ -12,7 +12,7 @@ const ToolBarItem = (props: any) => {
     <div>
       {Object.keys(nodesData).map((key) => (
         <div
-          className={`dndnode input ${key} rounded-full`}
+          className={`dndnode input ${key} rounded-full hover:cursor-grab`}
           key={key}
           onDragStart={(event) => onDragStart(event, key)}
           draggable

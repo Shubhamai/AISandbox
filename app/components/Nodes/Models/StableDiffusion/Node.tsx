@@ -5,6 +5,7 @@ import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
 import NodeTitle from "../../Shared/Title";
 import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
+import NodeExecutionTime from "../../Shared/ExecutionTime";
 
 export const executeStableDiffusionNode = (
   node: Node,
@@ -33,12 +34,8 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
 
   return (
     <div>
-
       <NodeTitle hover={hover} title="SD" zenMode={zenMode} />
-
-     
       <NodeBody setHover={setHover} className="p-6">
-      
         <NodeHandle
           type="target"
           id="image"
@@ -49,7 +46,7 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
             top: "calc(50% + -20px)",
           }}
         />
-      
+
         <NodeHandle
           type="target"
           id="text"
@@ -62,7 +59,7 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
         />
 
         <Brush size={36} />
-      
+
         <NodeHandle
           type="source"
           id="image"
@@ -71,6 +68,7 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
           nodeId={nodeId}
         />
       </NodeBody>
+      {/* <NodeExecutionTime showStats={showStats} data={data} /> */}
     </div>
   );
 });

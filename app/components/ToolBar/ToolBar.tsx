@@ -5,10 +5,17 @@ import {
   getConnectedEdges,
   useReactFlow,
 } from "reactflow";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import graphState from "@/app/state/graphState";
 import nodeExecution from "./Execution";
-import { LayoutGrid, Maximize, PlayIcon, ZoomIn, ZoomOut } from "lucide-react";
+import {
+  LayoutGrid,
+  Maximize,
+  PlayIcon,
+  Square,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAppState from "@/app/state/appState";
 import ToolBarItem from "./ToolBarItem";
@@ -20,6 +27,8 @@ const ToolBar = () => {
 
   const updateNodeData = graphState((s) => s.updateNodeData);
   const updateEdgeData = graphState((s) => s.updateEdgeData);
+  const [stopExecution, setStopExecution] = useState(false);
+  const [isExecuting, setIsExecuting] = useState(false);
 
   const resetNodesIsComputed = graphState((s) => s.resetNodesIsComputed);
 
@@ -39,6 +48,7 @@ const ToolBar = () => {
   };
 
   const Execute = async () => {
+    setIsExecuting(true);
     const { nodes, edges } = graphState.getState();
 
     resetNodesIsComputed();
@@ -53,6 +63,11 @@ const ToolBar = () => {
       // If we've already visited this node, skip it
       if (node === undefined || visited.has(node.id)) {
         continue;
+      }
+
+      if (stopExecution) {
+        setStopExecution(false);
+        break;
       }
 
       // Get incoming and outgoing nodes
@@ -83,6 +98,7 @@ const ToolBar = () => {
     for (const edge of edges) {
       updateEdgeData(edge.id, { animated: false });
     }
+    setIsExecuting(false);
   };
 
   useEffect(() => {
@@ -95,16 +111,6 @@ const ToolBar = () => {
     };
   }, []);
 
-  {
-    /* flex-row gap-96 items-center */
-    // className={`flex flex-row items-start w-[270px] transition rounded-lg ${
-    //   showSidebar ? "translate-x-0" : "-translate-x-full"
-    // }`}
-    // className={`flex flex-row items-start w-[270px] transition rounded-lg ${
-    //   showSidebar ? "translate-x-0" : "-translate-x-full"
-    // }`}
-    // style={{ top: 150 }}
-  }
   return (
     <Panel
       position="bottom-center"
@@ -119,10 +125,24 @@ const ToolBar = () => {
 
           <Button
             variant="link"
-            onClick={Execute}
+            // onClick={Execute}
             className="bg-foreground rounded-full px-[10px]"
           >
-            <PlayIcon onClick={Execute} className="text-background" size={20} />
+            {isExecuting ? (
+              <Square
+                onClick={() => {
+                  setStopExecution(true);
+                }}
+                className="text-background"
+                size={20}
+              />
+            ) : (
+              <PlayIcon
+                onClick={Execute}
+                className="text-background"
+                size={20}
+              />
+            )}
           </Button>
 
           <ToolBarItem

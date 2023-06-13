@@ -11,7 +11,7 @@ export const ToolsNodesData = {
   RectangleTool: {
     name: "RectangleTool",
     description: "Rectangle",
-    icon: <Square size={20} className="text-foreground" />,
+    icon: <Square size={22} />,
   },
 };
 export const ToolsNodes = { HeadingTool, RectangleTool };

@@ -12,7 +12,7 @@ const SidebarSection = (props: any) => {
     <div className="flex flex-col gap-1">
       {Object.keys(nodesData).map((key) => (
         <div
-          className={`dndnode input ${key} h-fit w-full rounded-md flex flex-row items-center gap-2 p-3 border-[1px] border-solid border-foreground/1 transition hover:border-foreground/50 hover:cursor-pointer hover:shadow-md hover:bg-foreground/1 focus:border-foreground/50 active:shadow-sm active:translate-y-1`}
+          className={`dndnode input ${key} h-fit w-full rounded-md flex flex-row items-center gap-2 p-3 border-[1px] border-solid border-foreground/1 transition hover:border-foreground/50 hover:cursor-grab hover:shadow-md hover:bg-foreground/1 focus:border-foreground/50 active:shadow-sm active:translate-y-1`}
           key={key}
           onDragStart={(event) => onDragStart(event, key)}
           draggable

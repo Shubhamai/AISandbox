@@ -5,6 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Handle, HandleType, Position } from "reactflow";
+import { Badge } from "@/components/ui/badge";
 
 type NodeHandleProps = {
   type: HandleType;
@@ -30,15 +31,14 @@ const NodeHandle = (props: NodeHandleProps) => {
               style={props.style}
             />
           </TooltipTrigger>
-          <TooltipContent>
-            {/* {props.type === "source" ? ( */}
-            <p>
-              output : {props.id} | id : {props.nodeId}
-            </p>
-            {/* ) : (
-              <></> */}
-            {/* )} */}
-          </TooltipContent>
+          {props.type === "source" ? (
+            <TooltipContent>
+              <Badge variant="outline">Output : {props.id}</Badge>{" "}
+              <Badge variant="outline">ID : {props.nodeId}</Badge>
+            </TooltipContent>
+          ) : (
+            <></>
+          )}
         </Tooltip>
       </TooltipProvider>
     </div>
