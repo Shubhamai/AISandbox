@@ -10,7 +10,7 @@ import {
 } from "reactflow";
 
 const RectangleTool = ({ data, isConnectable, selected }: NodeProps) => {
-  const divRef = useRef<HTMLDivElement>();
+  const divRef = useRef();
   // const [h, setH] = useState(20);
   // console.log(w, h);
 
@@ -30,8 +30,8 @@ const RectangleTool = ({ data, isConnectable, selected }: NodeProps) => {
         minHeight={30}
         onResize={(e) => {
           if (divRef.current) {
-            divRef.current.style.width = `${e.x+5}px`;
-            divRef.current.style.height = `${e.y+5}px`;
+            divRef.current.style.width = `${e.x + 5}px`;
+            divRef.current.style.height = `${e.y + 5}px`;
           }
 
           // setW(e.x);

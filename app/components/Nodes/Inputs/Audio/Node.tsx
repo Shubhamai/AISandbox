@@ -33,21 +33,21 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const updateNodeData = graphState((s) => s.updateNodeData);
   const [Devices, setDevices] = useState<MediaDeviceInfo[]>([]);
-  const [selectedDevice, setSelectedDevice] = useState<
-    MediaDeviceInfo | null | string
-  >(null);
+  const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [recording, setRecording] = useState(false);
   const [recorderData, setRecorderData] = useState<RecorderReturn | null>(null);
 
   const startRecording = async () => {
-    const data = await recorder(selectedDevice, (audioBlob) => {
-      updateNodeData(nodeId, {
-        output: { audio: audioBlob },
+    if (selectedDevice) {
+      const data = await recorder(selectedDevice, (audioBlob) => {
+        updateNodeData(nodeId, {
+          output: { audio: audioBlob },
+        });
       });
-    });
 
-    if (data) {
-      setRecorderData(data);
+      if (data) {
+        setRecorderData(data);
+      }
     }
   };
 
@@ -129,13 +129,15 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
           <div className="flex flex-row items-center gap-3">
             <Button
               onClick={() => {
-                if (recording) {
-                  recorderData.end();
-                } else {
-                  recorderData.start();
-                }
+                if (recorderData) {
+                  if (recording) {
+                    recorderData.end();
+                  } else {
+                    recorderData.start();
+                  }
 
-                setRecording(!recording);
+                  setRecording(!recording);
+                }
               }}
             >
               {recording ? <Square /> : <Mic />}
@@ -150,7 +152,10 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
               }}
             >
               <SelectTrigger>
-                <SelectValue defaultValue={selectedDevice} placeholder="Device" />
+                <SelectValue
+                  // defaultValue={selectedDevice}
+                  placeholder="Device"
+                />
               </SelectTrigger>
               <SelectContent>
                 {Devices.map((device) => (

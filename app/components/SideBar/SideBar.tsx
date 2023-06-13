@@ -15,9 +15,12 @@ import { utilsNodesData } from "../Nodes/Utils/Utils";
 import { Brain, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import SideBarSearch from "./Search";
+import { useState } from "react";
 
 const SideBar = () => {
   const { showSidebar, setShowSidebar, zenMode } = useAppState();
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <Panel
@@ -27,35 +30,45 @@ const SideBar = () => {
       } ${zenMode ? "hidden" : ""}`}
       style={{ top: 150 }}
     >
-      <Accordion
-        type="multiple"
-        className="w-full bg-background px-4 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px] border-solid border-foreground/10"
-      >
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Inputs</AccordionTrigger>
-          <AccordionContent>
-            <SidebarSection nodesData={inputNodesData} />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="items-start">Models</AccordionTrigger>
-          <AccordionContent>
-            <SidebarSection nodesData={modelsNodesData} />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Outputs</AccordionTrigger>
-          <AccordionContent>
-            <SidebarSection nodesData={outputNodesData} />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-4">
-          <AccordionTrigger>Utils</AccordionTrigger>
-          <AccordionContent>
-            <SidebarSection nodesData={utilsNodesData} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      <div className="flex flex-col items-center gap-2">
+        <SideBarSearch isFocused={isFocused} setIsFocused={setIsFocused} />
+
+        {!isFocused ? (
+          <Accordion
+            type="multiple"
+            className="w-full bg-background px-4 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px] border-solid border-foreground/10"
+          >
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Inputs</AccordionTrigger>
+              <AccordionContent>
+                <SidebarSection nodesData={inputNodesData} />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="items-start">
+                Models
+              </AccordionTrigger>
+              <AccordionContent>
+                <SidebarSection nodesData={modelsNodesData} />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Outputs</AccordionTrigger>
+              <AccordionContent>
+                <SidebarSection nodesData={outputNodesData} />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>Utils</AccordionTrigger>
+              <AccordionContent>
+                <SidebarSection nodesData={utilsNodesData} />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ) : (
+          <></>
+        )}
+      </div>
       {zenMode ? (
         <></>
       ) : (

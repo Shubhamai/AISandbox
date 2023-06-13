@@ -15,7 +15,7 @@ import {
   updateEdge,
 } from "reactflow";
 
-import nodeTypes from "../types/nodeTypes";
+import nodeTypes from "../components/Nodes/nodeTypes";
 
 type RFState = {
   id: number;

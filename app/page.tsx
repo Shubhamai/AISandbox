@@ -19,6 +19,7 @@ import Sidebar from "./components/SideBar/SideBar";
 import Settings from "./components/Settings/Settings";
 import ContextItems from "./components/Context/ContextItems";
 import useAppState from "./state/appState";
+import styled, { ThemeProvider } from "styled-components";
 
 export default function Home() {
   const reactFlowWrapper = useRef(null);
