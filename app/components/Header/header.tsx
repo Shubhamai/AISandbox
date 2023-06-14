@@ -7,105 +7,23 @@ import {
 } from "reactflow";
 import { toPng } from "html-to-image";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlignJustify,
-  Download,
-  Save,
-  Image,
-  HelpCircle,
-  Trash2,
-  ChevronLeft,
-  ChevronRight,
-  WorkflowIcon,
-} from "lucide-react";
+import { WorkflowIcon } from "lucide-react";
 import graphState from "@/app/state/graphState";
 import useAppState from "@/app/state/appState";
 import { Button } from "@/components/ui/button";
-
-// TODO : Move this to a utils file or something...
-function downloadImage(dataUrl: any) {
-  const a = document.createElement("a");
-
-  a.setAttribute("download", "reactflow.png");
-  a.setAttribute("href", dataUrl);
-  a.click();
-}
+import { WaitlistDialogForm } from "./waitlist";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import DropDown from "./DropDown";
 
 const Header = () => {
-  const updateGraph = graphState((s) => s.updateGraph);
-  const { reactFlowInstance, nodes } = graphState.getState();
-
-  const { showSidebar, setShowSidebar, zenMode } = useAppState();
-
-  const resetCanvas = () => {
-    updateGraph([], []);
-  };
-
-  // TODO : Save will be downlading a json file
-  // The local storage will be used to save the canvas automatically
-  const saveCanvas = () => {
-    const flow = reactFlowInstance.toObject();
-    localStorage.setItem("canvas", JSON.stringify(flow));
-  };
-
-  // TODO : Load will be loading a json file to the canvas
-  const loadCanvas = () => {
-    const flow = localStorage.getItem("canvas");
-    if (flow) {
-      console.log("Loading canvas from local storage");
-      const parsedFlow = JSON.parse(flow);
-
-      // Disable animation on all edges
-      for (let edgeId in parsedFlow.edges) {
-        parsedFlow.edges[edgeId].animated = false;
-      }
-
-      updateGraph(parsedFlow.nodes, parsedFlow.edges);
-    } else {
-      console.log("No canvas found in local storage");
-    }
-  };
-
-  const exportImage = () => {
-    const imageWidth = 1024;
-    const imageHeight = 768;
-
-    const nodesBounds = getRectOfNodes(nodes);
-    const transform = getTransformForBounds(
-      nodesBounds,
-      imageWidth,
-      imageHeight,
-      0.5,
-      2
-    );
-
-    const viewport: HTMLElement | null = document.querySelector(
-      ".react-flow__viewport"
-    );
-    if (viewport) {
-      toPng(viewport, {
-        backgroundColor: "#ffffff",
-        width: imageWidth,
-        height: imageHeight,
-        style: {
-          width: `${imageWidth}`,
-          height: `${imageHeight}`,
-          transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
-        },
-      }).then(downloadImage);
-    } else {
-      console.log("Viewport not found! Unable to Download");
-    }
-  };
+  const { zenMode } = useAppState();
 
   return (
     <Panel
@@ -123,46 +41,34 @@ const Header = () => {
           </h1>
         </div>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="rounded-full shadow-lg bg-background p-3"
-          >
-            <AlignJustify size={16} />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem onClick={loadCanvas}>
-              <Save className="mr-2 h-4 w-4" /> <span> Open</span>
-              {/* <MenubarShortcut>Ctrl+O</MenubarShortcut> */}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={saveCanvas}>
-              <Download className="mr-2 h-4 w-4" /> <span> Save</span>
-              {/* <MenubarShortcut>Ctrl+S</MenubarShortcut> */}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={exportImage}>
-              <Image className="mr-2 h-4 w-4" /> <span>Export Image</span>
-              {/* <MenubarShortcut>Ctrl+E</MenubarShortcut> */}
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <HelpCircle className="mr-2 h-4 w-4" /> <span>Help</span>
-              {/* <MenubarShortcut>?</MenubarShortcut> */}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={resetCanvas}>
-              <Trash2 className="mr-2 h-4 w-4" /> <span>Reset the canvas</span>
-            </DropdownMenuItem>
-            {/* <MenubarSeparator /> */}
-            {/* <MenubarItem>Share</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem>Print</MenubarItem> */}
-            {/* </MenubarContent> */}
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex flex-row items-center gap-5">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="rounded-full shadow-lg bg-background p-3"
+            >
+              Join the Waitlist
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <div className="flex flex-col gap-5">
+                <DialogTitle className="text-center text-3xl ">
+                  Join the Waitist
+                </DialogTitle>
+                <DialogDescription className="text-center">
+                  Be the first to know when we release beta <br />
+                  and get an early access
+                </DialogDescription>
+                <WaitlistDialogForm />
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+        <DropDown />
+      </div>
     </Panel>
   );
 };
