@@ -49,7 +49,7 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
           nodeId={nodeId}
         />
 
-        <MessagesSquareIcon size={32} />
+        <MessagesSquareIcon strokeWidth={1} size={32} />
 
         <NodeHandle
           type="source"

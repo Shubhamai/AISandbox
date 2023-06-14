@@ -13,7 +13,7 @@ const NodeTitle = (props: NodeTitleProps) => {
           : "invisible opacity-0"
       }`}
     >
-      <h1 className="text-md font-semibold text-foreground">{props.title}</h1>
+      <h1 className="text-[15px] font-medium text-foreground/80">{props.title}</h1>
     </div>
   );
 };

@@ -58,7 +58,7 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
           }}
         />
 
-        <Brush size={36} />
+        <Brush strokeWidth={1} size={36} />
 
         <NodeHandle
           type="source"

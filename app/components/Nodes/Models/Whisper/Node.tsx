@@ -40,7 +40,7 @@ const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
     <div>
       <NodeTitle hover={hover} title="Whisper" zenMode={zenMode} />
       <NodeBody setHover={setHover} className="p-6">
-        <FileAudioIcon size={32} />
+        <FileAudioIcon strokeWidth={1} size={32} />
 
         <NodeHandle
           type="target"

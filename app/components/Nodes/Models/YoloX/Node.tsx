@@ -42,7 +42,7 @@ const YoloXNode = memo(({ data, isConnectable }: NodeProps) => {
     <div>
       <NodeTitle hover={hover} title="YoloX" zenMode={zenMode} />
       <NodeBody setHover={setHover} className="p-6">
-        <View size={32} />
+        <View strokeWidth={1} size={32} />
 
         <NodeHandle
           type="target"

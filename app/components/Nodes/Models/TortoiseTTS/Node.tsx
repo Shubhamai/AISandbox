@@ -42,7 +42,7 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
       <NodeTitle hover={hover} title="TTS" zenMode={zenMode} />
 
       <NodeBody setHover={setHover} className="p-6">
-        <FileVolume2 size={32} />
+        <FileVolume2 strokeWidth={1} size={32} />
 
         <NodeHandle
           type="target"

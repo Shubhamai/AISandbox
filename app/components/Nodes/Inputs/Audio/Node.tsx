@@ -113,7 +113,7 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
     <div>
       <NodeTitle hover={hover} zenMode={zenMode} title="Audio Input" />
       <NodeBody setHover={setHover}>
-        <div className="flex flex-col items-center py-5 px-3 gap-5 justy-stat">
+        <div className="flex flex-col items-center py-5 px-3 gap-3">
           <Input
             className="text-foreground hidden"
             id="audio-uploader"
@@ -121,13 +121,18 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
             accept=".webm, .mp3, .mp4, .m4a"
             onChange={handleChange}
           />
-          <label htmlFor="audio-uploader" className="w-full text-center h-full">
-            <i className="fa-solid fa-upload"></i>Record or Upload Audio
+          <label htmlFor="audio-uploader" className="w-full h-full">
+            Upload Audio
           </label>
 
-          <Separator orientation="horizontal" className="w-56" />
-          <div className="flex flex-row items-center gap-3">
+          <div className="flex flex-row items-center justify-between gap-5">
+            <Separator orientation="horizontal" className="w-16" />
+            Or
+            <Separator orientation="horizontal" className="w-16" />
+          </div>
+          <div className="flex flex-row items-center gap-3 w-full">
             <Button
+              size="sm"
               onClick={() => {
                 if (recorderData) {
                   if (recording) {
@@ -140,7 +145,11 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
                 }
               }}
             >
-              {recording ? <Square /> : <Mic />}
+              {recording ? (
+                <Square className="w-4 h-4" />
+              ) : (
+                <Mic className="w-4 h-4" />
+              )}
             </Button>
             {/* onClick={recorderData?.start()}  */}
             <Select
@@ -151,12 +160,13 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
                 );
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="flex-1">
                 <SelectValue
                   // defaultValue={selectedDevice}
-                  placeholder="Device"
+                  placeholder="Choose Device"
                 />
               </SelectTrigger>
+
               <SelectContent>
                 {Devices.map((device) => (
                   <SelectItem value={device.deviceId} key={device.deviceId}>

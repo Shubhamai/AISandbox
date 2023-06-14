@@ -10,7 +10,7 @@ import {
 } from "reactflow";
 
 const RectangleTool = ({ data, isConnectable, selected }: NodeProps) => {
-  const divRef = useRef();
+  const divRef = useRef<any>();
   // const [h, setH] = useState(20);
   // console.log(w, h);
 

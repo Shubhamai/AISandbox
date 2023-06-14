@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/command";
 import { useState } from "react";
 import { outputNodesData } from "../Nodes/Output/outputs";
+import { DragEvent } from "react";
 
 type SideBarSearchProps = {
   isFocused: boolean;
@@ -53,14 +54,14 @@ const SideBarSearch = (props: SideBarSearchProps) => {
                   draggable
                 >
                   <div className="dndnode text-foreground">
-                    {allNodesData[key].icon}
+                    {allNodesData[key as keyof typeof allNodesData].icon}
                   </div>
                   <div>
                     <h6 className="dndnode text-sm font-semibold text-foreground">
-                      {allNodesData[key].name}
+                      {allNodesData[key as keyof typeof allNodesData].name}
                     </h6>
                     <p className="dndnode text-xs text-foreground/50 leading-4 overflow-hidden line-clamp-2">
-                      {allNodesData[key].description}.
+                      {allNodesData[key as keyof typeof allNodesData].description}.
                     </p>
                   </div>
                 </div>
