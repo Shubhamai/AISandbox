@@ -7,22 +7,26 @@ import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
 import NodeExecutionTime from "../../Shared/ExecutionTime";
 
-export const executeStableDiffusionNode = (
+export const executeStableDiffusionNode = async (
   node: Node,
-  previousNodes: Node[]
+  previousNode: Node
 ) => {
-  let image;
-  let text;
-  for (const prevNode of previousNodes) {
-    if (prevNode.data.output.image) {
-      image = prevNode.data.output.image;
-    }
-    if (prevNode.data.output.text) {
-      text = prevNode.data.output.text;
-    }
-  }
-  node.data.hasComputed = true;
-  node.data.output.image = "Output Image : " + image + "__" + text;
+  let startTime = performance.now();
+
+  const dataJSON = await fetch("/api/stablediffusion", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text: previousNode.data.output.text }),
+  });
+
+  const data = await dataJSON.json();
+  let endTime = performance.now();
+
+  node.data.output.image = data.image;
+  node.data.output.executionTime = endTime - startTime;
+  node.data.hasComputed = true; // TODO : Is hasComputed needed?
   return node;
 };
 
@@ -34,18 +38,8 @@ const StableDiffusionNode = ({ data, isConnectable }: NodeProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <NodeTitle hover={hover} title="SD" zenMode={zenMode} />
+      <NodeTitle hover={hover} title="Stable Diffusion" zenMode={zenMode} />
       <NodeBody setHover={setHover} className="p-6">
-        <NodeHandle
-          type="target"
-          id="image"
-          position={Position.Left}
-          isConnectable={isConnectable}
-          nodeId={nodeId}
-          style={{
-            top: "calc(50% + -20px)",
-          }}
-        />
 
         <NodeHandle
           type="target"
@@ -53,9 +47,6 @@ const StableDiffusionNode = ({ data, isConnectable }: NodeProps) => {
           position={Position.Left}
           isConnectable={isConnectable}
           nodeId={nodeId}
-          style={{
-            top: "calc(50% + 20px)",
-          }}
         />
 
         <Brush strokeWidth={1} size={36} />

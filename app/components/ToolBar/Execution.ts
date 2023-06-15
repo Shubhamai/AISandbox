@@ -17,14 +17,12 @@ const nodeExecution = async (
 ): Promise<Node> => {
   const type = node.type;
 
-  console.log(node);
-
   // TODO : Improve this VERY bad logic
 
   if (type === "OpenAIChatGPTNode" && previousNodes.length === 1) {
     return await executeOpenAIChatGPTNode(node, previousNodes[0]);
-  } else if (type === "StableDiffusionNode" && previousNodes.length === 2) {
-    return executeStableDiffusionNode(node, previousNodes);
+  } else if (type === "StableDiffusionNode" && previousNodes.length === 1) {
+    return executeStableDiffusionNode(node, previousNodes[0]);
   } else if (type === "WhisperNode" && previousNodes.length === 1) {
     return executeWhisperNode(node, previousNodes[0]);
   } else if (type === "YoloXNode" && previousNodes.length === 1) {
