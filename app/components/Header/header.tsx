@@ -21,6 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import DropDown from "./DropDown";
+import { FeedbackDialogForm } from "./feedback";
 
 const Header = () => {
   const { zenMode } = useAppState();
@@ -42,31 +43,8 @@ const Header = () => {
         </div>
       </div>
       <div className="flex flex-row items-center gap-5">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="rounded-full shadow-lg bg-background p-3"
-            >
-              Join the Waitlist
-            </Button>
-          </DialogTrigger>
-
-          <DialogContent>
-            <DialogHeader>
-              <div className="flex flex-col gap-5">
-                <DialogTitle className="text-center text-3xl ">
-                  Join the Waitist
-                </DialogTitle>
-                <DialogDescription className="text-center">
-                  Be the first to know when we release beta <br />
-                  and get an early access
-                </DialogDescription>
-                <WaitlistDialogForm />
-              </div>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+        <FeedbackDialogForm />
+        <WaitlistDialogForm />
         <DropDown />
       </div>
     </Panel>

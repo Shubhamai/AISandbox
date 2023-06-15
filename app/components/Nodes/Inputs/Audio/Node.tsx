@@ -99,8 +99,6 @@ const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
     if (e.target.files) {
       const audioFile = e.target.files[0];
 
-      console.log(audioFile);
-
       updateNodeData(nodeId, {
         output: { audio: audioFile },
       });

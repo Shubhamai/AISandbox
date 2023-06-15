@@ -9,22 +9,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
-export const WaitlistDialogForm = () => {
+export const FeedbackDialogForm = () => {
   const { toast } = useToast();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
 
-    const { email } = e.target.elements;
+    const { feedback, email } = e.target.elements;
 
-    const res = await fetch("/api/waitlist", {
+    const res = await fetch("/api/feedback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email.value }),
+      body: JSON.stringify({ feedback: feedback.value, email : email.value }),
     });
 
     const resBody = await res.json();
@@ -32,7 +33,7 @@ export const WaitlistDialogForm = () => {
     if (resBody.type === "success") {
       toast({
         title: "Success!",
-        description: "You have been added to the waitlist.",
+        description: "Your feedback has been received. Thank you :)",
       });
     } else {
       toast({
@@ -49,7 +50,7 @@ export const WaitlistDialogForm = () => {
           variant="outline"
           className="rounded-full shadow-lg bg-background p-3"
         >
-          Join the Waitlist
+          Send Feedback
         </Button>
       </DialogTrigger>
 
@@ -57,24 +58,25 @@ export const WaitlistDialogForm = () => {
         <DialogHeader>
           <div className="flex flex-col gap-5">
             <DialogTitle className="text-center text-3xl ">
-              Join the Waitist
+              Feedback
             </DialogTitle>
             <DialogDescription className="text-center">
-              Be the first to know when we release beta <br />
-              and get an early access
+              Want to give us feedback or feature request? Let us know!
             </DialogDescription>
-            <form onSubmit={onSubmit} className="flex flex-col gap-3">
+            <form onSubmit={onSubmit} className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
-                <Label>Email Address</Label>
-                <Input
-                  id="email"
-                  placeholder="Enter your email"
-                  type="email"
+                <Label>Feedback</Label>
+                <Textarea
+                  id="feedback"
+                  placeholder="Hi! I would like to see..."
                   required
                 />
               </div>
-
-              <Button type="submit">Join</Button>
+              <div className="flex flex-col gap-2">
+                <Label> Email Address (optional)</Label>
+                <Input type="email" id="email" placeholder="Enter your email" />
+              </div>
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         </DialogHeader>
