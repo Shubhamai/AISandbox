@@ -31,13 +31,13 @@ export const executeWhisperNode = async (node: Node, previousNode: Node) => {
   return node;
 };
 
-const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
+const WhisperNode = ({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const { zenMode, showStats } = useAppState();
   const [hover, setHover] = React.useState(false);
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} title="Whisper" zenMode={zenMode} />
       <NodeBody setHover={setHover} className="p-6">
         <FileAudioIcon strokeWidth={1} size={32} />
@@ -61,8 +61,6 @@ const WhisperNode = memo(({ data, isConnectable }: NodeProps) => {
       <NodeExecutionTime showStats={showStats} data={data} />
     </div>
   );
-});
+};
 
-WhisperNode.displayName = "WhisperNode";
-
-export default WhisperNode;
+export default memo(WhisperNode);

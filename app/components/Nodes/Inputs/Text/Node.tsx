@@ -23,7 +23,7 @@ import NodeHandle from "../../Shared/Handle";
 import NodeTitle from "../../Shared/Title";
 import NodeBody from "../../Shared/Body";
 
-const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
+const TextInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   const [hover, setHover] = useState(false);
 
   const nodeId = useNodeId() || ""; // TODO : Fix this
@@ -32,7 +32,7 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   const { zenMode } = useAppState();
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} zenMode={zenMode} title="Text Input" />
 
       <NodeBody setHover={setHover}>
@@ -55,8 +55,6 @@ const TextInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-TextInputNode.displayName = "TextInputNode";
-
-export default TextInputNode;
+export default memo(TextInputNode);

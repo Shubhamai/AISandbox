@@ -1,68 +1,69 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { FileAudioIcon, MessagesSquareIcon, View } from "lucide-react";
+import { Bird, MessagesSquareIcon, Trash2 } from "lucide-react";
 import React, { memo } from "react";
 import { Handle, NodeProps, Position, Node, useNodeId } from "reactflow";
-import NodeHandle from "../../Shared/Handle";
-import NodeBody from "../../Shared/Body";
 import NodeTitle from "../../Shared/Title";
 import useAppState from "@/app/state/appState";
+import NodeBody from "../../Shared/Body";
+import NodeHandle from "../../Shared/Handle";
 import NodeExecutionTime from "../../Shared/ExecutionTime";
 
-export const executeYoloXNode = async (node: Node, previousNode: Node) => {
+export const executeStableLMNode = async (node: Node, previousNode: Node) => {
   let startTime = performance.now();
 
-  const dataJSON = await fetch("/api/yolox", {
+  const dataJSON = await fetch("/api/replicatellm", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ image: previousNode.data.output.image }),
+    body: JSON.stringify({
+      model_url:
+        "stability-ai/stablelm-tuned-alpha-7b:c49dae362cbaecd2ceabb5bd34fdb68413c4ff775111fea065d259d577757beb",
+      text: previousNode.data.output.text,
+    }),
   });
 
-  const data = await dataJSON.json();
   let endTime = performance.now();
+
+  const data = await dataJSON.json();
 
   node.data.output.text = data.text;
   node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
+  node.data.hasComputed = true;
   return node;
 };
 
-const YoloXNode = ({ data, isConnectable }: NodeProps) => {
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+const StableLM = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode, showStats } = useAppState();
+  const nodeId = useNodeId() || ""; // TODO : Fix this
 
   return (
     <div className="flex flex-col items-center">
-      <NodeTitle hover={hover} title="YoloX" zenMode={zenMode} />
-      <NodeBody setHover={setHover} className="p-6">
-        <View strokeWidth={1} size={32} />
+      <NodeTitle hover={hover} title="StableLM 7b" zenMode={zenMode} />
 
+      <NodeBody setHover={setHover} className="p-6 w-fit">
         <NodeHandle
           type="target"
-          id="image"
           position={Position.Left}
+          id="text"
           isConnectable={isConnectable}
           nodeId={nodeId}
         />
 
+        <Bird strokeWidth={1} size={32} />
+
         <NodeHandle
           type="source"
-          id="text"
           position={Position.Right}
+          id="text"
           isConnectable={isConnectable}
           nodeId={nodeId}
         />
       </NodeBody>
+
       <NodeExecutionTime showStats={showStats} data={data} />
     </div>
   );
 };
 
-export default memo(YoloXNode);
+export default memo(StableLM);

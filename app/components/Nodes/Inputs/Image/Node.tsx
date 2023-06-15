@@ -11,7 +11,7 @@ import NodeBody from "../../Shared/Body";
 import NodeTitle from "../../Shared/Title";
 import useAppState from "@/app/state/appState";
 
-const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
+const ImageInputNode = ({ data, isConnectable }: NodeProps) => {
   const { zenMode } = useAppState();
 
   const [hover, setHover] = useState(false);
@@ -45,7 +45,7 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} title="Image Input" zenMode={zenMode} />
 
       <NodeBody setHover={setHover}>
@@ -92,8 +92,6 @@ const ImageInputNode = memo(({ data, isConnectable }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-ImageInputNode.displayName = "ImageInputNode";
-
-export default ImageInputNode;
+export default memo(ImageInputNode);

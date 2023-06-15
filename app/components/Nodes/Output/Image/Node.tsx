@@ -6,13 +6,13 @@ import NodeBody from "../../Shared/Body";
 import NodeTitle from "../../Shared/Title";
 import useAppState from "@/app/state/appState";
 
-const ImageOutputNode = memo(({ data, isConnectable }: NodeProps) => {
+const ImageOutputNode = ({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const [hover, setHover] = useState(false);
   const { zenMode } = useAppState();
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} zenMode={zenMode} title="Image Output" />
 
       <NodeBody setHover={setHover}>
@@ -46,8 +46,6 @@ const ImageOutputNode = memo(({ data, isConnectable }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-ImageOutputNode.displayName = "ImageOutputNode";
-
-export default ImageOutputNode;
+export default memo(ImageOutputNode);

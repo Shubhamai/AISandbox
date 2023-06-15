@@ -27,7 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { recorder, type RecorderReturn } from "./recorder";
 import { Button } from "@/components/ui/button";
 
-const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
+const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   const { zenMode } = useAppState();
   const [hover, setHover] = useState(false);
   const nodeId = useNodeId() || ""; // TODO : Fix this
@@ -110,7 +110,7 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} zenMode={zenMode} title="Audio Input" />
       <NodeBody setHover={setHover}>
         <div className="flex flex-col items-center py-5 px-3 gap-3">
@@ -187,8 +187,6 @@ const AudioInputNode = memo(({ data, isConnectable, selected }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-AudioInputNode.displayName = "AudioInputNode";
-
-export default AudioInputNode;
+export default memo(AudioInputNode);

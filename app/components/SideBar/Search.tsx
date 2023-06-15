@@ -27,10 +27,10 @@ const SideBarSearch = (props: SideBarSearchProps) => {
   return (
     <Command
       className="rounded-lg border shadow-md"
-      onBlur={(e) => {
-        // console.log(e.nativeEvent.target?.classList?.contains?.("dndnode"));
-        props.setIsFocused(false);
-      }}
+      // onBlur={(e) => {
+      //   // console.log(e.nativeEvent.target?.classList?.contains?.("dndnode"));
+      //   props.setIsFocused(false);
+      // }}
     >
       <CommandInput
         onFocus={() => {
@@ -39,7 +39,7 @@ const SideBarSearch = (props: SideBarSearchProps) => {
         placeholder="Search your nodes..."
       />
       {props.isFocused ? (
-        <CommandList>
+        <CommandList className="overflow-y-scroll  scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px]">
           <CommandEmpty>No Nodes found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {Object.keys(allNodesData).map((key) => (
@@ -61,7 +61,11 @@ const SideBarSearch = (props: SideBarSearchProps) => {
                       {allNodesData[key as keyof typeof allNodesData].name}
                     </h6>
                     <p className="dndnode text-xs text-foreground/50 leading-4 overflow-hidden line-clamp-2">
-                      {allNodesData[key as keyof typeof allNodesData].description}.
+                      {
+                        allNodesData[key as keyof typeof allNodesData]
+                          .description
+                      }
+                      .
                     </p>
                   </div>
                 </div>

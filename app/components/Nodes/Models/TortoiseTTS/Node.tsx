@@ -32,13 +32,13 @@ export const executeTortoiseTTSNode = async (
   return node;
 };
 
-const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
+const TortoiseTTSNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode } = useAppState();
   const nodeId = useNodeId() || ""; // TODO : Fix this
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} title="TTS" zenMode={zenMode} />
 
       <NodeBody setHover={setHover} className="p-6">
@@ -63,8 +63,7 @@ const TortoiseTTSNode = memo(({ data, isConnectable }: NodeProps) => {
       {/* <NodeExecutionTime showStats={showStats} data={data} /> */}
     </div>
   );
-});
+};
 
-TortoiseTTSNode.displayName = "TortoiseTTSNode";
 
-export default TortoiseTTSNode;
+export default memo(TortoiseTTSNode);

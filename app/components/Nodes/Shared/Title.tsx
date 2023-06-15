@@ -7,7 +7,7 @@ type NodeTitleProps = {
 const NodeTitle = (props: NodeTitleProps) => {
   return (
     <div
-      className={`flex-col ml-2 mb-1 transition-opacity ${
+      className={`flex-col mb-1 transition-opacity ${
         props.hover || !props.zenMode
           ? "visible opacity-100"
           : "invisible opacity-0"

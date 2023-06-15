@@ -26,14 +26,14 @@ export const executeStableDiffusionNode = (
   return node;
 };
 
-const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
+const StableDiffusionNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const nodeId = useNodeId() || ""; // TODO : Fix this
 
   const { zenMode } = useAppState();
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} title="SD" zenMode={zenMode} />
       <NodeBody setHover={setHover} className="p-6">
         <NodeHandle
@@ -71,8 +71,6 @@ const StableDiffusionNode = memo(({ data, isConnectable }: NodeProps) => {
       {/* <NodeExecutionTime showStats={showStats} data={data} /> */}
     </div>
   );
-});
+};
 
-StableDiffusionNode.displayName = "StableDiffusionNode";
-
-export default StableDiffusionNode;
+export default memo(StableDiffusionNode);

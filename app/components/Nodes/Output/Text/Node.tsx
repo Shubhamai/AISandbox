@@ -17,14 +17,14 @@ import useAppState from "@/app/state/appState";
 import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
 
-const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
+const TextOutputNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = useState(false);
   const nodeId = useNodeId() || ""; // TODO : Fix this
   const { zenMode } = useAppState();
   const outputData = data.output.text || "Sample Output";
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
    
       <NodeTitle hover={hover} title="Text Output" zenMode={zenMode} />
 
@@ -53,8 +53,7 @@ const TextOutputNode = memo(({ data, isConnectable }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-TextOutputNode.displayName = "TextOutputNode";
 
-export default TextOutputNode;
+export default memo(TextOutputNode);

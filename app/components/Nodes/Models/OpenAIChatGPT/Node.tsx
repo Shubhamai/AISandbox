@@ -25,19 +25,19 @@ export const executeOpenAIChatGPTNode = async (
 
   const data = await dataJSON.json();
 
-  node.data.output.text = data.data;
+  node.data.output.text = data.text;
   node.data.output.executionTime = endTime - startTime;
   node.data.hasComputed = true;
   return node;
 };
 
-const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
+const OpenAIChatGPTNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode, showStats } = useAppState();
   const nodeId = useNodeId() || ""; // TODO : Fix this
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} title="GPT4" zenMode={zenMode} />
 
       <NodeBody setHover={setHover} className="p-6">
@@ -63,8 +63,6 @@ const OpenAIChatGPTNode = memo(({ data, isConnectable }: NodeProps) => {
       <NodeExecutionTime showStats={showStats} data={data} />
     </div>
   );
-});
+};
 
-OpenAIChatGPTNode.displayName = "OpenAIChatGPTNode";
-
-export default OpenAIChatGPTNode;
+export default memo(OpenAIChatGPTNode);

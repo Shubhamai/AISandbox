@@ -13,7 +13,7 @@ import NodeTitle from "../../Shared/Title";
 import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
 
-const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
+const AudioOutputNode = ({ data, isConnectable }: NodeProps) => {
   const outputAudioFile = data.input.audio;
   const audioRef = useRef<null | HTMLAudioElement>(null); // useRef hook
 
@@ -49,7 +49,7 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <NodeTitle hover={hover} zenMode={zenMode} title="Audio Output" />
 
       <NodeBody setHover={setHover} className="py-3 px-10">
@@ -81,8 +81,6 @@ const AudioOutputNode = memo(({ data, isConnectable }: NodeProps) => {
       </NodeBody>
     </div>
   );
-});
+};
 
-AudioOutputNode.displayName = "AudioOutputNode";
-
-export default AudioOutputNode;
+export default memo(AudioOutputNode);

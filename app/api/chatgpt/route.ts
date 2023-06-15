@@ -23,6 +23,6 @@ export async function POST(request: NextRequest) {
   const completion = await result.json();
 
   return NextResponse.json({
-    data: completion.choices[0].message?.content,
+    text: completion.choices[0].message?.content,
   });
 }
