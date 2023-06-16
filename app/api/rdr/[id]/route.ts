@@ -3,8 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function POST(request: NextRequest) {
-  const reqData = await request.json();
+export async function GET(request: NextRequest) {
+  //   const reqData = await request.json();
+
+  return NextResponse.json({
+    type: "success",
+    data: "elo",
+  });
 
   const { data, error } = await supabase
     .from("user_data")
