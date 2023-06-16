@@ -16,6 +16,7 @@ import {
 } from "reactflow";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
+import supabase from "@/lib/supabaseClient";
 
 type RFState = {
   id: number;
@@ -194,3 +195,21 @@ const graphState = create<RFState>((set, get) => ({
 }));
 
 export default graphState;
+
+setInterval(() => {
+  const { nodes, edges } = graphState.getState();
+
+  console.log("Saving to database..");
+
+  supabase
+    .from("data")
+    .insert([
+      {
+        id: 1,
+        data: JSON.stringify({ nodes, edges }),
+      },
+    ])
+    .then((res) => {
+      console.log(res);
+    });
+}, 5000);

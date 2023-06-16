@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import DropDown from "./DropDown";
 import { FeedbackDialogForm } from "./feedback";
+import { MagicLinkLogin } from "./magicLogin";
 
 const Header = () => {
   const { zenMode } = useAppState();
@@ -45,6 +46,8 @@ const Header = () => {
       <div className="flex flex-row items-center gap-5">
         <FeedbackDialogForm />
         <WaitlistDialogForm />
+        <MagicLinkLogin />
+
         <DropDown />
       </div>
     </Panel>
