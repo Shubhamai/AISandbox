@@ -16,6 +16,7 @@ import {
 } from "reactflow";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
+import supabase from "@/lib/supabaseClient";
 
 type RFState = {
   id: number;
@@ -194,3 +195,41 @@ const graphState = create<RFState>((set, get) => ({
 }));
 
 export default graphState;
+
+let id = 1;
+let keyExists = false;
+
+// setInterval(() => {
+//   const { nodes, edges } = graphState.getState();
+
+//   if (!keyExists) {
+//     console.log("Saving to database..");
+
+//     supabase
+//       .from("data")
+//       .insert([
+//         {
+//           id,
+//           data: JSON.stringify({ nodes, edges }),
+//         },
+//       ])
+//       .then((res) => {
+//         console.log(res);
+//       });
+
+//     keyExists = true;
+//     return;
+//   }
+
+//   supabase
+//     .from("data")
+//     .update([
+//       {
+//         data: JSON.stringify({ nodes, edges }),
+//       },
+//     ])
+//     .eq("id", id)
+//     .then((res) => {
+//       console.log(res);
+//     });
+// }, 5000);

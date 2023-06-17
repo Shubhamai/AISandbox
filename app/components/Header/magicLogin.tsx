@@ -10,18 +10,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader, MailsIcon } from "lucide-react";
+import { Loader, LogInIcon, MailsIcon } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import supabase from "@/lib/supabaseClient";
 
-export const WaitlistDialogForm = () => {
+export const MagicLinkLogin = () => {
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [isWaitlisted, setIsWaitlisted] = useLocalStorage("isWaitlisted", "");
+  const [isSignedIn, setIsSignedIn] = useLocalStorage("isSignedIn", "");
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export const WaitlistDialogForm = () => {
     try {
       const { email } = e.target.elements;
 
-      const res = await fetch("/api/waitlist", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,11 +44,11 @@ export const WaitlistDialogForm = () => {
       if (resBody.type === "success") {
         toast({
           title: "Success!",
-          description: "You have been added to the waitlist.",
+          description: "Sign in successfull :)",
         });
 
         setOpen(false);
-        setIsWaitlisted("true");
+        // setIsSignedIn("true");
       } else {
         toast({
           title: "Error!",
@@ -56,23 +56,49 @@ export const WaitlistDialogForm = () => {
         });
       }
     } catch (err) {
+      console.log("err", err);
+
       toast({
         title: "Error!",
-        description: "Failed to add you to the waitlist :(",
+        description: "Failed to login :(",
       });
     }
 
     setLoading(false);
   };
 
-  if (isWaitlisted === "true") {
+  const onSignoutClick = async () => {
+    setLoading(true);
+
+    const { error } = await supabase.auth.signOut();
+    console.log("error", error);
+
+    if (error) {
+      toast({
+        title: "Error!",
+        description: "Failed to sign out :(",
+      });
+    } else {
+      setIsSignedIn("false");
+      window.location.reload();
+    }
+
+    setLoading(false);
+  };
+
+  if (isSignedIn === "true") {
     return (
       <Button
         variant="secondary"
         className="rounded-full shadow-lg bg-background p-3 gap-1"
+        onClick={onSignoutClick}
       >
-        <MailsIcon className="w-4 h-4" />
-        Waitlisted
+        {loading ? (
+          <Loader className="animate-spin" />
+        ) : (
+          <MailsIcon className="w-4 h-4" />
+        )}
+        Sign Out
       </Button>
     );
   }
@@ -81,21 +107,21 @@ export const WaitlistDialogForm = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="rounded-full shadow-lg p-3 gap-1">
-          <MailsIcon className="w-4 h-4" />
-          Join the Waitlist
+          <LogInIcon className="w-4 h-4" />
+          Login
         </Button>
       </DialogTrigger>
 
       <DialogContent>
+        <DialogTitle className="text-3xl">
+          Let&apos;s make something amazing
+        </DialogTitle>
+        <DialogDescription className="mb-6">
+          Enter your email below to receive a magic sign-in link.
+        </DialogDescription>
+
         <DialogHeader>
           <div className="flex flex-col gap-5">
-            <DialogTitle className="text-center text-3xl ">
-              Join the Waitist
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Be the first to know when we release beta <br />
-              and get an early access
-            </DialogDescription>
             <form onSubmit={onSubmit} className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
                 <Label>Email Address</Label>
@@ -109,7 +135,7 @@ export const WaitlistDialogForm = () => {
 
               <Button type={"submit"} disabled={loading}>
                 {loading ? <Loader className="animate-spin" /> : null}
-                Join
+                Continue
               </Button>
             </form>
           </div>

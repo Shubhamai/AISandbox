@@ -26,6 +26,7 @@ import {
   ChevronRight,
   WorkflowIcon,
   Github,
+  Mail,
 } from "lucide-react";
 import { getRectOfNodes, getTransformForBounds } from "reactflow";
 import { useRouter } from "next/navigation";
@@ -151,6 +152,14 @@ const DropDown = () => {
             }
           >
             <Github className="mr-2 h-4 w-4" /> <span>GitHub</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() =>
+              router.push("mailto:hello@aisandbox.app?subject=Hello%20there!")
+            }
+          >
+            <Mail className="mr-2 h-4 w-4" /> <span>Email</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

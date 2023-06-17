@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { MessageSquarePlus } from "lucide-react";
 
 export const FeedbackDialogForm = () => {
   const { toast } = useToast();
@@ -25,7 +26,7 @@ export const FeedbackDialogForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ feedback: feedback.value, email : email.value }),
+      body: JSON.stringify({ feedback: feedback.value, email: email.value }),
     });
 
     const resBody = await res.json();
@@ -47,9 +48,10 @@ export const FeedbackDialogForm = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
-          className="rounded-full shadow-lg bg-background p-3"
+          variant="secondary"
+          className="rounded-full shadow-lg p-3 gap-2"
         >
+          <MessageSquarePlus className="w-4 h-4" />
           Send Feedback
         </Button>
       </DialogTrigger>

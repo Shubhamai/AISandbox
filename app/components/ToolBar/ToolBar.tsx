@@ -11,6 +11,7 @@ import nodeExecution from "./Execution";
 import {
   LayoutGrid,
   Maximize,
+  PersonStanding,
   PlayIcon,
   Square,
   ZoomIn,
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import useAppState from "@/app/state/appState";
 import ToolBarItem from "./ToolBarItem";
 import { ToolsNodesData } from "../Nodes/Tools/tools";
+import axios from "axios";
 
 const ToolBar = () => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();
@@ -111,6 +113,21 @@ const ToolBar = () => {
     };
   }, []);
 
+  const postData = async () => {
+    const nodesInput = {
+      data: [
+        {
+          id: "1",
+          data: { text: "hello, tallest tower?" },
+        },
+      ],
+    };
+
+    const res = await axios.post("/api/rdr/2", nodesInput);
+
+    console.log("RDR RES", res);
+  };
+
   return (
     <Panel
       position="bottom-center"
@@ -170,6 +187,14 @@ const ToolBar = () => {
             onClick={() => fitView({ duration: 500 })}
           >
             <Maximize size={20} />
+          </Button>
+
+          <Button
+            variant="ghost"
+            className="p-2 rounded-full"
+            onClick={() => postData()}
+          >
+            <PersonStanding />
           </Button>
         </div>
       </div>
