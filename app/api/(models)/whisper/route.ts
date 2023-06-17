@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Node } from "reactflow";
 
 export const runtime = "edge";
 const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY as string;
 
-export async function POST(req: NextRequest) {
+export const ExecuteWhisper = async (req: any) => {
   const formData = await req.formData();
 
   const result = await fetch("https://api.openai.com/v1/audio/transcriptions", {
@@ -16,7 +17,23 @@ export async function POST(req: NextRequest) {
 
   const transcript = await result.json();
 
-  console.log(transcript);
+  return { text: transcript.text };
+};
 
-  return NextResponse.json({ text: transcript.text });
+export const executeWhisperNode = async (node: Node, previousNode: Node) => {
+  const newForm = new FormData();
+  newForm.append("model", "whisper-1");
+
+  newForm.append("file", previousNode.data.output.audio, "audio.webm");
+
+  const response = await ExecuteWhisper(newForm);
+
+  node.data.output.text = response.text;
+  node.data.hasComputed = true; // TODO : Is hasComputed needed?
+  return node;
+};
+
+export async function POST(req: NextRequest) {
+  const res = await ExecuteWhisper(req);
+  return NextResponse.json(res);
 }
