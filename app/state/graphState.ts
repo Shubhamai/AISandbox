@@ -218,36 +218,36 @@ graphState.subscribe((state) => {
   console.log("update to api");
 
   // update data to api
-  if (!keyExists) {
-    console.log("Saving to database..");
+  // if (!keyExists) {
+  //   console.log("Saving to database..");
 
-    supabase
-      .from("data")
-      .insert([
-        {
-          // id,
-          data: JSON.stringify({ nodes, edges }),
-        },
-      ])
-      .then((res) => {
-        console.log(res);
-      });
+  //   supabase
+  //     .from("data")
+  //     .insert([
+  //       {
+  //         // id,
+  //         data: JSON.stringify({ nodes, edges }),
+  //       },
+  //     ])
+  //     .then((res) => {
+  //       console.log(res);
+  //     });
 
-    keyExists = true;
-    return;
-  }
+  //   keyExists = true;
+  //   return;
+  // }
 
-  supabase
-    .from("data")
-    .update([
-      {
-        data: JSON.stringify({ nodes, edges }),
-      },
-    ])
-    .eq("id", id)
-    .then((res) => {
-      console.log(res);
-    });
+  // supabase
+  //   .from("data")
+  //   .update([
+  //     {
+  //       data: JSON.stringify({ nodes, edges }),
+  //     },
+  //   ])
+  //   .eq("id", id)
+  //   .then((res) => {
+  //     console.log(res);
+  //   });
 
   prevState = { nodes, edges };
 });
