@@ -197,17 +197,17 @@ const graphState = create<RFState>((set, get) => ({
 
 export default graphState;
 
-let id = 5;
+let id = localStorage.getItem("uuid");
 let keyExists = false;
 
-let prevState: { nodes: Node[]; edges: Edge[] } = { nodes: [], edges: [] };
+// let prevState: { nodes: Node[]; edges: Edge[] } = { nodes: [], edges: [] };
 
-graphState.subscribe((state) => {
+graphState.subscribe((state, prevState) => {
   const { nodes, edges } = state;
 
-  console.log("updates...");
-
   // is the same as previous state, don't update to api
+
+  // debounce(() => {
   if (
     compareNodes(nodes, prevState.nodes) &&
     compareEdges(edges, prevState.edges)
@@ -216,40 +216,43 @@ graphState.subscribe((state) => {
   }
 
   console.log("update to api");
+  // }, 500);
 
   // update data to api
-  // if (!keyExists) {
-  //   console.log("Saving to database..");
+  if (!keyExists) {
+    console.log("Saving to database..");
 
-  //   supabase
-  //     .from("data")
-  //     .insert([
-  //       {
-  //         // id,
-  //         data: JSON.stringify({ nodes, edges }),
-  //       },
-  //     ])
-  //     .then((res) => {
-  //       console.log(res);
-  //     });
+    console.log(id);
 
-  //   keyExists = true;
-  //   return;
-  // }
+    supabase
+      .from("data")
+      .insert([
+        {
+          id,
+          data: JSON.stringify({ nodes, edges }),
+        },
+      ])
+      .then((res) => {
+        console.log(res);
+      });
 
-  // supabase
-  //   .from("data")
-  //   .update([
-  //     {
-  //       data: JSON.stringify({ nodes, edges }),
-  //     },
-  //   ])
-  //   .eq("id", id)
-  //   .then((res) => {
-  //     console.log(res);
-  //   });
+    keyExists = true;
+    return;
+  }
 
-  prevState = { nodes, edges };
+  supabase
+    .from("data")
+    .update([
+      {
+        data: JSON.stringify({ nodes, edges }),
+      },
+    ])
+    .eq("id", id)
+    .then((res) => {
+      console.log(res);
+    });
+
+  // prevState = { nodes, edges };
 });
 
 const nodeMapFn = (nodes: Node[]) => {
@@ -283,8 +286,6 @@ const edgeMapFn = (nodes: Edge[]) => {
 const compareNodes = (nodes1: Node[], nodes2: Node[]) => {
   const filterdNodes1 = nodeMapFn(nodes1);
   const filterdNodes2 = nodeMapFn(nodes2);
-
-  console.log(filterdNodes1, filterdNodes2);
 
   return isEqual(filterdNodes1, filterdNodes2);
 };

@@ -13,12 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { CopyIcon, Webhook } from "lucide-react";
+import { useUuid } from "@/app/hooks/useUuid";
 
 export const APICodeDialog = () => {
   const { toast } = useToast();
+  const { uuid } = useUuid();
 
-  let id = 1;
-  let url = `${window.location.protocol}${window.location.hostname}/api/rdr/${id}`;
+  let url = `${window.location.protocol}${window.location.hostname}/api/rdr/${uuid}`;
 
   const pythonCode = `
   import requests
@@ -57,7 +58,9 @@ export const APICodeDialog = () => {
           <p className="text-sm text-foreground/70">Endpoint</p>
 
           <div className="relative border border-border rounded-md px-2 py-2">
-            <p className="font-mono font-medium text-foreground/60">{url}</p>
+            <p className="font-mono font-medium text-foreground/60 whitespace-pre max-w-md overflow-x-scroll scrollbar-none">
+              {url}
+            </p>
 
             <Button
               variant="secondary"

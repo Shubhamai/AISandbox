@@ -1,31 +1,17 @@
-import {
-  Panel,
-  getRectOfNodes,
-  getTransformForBounds,
-  useOnSelectionChange,
-  useReactFlow,
-} from "reactflow";
-import { toPng } from "html-to-image";
+import { Panel } from "reactflow";
 
 import { WorkflowIcon } from "lucide-react";
-import graphState from "@/app/state/graphState";
 import useAppState from "@/app/state/appState";
-import { Button } from "@/components/ui/button";
 import { WaitlistDialogForm } from "./waitlist";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import DropDown from "./DropDown";
 import { FeedbackDialogForm } from "./feedback";
-import { MagicLinkLogin } from "./magicLogin";
+import { Profile } from "./profile";
+import { useUuid } from "@/app/hooks/useUuid";
 
 const Header = () => {
   const { zenMode } = useAppState();
+
+  useUuid();
 
   return (
     <Panel
@@ -46,7 +32,7 @@ const Header = () => {
       <div className="flex flex-row items-center gap-5">
         <FeedbackDialogForm />
         <WaitlistDialogForm />
-        <MagicLinkLogin />
+        <Profile />
 
         <DropDown />
       </div>

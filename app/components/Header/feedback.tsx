@@ -49,7 +49,7 @@ export const FeedbackDialogForm = () => {
       <DialogTrigger asChild>
         <Button
           variant="secondary"
-          className="rounded-full shadow-lg p-3 gap-2"
+          className="rounded-full shadow-lg p-3 gap-2 bg-background"
         >
           <MessageSquarePlus className="w-4 h-4" />
           Send Feedback

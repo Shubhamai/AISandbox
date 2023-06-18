@@ -3,23 +3,21 @@ import { useState, useEffect } from "react";
 export const useLocalStorage = (
   key: string,
   defaultValue: string | boolean
-) => {
+): [string, (newVal: string) => void] => {
   const [value, setValue] = useState(() => {
     let currentValue;
 
     try {
-      currentValue = JSON.parse(
-        localStorage.getItem(key) || String(defaultValue)
-      );
+      currentValue = localStorage.getItem(key) || String(defaultValue);
     } catch (error) {
       currentValue = defaultValue;
     }
 
-    return currentValue;
+    return String(currentValue);
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, String(value));
   }, [value, key]);
 
   return [value, setValue];

@@ -1,3 +1,11 @@
+import { useState, useEffect } from "react";
+
+import { Button } from "@/components/ui/button";
+import { User as UserIcon } from "lucide-react";
+import supabase from "@/lib/supabaseClient";
+
+import { User } from "@supabase/supabase-js";
+
 import {
   Dialog,
   DialogContent,
@@ -6,14 +14,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader, LogInIcon, MailsIcon } from "lucide-react";
-import { useState } from "react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import supabase from "@/lib/supabaseClient";
+
+export const Profile = () => {
+  const [profile, setProfile] = useState<User | null>(null);
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    const { data, error } = await supabase.auth.getUser();
+    setProfile(data.user);
+  };
+
+  if (!profile) {
+    return <MagicLinkLogin />;
+  }
+
+  return (
+    <Button
+      variant="secondary"
+      className="rounded-full bg-background shadow-lg p-3 gap-1"
+    >
+      <UserIcon className="w-5 h-5" />
+    </Button>
+  );
+};
 
 export const MagicLinkLogin = () => {
   const { toast } = useToast();
@@ -43,8 +74,8 @@ export const MagicLinkLogin = () => {
 
       if (resBody.type === "success") {
         toast({
-          title: "Success!",
-          description: "Sign in successfull :)",
+          title: "Check you email!",
+          description: "We have sent an email for sign in :)",
         });
 
         setOpen(false);

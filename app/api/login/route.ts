@@ -16,23 +16,24 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // check if the user has access
-  // const { data: user, error: userError } = await supabase
-  //   .from("waitlist")
-  //   .select()
-  //   .eq("email", email)
-  //   .single();
+  // check if the user has been whitelisted
 
-  // console.log("U", user);
+  const { data: user, error: userError } = await supabaseService
+    .from("waitlist")
+    .select()
+    .eq("email", email)
+    .single();
 
-  // if (userError || !user || !user.email) {
-  //   return NextResponse.json({
-  //     type: "error",
-  //     error:
-  //       userError?.message ||
-  //       "The provided email do not have access to the app :(",
-  //   });
-  // }
+  console.log("U", user);
+
+  if (userError || !user || !user?.whitelisted) {
+    return NextResponse.json({
+      type: "error",
+      error:
+        userError?.message ||
+        "The provided email do not have access to the app :(",
+    });
+  }
 
   // send magic link
   const { data, error } = await supabaseService.auth.signInWithOtp({
