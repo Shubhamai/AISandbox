@@ -188,7 +188,7 @@ const ToolBar = () => {
       <div
         className={cn(
           "fixed bottom-4 right-4",
-          "border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full"
+          "border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full z-50"
         )}
       >
         <Button
