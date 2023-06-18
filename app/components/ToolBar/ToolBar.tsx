@@ -24,6 +24,7 @@ import ToolBarItem from "./ToolBarItem";
 import { ToolsNodesData } from "../Nodes/Tools/tools";
 import axios from "axios";
 import { APICodeDialog } from "./APICode";
+import { cn } from "@/lib/utils";
 
 const ToolBar = () => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();
@@ -131,80 +132,88 @@ const ToolBar = () => {
   };
 
   return (
-    <Panel
-      position="bottom-center"
-      className={`w-full px-10 transition ${zenMode ? "hidden" : ""}`}
-    >
-      <div className="flex flex-row items-center transition justify-between">
-        <div></div>
-        <div className="flex items-center gap-4">
-          <Button
-            className="invisible gap-2 bg-background shadow-lg shadow-foreground/5 border bottom-border rounded-full"
-            variant="secondary"
-          >
-            <Webhook /> API Code
-          </Button>
-
-          <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
-            <ToolBarItem
-              nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
-            />
-
+    <>
+      <Panel
+        position="bottom-center"
+        className={`w-full !p-0 !py-4 !m-0 transition ${
+          zenMode ? "hidden" : ""
+        }`}
+      >
+        <div className="flex flex-row items-center transition justify-center">
+          <div className="flex items-center gap-4">
             <Button
-              variant="link"
-              // onClick={Execute}
-              className="bg-foreground rounded-full px-[10px]"
+              className="invisible gap-2 bg-background shadow-lg shadow-foreground/5 border bottom-border rounded-full"
+              variant="secondary"
             >
-              {isExecuting ? (
-                <Square
-                  onClick={() => {
-                    setStopExecution(true);
-                  }}
-                  className="text-background"
-                  size={20}
-                />
-              ) : (
-                <PlayIcon
-                  onClick={Execute}
-                  className="text-background"
-                  size={20}
-                />
-              )}
+              <Webhook /> API Code
             </Button>
 
-            <ToolBarItem
-              nodesData={{ HeadingTool: ToolsNodesData.HeadingTool }}
-            />
+            <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
+              <ToolBarItem
+                nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
+              />
+
+              <Button
+                variant="link"
+                // onClick={Execute}
+                className="bg-foreground rounded-full px-[10px]"
+              >
+                {isExecuting ? (
+                  <Square
+                    onClick={() => {
+                      setStopExecution(true);
+                    }}
+                    className="text-background"
+                    size={20}
+                  />
+                ) : (
+                  <PlayIcon
+                    onClick={Execute}
+                    className="text-background"
+                    size={20}
+                  />
+                )}
+              </Button>
+
+              <ToolBarItem
+                nodesData={{ HeadingTool: ToolsNodesData.HeadingTool }}
+              />
+            </div>
+
+            <APICodeDialog />
           </div>
-
-          <APICodeDialog />
         </div>
+      </Panel>
 
-        <div className="border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full">
-          <Button
-            variant="ghost"
-            className="p-2 rounded-full"
-            onClick={() => zoomIn({ duration: 300 })}
-          >
-            <ZoomIn size={20} />
-          </Button>
-          <Button
-            variant="ghost"
-            className="p-2 rounded-full"
-            onClick={() => zoomOut({ duration: 300 })}
-          >
-            <ZoomOut size={20} />
-          </Button>
-          <Button
-            variant="ghost"
-            className="p-2 rounded-full"
-            onClick={() => fitView({ duration: 500 })}
-          >
-            <Maximize size={20} />
-          </Button>
-        </div>
+      <div
+        className={cn(
+          "fixed bottom-4 right-4",
+          "border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full"
+        )}
+      >
+        <Button
+          variant="ghost"
+          className="p-2 rounded-full"
+          onClick={() => zoomIn({ duration: 300 })}
+        >
+          <ZoomIn size={20} />
+        </Button>
+        <Button
+          variant="ghost"
+          className="p-2 rounded-full"
+          onClick={() => zoomOut({ duration: 300 })}
+        >
+          <ZoomOut size={20} />
+        </Button>
+        <Button
+          variant="ghost"
+          className="p-2 rounded-full"
+          onClick={() => fitView({ duration: 500 })}
+        >
+          <Maximize size={20} />
+        </Button>
       </div>
-    </Panel>
+    </>
   );
 };
 
