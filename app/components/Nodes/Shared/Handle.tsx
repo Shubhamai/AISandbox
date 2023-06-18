@@ -35,7 +35,15 @@ const NodeHandle = (props: NodeHandleProps) => {
             <Badge variant="outline">
               {props.type === "source" ? "Output" : "Input"} : {props.id}
             </Badge>{" "}
-            <Badge variant="outline">ID : {props.nodeId}</Badge>
+            <Badge
+              variant="outline"
+              className="hover:cursor-cell"
+              onClick={() => {
+                navigator.clipboard.writeText(props.nodeId);
+              }}
+            >
+              ID : {props.nodeId}
+            </Badge>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
