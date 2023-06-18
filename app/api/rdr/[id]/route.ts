@@ -24,7 +24,7 @@ export async function POST(
   const reqData = await request.json();
   const nodesInput = reqData;
 
-  let id = context?.params.id || 2;
+  let id = context?.params.id;
 
   try {
     // GET NODES & EDGES DATA

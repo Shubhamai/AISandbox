@@ -23,7 +23,7 @@ const NodeHandle = (props: NodeHandleProps) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Handle
-              className="!bg-foreground/50 !border-none"
+              className="!bg-foreground/60 !border-[2px] !h-4 !w-2 !rounded-full"
               type={props.type}
               position={props.position}
               id={props.id}
@@ -31,14 +31,12 @@ const NodeHandle = (props: NodeHandleProps) => {
               style={props.style}
             />
           </TooltipTrigger>
-          {props.type === "source" ? (
-            <TooltipContent>
-              <Badge variant="outline">Output : {props.id}</Badge>{" "}
-              <Badge variant="outline">ID : {props.nodeId}</Badge>
-            </TooltipContent>
-          ) : (
-            <></>
-          )}
+          <TooltipContent>
+            <Badge variant="outline">
+              {props.type === "source" ? "Output" : "Input"} : {props.id}
+            </Badge>{" "}
+            <Badge variant="outline">ID : {props.nodeId}</Badge>
+          </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </div>

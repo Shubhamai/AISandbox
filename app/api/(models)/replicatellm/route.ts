@@ -13,7 +13,6 @@ export const ExecuteReplicateLLM = async (data: any) => {
     },
   });
 
-  console.log(output, data.model_url);
 
   const outputText = output.join(" ");
 

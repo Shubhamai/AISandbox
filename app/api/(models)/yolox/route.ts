@@ -29,7 +29,7 @@ export const executeYoloXNode = async (node: Node, previousNode: Node) => {
   });
 
   node.data.output.text = data.text;
-  // node.data.hasComputed = true; // TODO : Is hasComputed needed?
+  node.data.hasComputed = true; // TODO : Is hasC omputed needed?
   return node;
 };
 
@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
   const res = await ExecuteYolox(data);
 
-  // console.log(output);
 
   // TODO : Need to get the audio from the output url
 

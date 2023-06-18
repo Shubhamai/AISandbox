@@ -88,11 +88,6 @@ const DropDown = () => {
       0.5,
       2
     );
-
-    const addEmailToWaitlist = async (data: any) => {
-      console.log(data);
-    };
-
     const viewport: HTMLElement | null = document.querySelector(
       ".react-flow__viewport"
     );
@@ -153,12 +148,8 @@ const DropDown = () => {
           >
             <Github className="mr-2 h-4 w-4" /> <span>GitHub</span>
           </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() =>
-              router.push("mailto:hello@aisandbox.app?subject=Hello%20there!")
-            }
-          >
+            {/* TODO : Add router router.push("mailto:hello@aisandbox.app?subject=Hello%20there!") */}
+          <DropdownMenuItem onClick={() => {}}> 
             <Mail className="mr-2 h-4 w-4" /> <span>Email</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

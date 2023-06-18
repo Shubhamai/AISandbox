@@ -119,7 +119,7 @@ const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
             accept=".webm, .mp3, .mp4, .m4a"
             onChange={handleChange}
           />
-          <label htmlFor="audio-uploader" className="w-full h-full">
+          <label htmlFor="audio-uploader" className="w-full h-full text-center">
             Upload Audio
           </label>
 

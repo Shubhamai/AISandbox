@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import { outputNodesData } from "../Nodes/Output/outputs";
 import { DragEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { XCircle } from "lucide-react";
 
 type SideBarSearchProps = {
   isFocused: boolean;
@@ -32,12 +34,28 @@ const SideBarSearch = (props: SideBarSearchProps) => {
       //   props.setIsFocused(false);
       // }}
     >
-      <CommandInput
-        onFocus={() => {
-          props.setIsFocused(true);
-        }}
-        placeholder="Search your nodes..."
-      />
+      <div className="relative flex items-center">
+        <CommandInput
+          onFocus={() => {
+            props.setIsFocused(true);
+          }}
+          placeholder="Search your nodes..."
+        />
+        {props.isFocused ? (
+          <div className="absolute top-0 right-0">
+            <Button
+              className="bg-transparent hover:bg-background/50 p-2 mt-[2px] rounded-full"
+              onClick={(e) => {
+                props.setIsFocused(false);
+              }}
+            >
+              <XCircle className="text-foreground/20" />
+            </Button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       {props.isFocused ? (
         <CommandList className="overflow-y-scroll  scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px]">
           <CommandEmpty>No Nodes found.</CommandEmpty>

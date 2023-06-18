@@ -41,7 +41,7 @@ type RFState = {
   setEdgeUpdateSuccessful: (success: any) => void;
   onDragOver: (event: any) => void;
   onDrop: (event: any) => void;
-  getId: () => string;
+  getId: (type: string) => string;
 };
 
 const graphState = create<RFState>((set, get) => ({
@@ -163,7 +163,7 @@ const graphState = create<RFState>((set, get) => ({
     });
 
     const newNode = {
-      id: get().getId(),
+      id: get().getId(type),
       type,
       position,
       data: {
@@ -186,11 +186,11 @@ const graphState = create<RFState>((set, get) => ({
       nodes: get().nodes.concat(newNode),
     });
   },
-  getId: () => {
+  getId: (type: string) => {
     // TODO : Clean this up
     let id = get().id + 1;
     set({ id: id });
-    return `${id}`;
+    return `${type}-${id}`;
   },
 }));
 

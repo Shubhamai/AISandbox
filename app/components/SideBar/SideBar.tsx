@@ -39,13 +39,15 @@ const SideBar = () => {
             className="w-full bg-background px-4 max-h-[700px] shadow-xl rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-background border-[1px] border-solid border-foreground/10"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger>Inputs</AccordionTrigger>
+              <AccordionTrigger className="items-start select-none">
+                Inputs
+              </AccordionTrigger>
               <AccordionContent>
                 <SidebarSection nodesData={inputNodesData} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger className="items-start">
+              <AccordionTrigger className="items-start select-none">
                 Models
               </AccordionTrigger>
               <AccordionContent>
@@ -53,13 +55,17 @@ const SideBar = () => {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
-              <AccordionTrigger>Outputs</AccordionTrigger>
+              <AccordionTrigger className="items-start select-none">
+                Outputs
+              </AccordionTrigger>
               <AccordionContent>
                 <SidebarSection nodesData={outputNodesData} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4">
-              <AccordionTrigger>Utils</AccordionTrigger>
+              <AccordionTrigger className="items-start select-none">
+                Utils
+              </AccordionTrigger>
               <AccordionContent>
                 <SidebarSection nodesData={utilsNodesData} />
               </AccordionContent>
