@@ -14,6 +14,7 @@ import {
   NodeTypes,
   updateEdge,
 } from "reactflow";
+import { debounce, isEqual, sortBy } from "lodash";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
 import supabase from "@/lib/supabaseClient";
@@ -196,8 +197,104 @@ const graphState = create<RFState>((set, get) => ({
 
 export default graphState;
 
-let id = 1;
+let id = 5;
 let keyExists = false;
+
+let prevState: { nodes: Node[]; edges: Edge[] } = { nodes: [], edges: [] };
+
+graphState.subscribe((state) => {
+  const { nodes, edges } = state;
+
+  console.log("updates...");
+
+  // is the same as previous state, don't update to api
+  if (
+    compareNodes(nodes, prevState.nodes) &&
+    compareEdges(edges, prevState.edges)
+  ) {
+    return;
+  }
+
+  console.log("update to api");
+
+  // update data to api
+  if (!keyExists) {
+    console.log("Saving to database..");
+
+    supabase
+      .from("data")
+      .insert([
+        {
+          // id,
+          data: JSON.stringify({ nodes, edges }),
+        },
+      ])
+      .then((res) => {
+        console.log(res);
+      });
+
+    keyExists = true;
+    return;
+  }
+
+  supabase
+    .from("data")
+    .update([
+      {
+        data: JSON.stringify({ nodes, edges }),
+      },
+    ])
+    .eq("id", id)
+    .then((res) => {
+      console.log(res);
+    });
+
+  prevState = { nodes, edges };
+});
+
+const nodeMapFn = (nodes: Node[]) => {
+  return sortBy(
+    nodes.map((node) => {
+      const {
+        position,
+        positionAbsolute,
+        selected,
+        height,
+        width,
+        dragging,
+        ...otherProps
+      } = node;
+      return otherProps;
+    }),
+    ["id"]
+  );
+};
+
+const edgeMapFn = (nodes: Edge[]) => {
+  return sortBy(
+    nodes.map((node) => {
+      const { ...otherProps } = node;
+      return otherProps;
+    }),
+    ["id"]
+  );
+};
+
+const compareNodes = (nodes1: Node[], nodes2: Node[]) => {
+  const filterdNodes1 = nodeMapFn(nodes1);
+  const filterdNodes2 = nodeMapFn(nodes2);
+
+  console.log(filterdNodes1, filterdNodes2);
+
+  return isEqual(filterdNodes1, filterdNodes2);
+};
+
+const compareEdges = (edges1: Edge[], edges2: Edge[]) => {
+  const filterdEdges1 = edgeMapFn(edges1);
+  const filterdEdges2 = edgeMapFn(edges2);
+
+  return isEqual(filterdEdges1, filterdEdges2);
+};
 
 // setInterval(() => {
 //   const { nodes, edges } = graphState.getState();
