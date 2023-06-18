@@ -14,6 +14,7 @@ import {
   PersonStanding,
   PlayIcon,
   Square,
+  Webhook,
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
@@ -22,6 +23,7 @@ import useAppState from "@/app/state/appState";
 import ToolBarItem from "./ToolBarItem";
 import { ToolsNodesData } from "../Nodes/Tools/tools";
 import axios from "axios";
+import { APICodeDialog } from "./APICode";
 
 const ToolBar = () => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();
@@ -135,37 +137,42 @@ const ToolBar = () => {
     >
       <div className="flex flex-row items-center transition justify-between">
         <div></div>
-        <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
-          <ToolBarItem
-            nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
-          />
+        <div className="flex items-center gap-4">
+          <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
+            <ToolBarItem
+              nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
+            />
 
-          <Button
-            variant="link"
-            // onClick={Execute}
-            className="bg-foreground rounded-full px-[10px]"
-          >
-            {isExecuting ? (
-              <Square
-                onClick={() => {
-                  setStopExecution(true);
-                }}
-                className="text-background"
-                size={20}
-              />
-            ) : (
-              <PlayIcon
-                onClick={Execute}
-                className="text-background"
-                size={20}
-              />
-            )}
-          </Button>
+            <Button
+              variant="link"
+              // onClick={Execute}
+              className="bg-foreground rounded-full px-[10px]"
+            >
+              {isExecuting ? (
+                <Square
+                  onClick={() => {
+                    setStopExecution(true);
+                  }}
+                  className="text-background"
+                  size={20}
+                />
+              ) : (
+                <PlayIcon
+                  onClick={Execute}
+                  className="text-background"
+                  size={20}
+                />
+              )}
+            </Button>
 
-          <ToolBarItem
-            nodesData={{ HeadingTool: ToolsNodesData.HeadingTool }}
-          />
+            <ToolBarItem
+              nodesData={{ HeadingTool: ToolsNodesData.HeadingTool }}
+            />
+          </div>
+
+          <APICodeDialog />
         </div>
+
         <div className="border-[1px] border-solid border-foreground/10 px-1 flex items-center justify-between bg-background shadow-lg rounded-full">
           <Button
             variant="ghost"
@@ -187,14 +194,6 @@ const ToolBar = () => {
             onClick={() => fitView({ duration: 500 })}
           >
             <Maximize size={20} />
-          </Button>
-
-          <Button
-            variant="ghost"
-            className="p-2 rounded-full"
-            onClick={() => postData()}
-          >
-            <PersonStanding />
           </Button>
         </div>
       </div>
