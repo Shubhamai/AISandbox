@@ -138,6 +138,13 @@ const ToolBar = () => {
       <div className="flex flex-row items-center transition justify-between">
         <div></div>
         <div className="flex items-center gap-4">
+          <Button
+            className="invisible gap-2 bg-background shadow-lg shadow-foreground/5 border bottom-border rounded-full"
+            variant="secondary"
+          >
+            <Webhook /> API Code
+          </Button>
+
           <div className="flex flex-row items-center gap-4 px-4 py-1 bg-background rounded-full drop-shadow-2xl border-[1px] border-solid border-foreground/10">
             <ToolBarItem
               nodesData={{ RectangleTool: ToolsNodesData.RectangleTool }}
