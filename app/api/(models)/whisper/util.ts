@@ -3,8 +3,9 @@ import { Node } from "reactflow";
 export const runtime = "edge";
 const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY as string;
 
-export const ExecuteWhisper = async (req: any) => {
-  const formData = await req.formData();
+export const ExecuteWhisper = async (formData: any) => {
+  // console.log("formData", formData);
+  // const formData = await req.formData();
 
   const result = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",

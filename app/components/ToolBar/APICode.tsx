@@ -14,31 +14,55 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { CopyIcon, Webhook } from "lucide-react";
 import { useUuid } from "@/app/hooks/useUuid";
+import graphState from "@/app/state/graphState";
+import { Edge, Node, getIncomers } from "reactflow";
+
+// TODO : Copied from tdt/[id]/routes.ts
+const getStartingInputNodes = (nodes: Node[], edges: Edge[]) => {
+  const inputNodes = [];
+  for (const node of nodes) {
+    const incomingNodes = getIncomers(node, nodes, edges);
+
+    if (incomingNodes.length === 0) {
+      inputNodes.push(node);
+    }
+  }
+
+  return inputNodes;
+};
 
 export const APICodeDialog = () => {
   const { toast } = useToast();
   const { uuid } = useUuid();
+  const { nodes, edges } = graphState();
+
+  const startingNodes = getStartingInputNodes(nodes, edges);
+  const startingNodesOut = [];
+  for (const node of startingNodes) {
+    startingNodesOut.push({
+      id: node.id,
+      data: {},
+    });
+  }
 
   if (typeof window === "undefined") return null;
 
-  let url = `${window.location.protocol}${window.location.hostname}/api/rdr/${uuid}`;
+  let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/rdr/${uuid}`;
 
   const pythonCode = `
   import requests
+  import json
   
   url = "${url}"
-  payload = "{
-      "name": "John Doe",
-      "age": 30,
-      "city": "New York"
-  }"
+  
+  payload = json.dumps({
+    "data": ${JSON.stringify(startingNodesOut, null, 4)}
+    })
   headers = {
-      'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json'
+    }
   
   response = requests.request("POST", url, headers=headers, data=payload)
-  
-  print(response.text)
   `;
 
   return (
