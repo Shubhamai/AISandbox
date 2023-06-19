@@ -157,6 +157,10 @@ const ToolBar = () => {
                 variant="link"
                 // onClick={Execute}
                 className="bg-foreground rounded-full px-[10px]"
+                style={{
+                  outline: "8px solid hsl(var(--foreground))",
+                  outlineOffset: -1,
+                }}
               >
                 {isExecuting ? (
                   <Square
