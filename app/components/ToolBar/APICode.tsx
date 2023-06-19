@@ -19,6 +19,8 @@ export const APICodeDialog = () => {
   const { toast } = useToast();
   const { uuid } = useUuid();
 
+  if (typeof window === "undefined") return null;
+
   let url = `${window.location.protocol}${window.location.hostname}/api/rdr/${uuid}`;
 
   const pythonCode = `

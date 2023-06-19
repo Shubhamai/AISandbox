@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@radix-ui/react-accordion':
@@ -144,6 +148,9 @@ devDependencies:
   '@types/lodash':
     specifier: ^4.14.195
     version: 4.14.195
+  '@types/react-syntax-highlighter':
+    specifier: ^15.5.7
+    version: 15.5.7
   '@types/uuid':
     specifier: ^9.0.2
     version: 9.0.2
@@ -3821,6 +3828,12 @@ packages:
     dependencies:
       '@types/react': 18.2.7
     dev: false
+
+  /@types/react-syntax-highlighter@15.5.7:
+    resolution: {integrity: sha512-bo5fEO5toQeyCp0zVHBeggclqf5SQ/Z5blfFmjwO5dkMVGPgmiwZsJh9nu/Bo5L7IHTuGWrja6LxJVE2uB5ZrQ==}
+    dependencies:
+      '@types/react': 18.2.7
+    dev: true
 
   /@types/react@18.2.7:
     resolution: {integrity: sha512-ojrXpSH2XFCmHm7Jy3q44nXDyN54+EYKP2lBhJ2bqfyPj6cIUW/FZW/Csdia34NQgq7KYcAlHi5184m4X88+yw==}

@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Connection, Edge, Node } from "reactflow";
-import { executeOpenAIChatGPTNode } from "../../(models)/chatgpt/route";
-import { executeStableDiffusionNode } from "../../(models)/stablediffusion/route";
-import { executeWhisperNode } from "../../(models)/whisper/route";
-import { executeYoloXNode } from "../../(models)/yolox/route";
-import { executeTortoiseTTSNode } from "../../(models)/tortoisetts/route";
+import { executeOpenAIChatGPTNode } from "../../(models)/chatgpt/util";
+import { executeCreatePromptNode } from "../../(models)/util";
+import { supabaseService } from "@/lib/supabaseServer";
+import { executeStableDiffusionNode } from "../../(models)/stablediffusion/util";
+import { executeWhisperNode } from "../../(models)/whisper/util";
+import { executeYoloXNode } from "../../(models)/yolox/util";
+import { executeTortoiseTTSNode } from "../../(models)/tortoisetts/util";
 import {
   executeDollyV2Node,
   executeMpt7bNode,
   executeOpenAssistantNode,
   executeStableLMNode,
   executeVicuna13BNode,
-} from "../../(models)/replicatellm/route";
-import { executeCreatePromptNode } from "../../(models)/util";
-import { supabaseService } from "@/lib/supabaseServer";
+} from "../../(models)/replicatellm/util";
 
 export const runtime = "edge";
 
