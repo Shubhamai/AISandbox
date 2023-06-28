@@ -6,8 +6,6 @@ export const runtime = "edge";
 export async function POST(request: NextRequest) {
   const reqData = await request.json();
 
-  console.log(reqData);
-
   const email = reqData?.email;
   if (!email) {
     return NextResponse.json({
@@ -17,14 +15,11 @@ export async function POST(request: NextRequest) {
   }
 
   // check if the user has been whitelisted
-
   const { data: user, error: userError } = await supabaseService
     .from("waitlist")
     .select()
     .eq("email", email)
     .single();
-
-  console.log("U", user);
 
   if (userError || !user || !user?.whitelisted) {
     return NextResponse.json({
@@ -46,8 +41,6 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  console.log("auth", data, error);
-
   if (error) {
     return NextResponse.json({
       type: "error",
@@ -61,8 +54,6 @@ export async function POST(request: NextRequest) {
       error: "No data found with given Id",
     });
   }
-
-  //   const nodesData = data[0];
 
   return NextResponse.json({
     type: "success",

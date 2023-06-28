@@ -140,7 +140,6 @@ const DropDown = () => {
             <Trash2 className="mr-2 h-4 w-4" /> <span>Reset the canvas</span>
           </DropdownMenuItem>
           <MenubarSeparator />
-          <Separator />
           <DropdownMenuItem
             onClick={() =>
               router.push("https://github.com/Shubhamai/AISandbox")
