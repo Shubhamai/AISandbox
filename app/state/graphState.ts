@@ -197,7 +197,7 @@ const graphState = create<RFState>((set, get) => ({
 
 export default graphState;
 
-let id = typeof window === "undefined" ? "" : localStorage.getItem("uuid");
+let id = typeof window === "undefined" ? "" : localStorage.getItem("uuid"); // TODO : Saving id to localstorage disabled, Without ID, we can't save to database
 let keyExists = false;
 
 // let prevState: { nodes: Node[]; edges: Edge[] } = { nodes: [], edges: [] };

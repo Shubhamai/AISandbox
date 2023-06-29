@@ -18,41 +18,34 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader, LogInIcon, MailsIcon } from "lucide-react";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { useAuthContext } from "@/app/context/Auth";
+import Link from "next/link";
 
 export const Profile = () => {
-  const [profile, setProfile] = useState<User | null>(null);
+  const { user } = useAuthContext();
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
-    const { data, error } = await supabase.auth.getUser();
-    setProfile(data.user);
-  };
-
-  if (!profile) {
+  if (!user) {
     return <MagicLinkLogin />;
   }
 
   return (
-    <Button
-      variant="secondary"
-      className="rounded-full bg-background shadow-lg p-3 gap-1"
-    >
-      <UserIcon className="w-5 h-5" />
-    </Button>
+    <Link href="/dashboard">
+      <Button
+        variant="secondary"
+        className="rounded-full bg-background shadow-lg p-3 gap-1"
+      >
+        <UserIcon className="w-5 h-5" />
+      </Button>
+    </Link>
   );
 };
 
-export const MagicLinkLogin = () => {
+const MagicLinkLogin = () => {
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [isSignedIn, setIsSignedIn] = useLocalStorage("isSignedIn", "");
+  const { user } = useAuthContext();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -79,7 +72,6 @@ export const MagicLinkLogin = () => {
         });
 
         setOpen(false);
-        // setIsSignedIn("true");
       } else {
         toast({
           title: "Error!",
@@ -97,42 +89,6 @@ export const MagicLinkLogin = () => {
 
     setLoading(false);
   };
-
-  const onSignoutClick = async () => {
-    setLoading(true);
-
-    const { error } = await supabase.auth.signOut();
-    console.log("error", error);
-
-    if (error) {
-      toast({
-        title: "Error!",
-        description: "Failed to sign out :(",
-      });
-    } else {
-      setIsSignedIn("false");
-      window.location.reload();
-    }
-
-    setLoading(false);
-  };
-
-  if (isSignedIn === "true") {
-    return (
-      <Button
-        variant="secondary"
-        className="rounded-full shadow-lg bg-background p-3 gap-1"
-        onClick={onSignoutClick}
-      >
-        {loading ? (
-          <Loader className="animate-spin" />
-        ) : (
-          <MailsIcon className="w-4 h-4" />
-        )}
-        Sign Out
-      </Button>
-    );
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

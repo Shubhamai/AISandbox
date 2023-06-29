@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthContextProvider } from "./context/Auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} light`}>
-        {children}
+        <AuthContextProvider>{children}</AuthContextProvider>
         <Toaster />
       </body>
     </html>

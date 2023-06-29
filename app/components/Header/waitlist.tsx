@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -11,17 +13,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader, MailsIcon } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { useEffect, useState } from "react";
+import supabase from "@/lib/supabaseClient";
+import { useAuthContext } from "@/app/context/Auth";
 
 export const WaitlistDialogForm = () => {
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [isWaitlisted, setIsWaitlisted] = useLocalStorage("isWaitlisted", "");
+  const { user } = useAuthContext();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -48,7 +49,6 @@ export const WaitlistDialogForm = () => {
         });
 
         setOpen(false);
-        setIsWaitlisted("true");
       } else {
         toast({
           title: "Error!",
@@ -65,16 +65,8 @@ export const WaitlistDialogForm = () => {
     setLoading(false);
   };
 
-  if (isWaitlisted === "true") {
-    return (
-      <Button
-        variant="secondary"
-        className="rounded-full shadow-lg bg-background p-3 gap-1"
-      >
-        <MailsIcon className="w-4 h-4" />
-        Waitlisted
-      </Button>
-    );
+  if (user) {
+    return <></>;
   }
 
   return (

@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { CopyIcon, Webhook } from "lucide-react";
-import { useUuid } from "@/app/hooks/useUuid";
 import graphState from "@/app/state/graphState";
 import { Edge, Node, getIncomers } from "reactflow";
 
@@ -33,7 +32,6 @@ const getStartingInputNodes = (nodes: Node[], edges: Edge[]) => {
 
 export const APICodeDialog = () => {
   const { toast } = useToast();
-  const { uuid } = useUuid();
   const { nodes, edges } = graphState();
 
   const startingNodes = getStartingInputNodes(nodes, edges);
@@ -47,7 +45,7 @@ export const APICodeDialog = () => {
 
   if (typeof window === "undefined") return null;
 
-  let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/rdr/${uuid}`;
+  let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/rdr/`; // TODO : ${uuid}
 
   const pythonCode = `
   import requests

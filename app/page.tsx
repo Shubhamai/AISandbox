@@ -57,7 +57,7 @@ export default function Home() {
         <Header />
         <ToolBar />
         <Sidebar />
-        <Settings />
+        {/* <Settings /> */}
         <ContextItems>
           <div
             className="reactflow-wrapper"
