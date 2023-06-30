@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
-import { User as UserIcon } from "lucide-react";
+import { User as UserIcon, WorkflowIcon } from "lucide-react";
 import supabase from "@/lib/supabaseClient";
 
 import { User } from "@supabase/supabase-js";
@@ -29,13 +29,11 @@ export const Profile = () => {
   }
 
   return (
-    <Link href="/dashboard">
-      <Button
-        variant="secondary"
-        className="rounded-full bg-background shadow-lg p-3 gap-1"
-      >
-        <UserIcon className="w-5 h-5" />
-      </Button>
+    <Link
+      href={"/dashboard"}
+      className="flex gap-1 p-2 items-center rounded-full shadow-lg select-none bg-background text-foreground hover:text-background hover:bg-foreground border border-foreground/20"
+    >
+      <WorkflowIcon />
     </Link>
   );
 };
@@ -45,6 +43,7 @@ const MagicLinkLogin = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPasswordNull, setIsPasswordNull] = useState(true);
   const { user } = useAuthContext();
 
   const onSubmit = async (e: any) => {
@@ -93,9 +92,8 @@ const MagicLinkLogin = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="rounded-full shadow-lg p-3 gap-1">
-          <LogInIcon className="w-4 h-4" />
-          Login
+        <Button className="flex gap-1 p-2 items-center rounded-full shadow-lg select-none bg-background text-foreground hover:text-background hover:bg-foreground border border-foreground/20">
+          <WorkflowIcon />
         </Button>
       </DialogTrigger>
 
@@ -104,26 +102,49 @@ const MagicLinkLogin = () => {
           Let&apos;s make something amazing
         </DialogTitle>
         <DialogDescription className="mb-6">
-          Enter your email below to receive a magic sign-in link.
+          Enter your email below to {
+            isPasswordNull ? "receive a magic link" : "sign up"
+          }!
         </DialogDescription>
 
         <DialogHeader>
           <div className="flex flex-col gap-5">
             <form onSubmit={onSubmit} className="flex flex-col gap-3">
-              <div className="flex flex-col gap-2">
-                <Label>Email Address</Label>
-                <Input
-                  id="email"
-                  placeholder="Enter your email"
-                  type="email"
-                  required
-                />
+              <div className="flex flex-col gap-6">
+                <div>
+                  <Label>Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter your name"
+                    type="text"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label>Email Address</Label>
+                  <Input
+                    id="email"
+                    placeholder="Enter your email"
+                    type="email"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label>Password (optional)</Label>
+                  <Input
+                    id="password"
+                    placeholder="Enter your password"
+                    type="password"
+                    onChange={(e) => {
+                      setIsPasswordNull(e.target.value === "");
+                    }}
+                  />
+                </div>
+                <Button type={"submit"} disabled={loading}>
+                  {loading ? <Loader className="animate-spin" /> : null}
+                  {isPasswordNull ? "Send magic link" : "Sign up"}
+                </Button>
               </div>
-
-              <Button type={"submit"} disabled={loading}>
-                {loading ? <Loader className="animate-spin" /> : null}
-                Continue
-              </Button>
             </form>
           </div>
         </DialogHeader>

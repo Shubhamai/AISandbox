@@ -35,12 +35,12 @@ export default function DashboardLayout({
       <div className="p-2 flex flex-col items-start gap-8 border-r">
         <section className="flex flex-col gap-3">
           <h4 className="text-foreground/50 text-sm">Account</h4>
-          <Link href="/dashboard/profile">Profile</Link>
+          <Link href="/dashboard/profile">Settings</Link>
         </section>
         <Button
           variant={"link"}
           onClick={onSignOutClick}
-          className="flex flex-row gap-4"
+          className="flex flex-row gap-4 p-0"
         >
           <LogOut className="w-4 h-4" /> <span>Logout</span>
         </Button>
