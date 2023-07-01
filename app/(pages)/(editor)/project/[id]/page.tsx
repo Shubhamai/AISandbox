@@ -23,6 +23,8 @@ import ToolBar from "@/app/components/project/ToolBar";
 import ContextItems from "@/app/components/project/ContextMenu";
 import SideBar from "@/app/components/project/SideBar";
 
+export const runtime = 'edge';
+
 export default function Home() {
   const reactFlowWrapper = useRef(null);
   const edgeUpdateSuccessful = useRef(true);

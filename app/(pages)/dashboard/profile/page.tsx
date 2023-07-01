@@ -6,6 +6,8 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
+export const runtime = 'edge';
+
 export default async function Profile() {
   const supabase = createServerComponentClient({ cookies });
 
