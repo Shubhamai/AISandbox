@@ -15,17 +15,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/app/components/ui/select";
 import { useNodeId } from "reactflow";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/components/ui/input";
 import NodeTitle from "../../Shared/Title";
 import useAppState from "@/app/state/appState";
 import NodeBody from "../../Shared/Body";
 import NodeHandle from "../../Shared/Handle";
 import { Mic, Square, StopCircle } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/app/components/ui/separator";
 import { recorder, type RecorderReturn } from "./recorder";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   const { zenMode } = useAppState();

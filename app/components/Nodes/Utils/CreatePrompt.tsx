@@ -2,7 +2,7 @@ import graphState from "@/app/state/graphState";
 import React, { memo, useState } from "react";
 import { Handle, NodeProps, Position, Node } from "reactflow";
 import { useNodeId } from "reactflow";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/app/components/ui/textarea";
 import NodeTitle from "../Shared/Title";
 import useAppState from "@/app/state/appState";
 import NodeBody from "../Shared/Body";
@@ -34,7 +34,6 @@ const CreatePromptNode = memo(
     return (
       <div>
         <NodeTitle hover={hover} title="Create Prompt" zenMode={zenMode} />
-
 
         <NodeBody setHover={setHover}>
           <Textarea

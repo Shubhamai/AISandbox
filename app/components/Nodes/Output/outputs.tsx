@@ -1,7 +1,7 @@
 import { FileType2, Speaker, ImagePlus, ScrollText } from "lucide-react";
-import AudioOutputNode from "./Audio/Note";
-import ImageOutputNode from "./Image/Node";
-import TextOutputNode from "./Text/Node";
+import AudioOutputNode from "./Audio";
+import ImageOutputNode from "./Image";
+import TextOutputNode from "./Text";
 
 export const outputNodesData = {
   AudioOutputNode: {

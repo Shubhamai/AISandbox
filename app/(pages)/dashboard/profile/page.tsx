@@ -1,19 +1,28 @@
-"use client";
+import { Input } from "@/app/components/ui/input";
 
-import { useAuthContext } from "@/app/context/Auth";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import {
+  createServerComponentClient,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export default function Profile() {
-  const router = useRouter();
-  const { user } = useAuthContext();
+export default async function Profile() {
+  const supabase = createServerComponentClient({ cookies });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return <div>No User Found</div>;
+  }
 
   return (
     <div className="flex flex-col gap-10 w-[600px]">
       <section>Account Information</section>
       <div className="flex flex-row justify-between gap-28 items-center">
         Email
-        <Input value={user?.email} className="" />
+        <Input value={user?.email} readOnly />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Image, FileType2, Mic2 } from "lucide-react";
 import AudioInputNode from "./Audio/Node";
-import ImageInputNode from "./Image/Node";
-import TextInputNode from "./Text/Node";
+import ImageInputNode from "./Image";
+import TextInputNode from "./Text";
 
 export const inputNodesData = {
   AudioInputNode: {

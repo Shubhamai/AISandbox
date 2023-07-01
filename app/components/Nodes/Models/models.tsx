@@ -8,16 +8,16 @@ import {
   MessagesSquareIcon,
   View,
 } from "lucide-react";
-import OpenAIChatGPTNode from "./OpenAIChatGPT/Node";
-import StableDiffusionNode from "./StableDiffusion/Node";
-import TortoiseTTSNode from "./TortoiseTTS/Node";
-import WhisperNode from "./Whisper/Node";
-import YoloXNode from "./YoloX/Node";
-import Vicuna13B from "./ReplicateLLMs/vicuna13b";
-import StableLM from "./ReplicateLLMs/stablelm";
-import DollyV2 from "./ReplicateLLMs/dollyv2";
-import OpenAssistant from "./ReplicateLLMs/oasst12b";
-import mpt7b from "./ReplicateLLMs/mpt7b";
+import OpenAIChatGPTNode from "./OpenAIChatGPT";
+import StableDiffusionNode from "./StableDiffusion";
+import TortoiseTTSNode from "./TortoiseTTS";
+import WhisperNode from "./Whisper";
+import YoloXNode from "./YoloX";
+import Vicuna13B from "./vicuna13b";
+import StableLM from "./stablelm";
+import DollyV2 from "./dollyv2";
+import OpenAssistant from "./oasst12b";
+import mpt7b from "./mpt7b";
 
 export const modelsNodesData = {
   OpenAIChatGPTNode: {

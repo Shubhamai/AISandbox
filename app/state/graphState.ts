@@ -17,7 +17,7 @@ import {
 import { debounce, isEqual, sortBy } from "lodash";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
-import supabase from "@/lib/supabaseClient";
+// import supabase from "@/app/lib/supabase/client";
 
 type RFState = {
   id: number;
@@ -224,33 +224,33 @@ graphState.subscribe((state, prevState) => {
 
     console.log(id);
 
-    supabase
-      .from("data")
-      .insert([
-        {
-          id,
-          data: JSON.stringify({ nodes, edges }),
-        },
-      ])
-      .then((res) => {
-        console.log(res);
-      });
+    // supabase
+    //   .from("data")
+    //   .insert([
+    //     {
+    //       id,
+    //       data: JSON.stringify({ nodes, edges }),
+    //     },
+    //   ])
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
 
-    keyExists = true;
-    return;
+    // keyExists = true;
+    // return;
   }
 
-  supabase
-    .from("data")
-    .update([
-      {
-        data: JSON.stringify({ nodes, edges }),
-      },
-    ])
-    .eq("id", id)
-    .then((res) => {
-      console.log(res);
-    });
+  // supabase
+  //   .from("data")
+  //   .update([
+  //     {
+  //       data: JSON.stringify({ nodes, edges }),
+  //     },
+  //   ])
+  //   .eq("id", id)
+  //   .then((res) => {
+  //     console.log(res);
+  //   });
 
   // prevState = { nodes, edges };
 });

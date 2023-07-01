@@ -1,27 +1,24 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import supabase from "@/lib/supabaseClient";
+import { Button } from "@/app/components/ui/button";
 import { LogOut } from "lucide-react";
-import { FeedbackDialogForm } from "@/app/components/Header/feedback";
 import Link from "next/link";
+import { FeedbackDialogForm } from "@/app/components/dashboard/feedback";
+import {
+  createClientComponentClient,
+  createServerActionClient,
+} from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-
   const onSignOutClick = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-    } else {
-      router.push("/");
-    }
+    "use server";
+    const supabase = createServerActionClient({ cookies });
+    await supabase.auth.signOut();
+    redirect("/login");
   };
 
   return (
@@ -46,7 +43,6 @@ export default function DashboardLayout({
         </Button>
       </div>
       <div className="p-4">{children}</div>
-
     </div>
   );
 }
