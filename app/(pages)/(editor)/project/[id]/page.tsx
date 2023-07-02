@@ -10,7 +10,7 @@ import ReactFlow, {
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -22,12 +22,17 @@ import Header from "@/app/components/project/Header";
 import ToolBar from "@/app/components/project/ToolBar";
 import ContextItems from "@/app/components/project/ContextMenu";
 import SideBar from "@/app/components/project/SideBar";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
-export default function Home() {
+export default function Home({ params }: { params: { id: string } }) {
+  const supabase = createClientComponentClient();
+
   const reactFlowWrapper = useRef(null);
   const edgeUpdateSuccessful = useRef(true);
+  const [projectData, setProjectData] = useState<any>({});
+  const [projectName, setProjectName] = useState<null | string>(null);
 
   const {
     nodes,
@@ -35,6 +40,7 @@ export default function Home() {
     nodeTypes,
     setReactFlowWrapper,
     setReactFlowInstance,
+    updateGraph,
     onNodesChange,
     onEdgesChange,
     setEdgeUpdateSuccessful,
@@ -55,10 +61,26 @@ export default function Home() {
     setEdgeUpdateSuccessful(edgeUpdateSuccessful.current);
   }, [setEdgeUpdateSuccessful, edgeUpdateSuccessful]);
 
+  useEffect(() => {
+    const getProjectData = async () => {
+      let { data: project, error } = await supabase
+        .from("projects")
+        .select("data,name")
+        .eq("id", params.id)
+        .single();
+
+      const { nodes, edges } = project.data;
+      updateGraph(nodes, edges);
+      setProjectName(project.name);
+    };
+
+    getProjectData();
+  }, []);
+
   return (
     <div className="dndflow">
       <ReactFlowProvider>
-        <Header />
+        <Header projectName={projectName} projectId={params.id} />
         <ToolBar />
         <SideBar />
         {/* <Settings /> */}

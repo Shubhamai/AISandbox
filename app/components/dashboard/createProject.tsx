@@ -16,9 +16,11 @@ const CreateProjectButton = () => {
     } = await supabase.auth.getUser();
 
     if (user) {
+      const emptyData = { nodes: [], edges: [] };
+
       const { data, error } = await supabase
         .from("projects")
-        .insert([{ data: "asda", user_id: user.id }])
+        .insert([{ data: emptyData, user_id: user.id, name : "Untitled" }])
         .select();
 
       if (error) {

@@ -17,7 +17,7 @@ import {
 import { debounce, isEqual, sortBy } from "lodash";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
-// import supabase from "@/app/lib/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type RFState = {
   id: number;
@@ -197,17 +197,9 @@ const graphState = create<RFState>((set, get) => ({
 
 export default graphState;
 
-let id = typeof window === "undefined" ? "" : localStorage.getItem("uuid"); // TODO : Saving id to localstorage disabled, Without ID, we can't save to database
-let keyExists = false;
-
-// let prevState: { nodes: Node[]; edges: Edge[] } = { nodes: [], edges: [] };
-
 graphState.subscribe((state, prevState) => {
   const { nodes, edges } = state;
 
-  // is the same as previous state, don't update to api
-
-  // debounce(() => {
   if (
     compareNodes(nodes, prevState.nodes) &&
     compareEdges(edges, prevState.edges)
@@ -215,44 +207,14 @@ graphState.subscribe((state, prevState) => {
     return;
   }
 
-  console.log("update to api");
-  // }, 500);
-
-  // update data to api
-  if (!keyExists) {
-    console.log("Saving to database..");
-
-    console.log(id);
-
-    // supabase
-    //   .from("data")
-    //   .insert([
-    //     {
-    //       id,
-    //       data: JSON.stringify({ nodes, edges }),
-    //     },
-    //   ])
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
-
-    // keyExists = true;
-    // return;
-  }
-
-  // supabase
-  //   .from("data")
-  //   .update([
-  //     {
-  //       data: JSON.stringify({ nodes, edges }),
-  //     },
-  //   ])
-  //   .eq("id", id)
-  //   .then((res) => {
-  //     console.log(res);
-  //   });
-
-  // prevState = { nodes, edges };
+  const supabase = createClientComponentClient();
+  supabase
+    .from("projects")
+    .update({
+      data: { nodes, edges },
+    })
+    .eq("id", "db4cfed2-595e-4879-9adc-cd8939c94708")
+    .select();
 });
 
 const nodeMapFn = (nodes: Node[]) => {
@@ -296,38 +258,3 @@ const compareEdges = (edges1: Edge[], edges2: Edge[]) => {
 
   return isEqual(filterdEdges1, filterdEdges2);
 };
-
-// setInterval(() => {
-//   const { nodes, edges } = graphState.getState();
-
-//   if (!keyExists) {
-//     console.log("Saving to database..");
-
-//     supabase
-//       .from("data")
-//       .insert([
-//         {
-//           id,
-//           data: JSON.stringify({ nodes, edges }),
-//         },
-//       ])
-//       .then((res) => {
-//         console.log(res);
-//       });
-
-//     keyExists = true;
-//     return;
-//   }
-
-//   supabase
-//     .from("data")
-//     .update([
-//       {
-//         data: JSON.stringify({ nodes, edges }),
-//       },
-//     ])
-//     .eq("id", id)
-//     .then((res) => {
-//       console.log(res);
-//     });
-// }, 5000);

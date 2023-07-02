@@ -4,9 +4,17 @@ import { WorkflowIcon } from "lucide-react";
 import useAppState from "@/app/state/appState";
 import DropDown from "./DropDown";
 import Link from "next/link";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const Header = () => {
+const Header = ({
+  projectName,
+  projectId,
+}: {
+  projectName: string;
+  projectId: string;
+}) => {
   const { zenMode } = useAppState();
+  const supabase = createClientComponentClient();
 
   return (
     <Panel
@@ -23,9 +31,20 @@ const Header = () => {
         >
           <WorkflowIcon />
         </Link>
-        <h1 className="text-md font-bold text-foreground italic underline decoration-1 underline-offset-4 decoration-wavy decoration-foreground/50 select-text">
-          Untitled
-        </h1>
+        <div className="flex flex-col w-fit">
+          <input
+            className="text-md font-bold text-foreground italic !outline-none"
+            defaultValue={projectName}
+            // TODO : Too many API calls, fix this
+            onChange={async (e) => {
+              const { data, error } = await supabase
+                .from("projects")
+                .update({ name: e.target.value })
+                .eq("id", projectId)
+                .select();
+            }}
+          />
+        </div>
       </div>
       <div className="flex flex-row items-center gap-5">
         <DropDown />
