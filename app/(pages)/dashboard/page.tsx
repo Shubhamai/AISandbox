@@ -13,8 +13,6 @@ import {
 import Image from "next/image";
 
 export default function Profile() {
-
-
   return (
     <div className="grid grid-cols-4 gap-4">
       <Card className="border-none shadow-none">

@@ -50,6 +50,12 @@ dependencies:
   '@supabase/auth-helpers-nextjs':
     specifier: ^0.7.2
     version: 0.7.2(@supabase/supabase-js@2.26.0)
+  '@supabase/auth-ui-react':
+    specifier: ^0.4.2
+    version: 0.4.2(@supabase/supabase-js@2.26.0)
+  '@supabase/auth-ui-shared':
+    specifier: ^0.1.6
+    version: 0.1.6(@supabase/supabase-js@2.26.0)
   '@supabase/supabase-js':
     specifier: ^2.26.0
     version: 2.26.0(encoding@0.1.13)
@@ -98,6 +104,9 @@ dependencies:
   next:
     specifier: 13.4.4
     version: 13.4.4(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
+  next-themes:
+    specifier: ^0.2.1
+    version: 0.2.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
   postcss:
     specifier: 8.4.23
     version: 8.4.23
@@ -2194,7 +2203,7 @@ packages:
     resolution: {integrity: sha512-8KG5RD0GVP4ydEzRn/I4BNDuxDtqVbOdm8675T49OIG/NGhaK0pjPX7ZcDlvKYbA+ulvVK3ztfcF4uBdOxuJbQ==}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.3.8
+      semver: 7.5.3
     dev: true
 
   /@npmcli/move-file@1.1.2:
@@ -3447,6 +3456,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /@stitches/core@1.2.8:
+    resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
+    dev: false
+
   /@supabase/auth-helpers-nextjs@0.7.2(@supabase/supabase-js@2.26.0):
     resolution: {integrity: sha512-n5IyGBYJV/WiR5Rgw4CUaiJYiOv9yW2of4ZP4EyzKt2O6/6rztt7PcGE4AoK2vERw+fb5F2QtJBdt6J5eOYCCw==}
     peerDependencies:
@@ -3464,6 +3477,27 @@ packages:
     dependencies:
       '@supabase/supabase-js': 2.26.0(encoding@0.1.13)
       jose: 4.14.4
+    dev: false
+
+  /@supabase/auth-ui-react@0.4.2(@supabase/supabase-js@2.26.0):
+    resolution: {integrity: sha512-NLP1udNtbteWDZYUoJKD/sDzi1BeZpS+CvUk1D0FwHevlVDT1fUf27sVLtrAgchSIQxHwZHTiUPJC9auCF3Zyw==}
+    peerDependencies:
+      '@supabase/supabase-js': ^2.21.0
+    dependencies:
+      '@stitches/core': 1.2.8
+      '@supabase/auth-ui-shared': 0.1.6(@supabase/supabase-js@2.26.0)
+      '@supabase/supabase-js': 2.26.0(encoding@0.1.13)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@supabase/auth-ui-shared@0.1.6(@supabase/supabase-js@2.26.0):
+    resolution: {integrity: sha512-dBlP2XR5KSSCBMgkWJMkc2UVA21V5AobKmekwIiHVvyVtzAiFqE5XWJiPV+kMlnRLzFXDeA0Z/CqdKTL/Kbs4A==}
+    peerDependencies:
+      '@supabase/supabase-js': ^2.21.0
+    dependencies:
+      '@supabase/supabase-js': 2.26.0(encoding@0.1.13)
     dev: false
 
   /@supabase/functions-js@2.1.2(encoding@0.1.13):
@@ -4211,7 +4245,7 @@ packages:
       recast: 0.21.5
       remark-frontmatter: 4.0.1
       remark-mdx-frontmatter: 1.1.1
-      semver: 7.3.8
+      semver: 7.5.3
       sort-package-json: 1.57.0
       tar-fs: 2.1.1
       tsconfig-paths: 4.2.0
@@ -6945,7 +6979,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.3.0
       glob: 7.2.3
       ignore: 5.2.4
       merge2: 1.4.1
@@ -7823,7 +7857,7 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
     dependencies:
-      semver: 6.1.1
+      semver: 6.3.0
     dev: true
 
   /make-error@1.3.6:
@@ -8426,6 +8460,18 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
     dev: true
+
+  /next-themes@0.2.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.4.4(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}

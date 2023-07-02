@@ -1,12 +1,13 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/app/components/ui/toaster";
-// import { AuthContextProvider } from "./hooks/auth";
+import { ThemeProvider } from "@/app/components/ui/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "AI Sandbox",
+  metadataBase: new URL("https://aisandbox.app"),
   description:
     "AI Sandbox enables rapid prototyping of AI architectures through integrating AI models in a node base editor.",
   openGraph: {
@@ -28,10 +29,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} light`}>
-        {/* <AuthContextProvider> */}
+      <body className={`${inter.className}`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
-        {/* </AuthContextProvider> */}
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
