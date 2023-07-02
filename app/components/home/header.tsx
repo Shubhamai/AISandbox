@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -10,16 +12,31 @@ import {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  User,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 
 // TODO : Remove the async
-const Header = async () => {
+const Header = () => {
   const supabase = createClientComponentClient();
+  const [user, setUser] = useState<null | User>(null);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        setUser(user);
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <div className="fixed top-3 flex flex-row items-center justify-between w-[800px] backdrop-blur-sm bg-background/70 rounded-full py-2 pl-4 pr-2">
@@ -44,7 +61,7 @@ const Header = async () => {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/pricing"  legacyBehavior passHref>
+            <Link href="/pricing" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Pricing
               </NavigationMenuLink>
@@ -55,12 +72,14 @@ const Header = async () => {
       <div>
         {user ? (
           <Link href="/dashboard">
-            <Button>Dashboard</Button>
+            <Button className="rounded-full">Dashboard</Button>
           </Link>
         ) : (
           <>
             <Link href="/login">
-              <Button variant={"ghost"} className="rounded-full">Log In</Button>
+              <Button variant={"ghost"} className="rounded-full">
+                Log In
+              </Button>
             </Link>
 
             <Link href="/signup">

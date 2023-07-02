@@ -8,6 +8,7 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import CreateProjectButton from "@/app/components/dashboard/createProject";
 
 export const runtime = 'edge';
 
@@ -25,11 +26,12 @@ export default function DashboardLayout({
 
   return (
     <div className="grid grid-cols-[220px_1fr] grid-rows-[50px_1fr] p-4 h-full w-full border border-background">
-      <Link href={"/dashboard"} className="p-1 font-extrabold text-xl border-b">
-        Dashboard
+      <Link href={"/"} className="p-1 font-extrabold text-xl border-b">
+        AISandbox
       </Link>
       <div className="flex flex-col items-end border-b">
-        <FeedbackDialogForm />
+        {/* <FeedbackDialogForm /> */}
+        < CreateProjectButton />
       </div>
       <div className="p-2 flex flex-col items-start gap-8 border-r">
         <section className="flex flex-col gap-3">
