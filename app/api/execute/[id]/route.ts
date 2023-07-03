@@ -15,80 +15,93 @@ import {
   executeVicuna13BNode,
 } from "../../(models)/replicatellm/util";
 import { ExecuteNodes } from "@/app/lib/execute";
+import { Response } from "@/app/utils/response";
 
 export const runtime = "edge";
 
-export async function POST(
-  request: NextRequest,
-  context: { params: { id: number } }
-) {
-  const reqData = await request.json();
-  const nodesInput = reqData;
+export async function POST(request: NextRequest) {
+  const reqBody = await request.json();
 
-  let id = context?.params.id;
+  const Authorization = request.headers.get("Authorization");
+  const Project = request.headers.get("Project");
 
-  try {
-    // GET NODES & EDGES DATA
-    const { data, error } = await supabaseService
-      .from("data")
-      .select()
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      console.log("ERROR SUPABASE");
-
-      return NextResponse.json({
-        type: "error",
-        error: error.message,
-      });
-    }
-
-    if (!data || !data.data) {
-      console.log("ERROR SUPABASE NO DATA");
-
-      return NextResponse.json({
-        type: "error",
-        error: "No data found with given Id",
-      });
-    }
-
-    const { nodes, edges } = JSON.parse(data.data);
-
-    for (const nodeInput of nodesInput.data) {
-      const node = nodes.find((n: Node) => n.id === nodeInput.id);
-      if (node) {
-        node.data.input = nodeInput.data;
-        node.data.output = nodeInput.data;
-      }
-    }
-
-    // EXECUTE
-    try {
-      let processedOutputs = await ExecuteNodes(nodes, edges, false, nodeExecution);
-
-      return NextResponse.json({
-        type: "success",
-        data: processedOutputs,
-      });
-    } catch (err: any) {
-      console.log("ERROR EXECUTING", err);
-
-      return NextResponse.json({
-        type: "error",
-        error: err.message,
-      });
-    }
-  } catch (error: any) {
-    console.log("ERROR API ROUTE", error);
-
-    return NextResponse.json({
-      type: "error",
-      error: error.message,
-    });
+  if (!Authorization || !Project) {
+    return NextResponse.json(
+      Response.Error("API Key or Project ID not provided"),
+      { status: 401 }
+    );
+  } else {
+    return NextResponse.json(
+      Response.Success("API Key and Project ID provided"),
+      { status: 200 }
+    );
   }
-}
 
+  // const nodesInput = reqData;
+
+  // let id = context?.params.id;
+
+  // try {
+  //   // GET NODES & EDGES DATA
+  //   const { data, error } = await supabaseService
+  //     .from("data")
+  //     .select()
+  //     .eq("id", id)
+  //     .single();
+
+  //   if (error) {
+  //     console.log("ERROR SUPABASE");
+
+  //     return NextResponse.json({
+  //       type: "error",
+  //       error: error.message,
+  //     });
+  //   }
+
+  //   if (!data || !data.data) {
+  //     console.log("ERROR SUPABASE NO DATA");
+
+  //     return NextResponse.json({
+  //       type: "error",
+  //       error: "No data found with given Id",
+  //     });
+  //   }
+
+  //   const { nodes, edges } = JSON.parse(data.data);
+
+  //   for (const nodeInput of nodesInput.data) {
+  //     const node = nodes.find((n: Node) => n.id === nodeInput.id);
+  //     if (node) {
+  //       node.data.input = nodeInput.data;
+  //       node.data.output = nodeInput.data;
+  //     }
+  //   }
+
+  //   // EXECUTE
+  //   try {
+  //     let processedOutputs = await ExecuteNodes(nodes, edges, false, nodeExecution);
+
+  //     return NextResponse.json({
+  //       type: "success",
+  //       data: processedOutputs,
+  //     });
+  //   } catch (err: any) {
+  //     console.log("ERROR EXECUTING", err);
+
+  //     return NextResponse.json({
+  //       type: "error",
+  //       error: err.message,
+  //     });
+  //   }
+  // } catch (error: any) {
+  //   console.log("ERROR API ROUTE", error);
+
+  //   return NextResponse.json({
+  //     type: "error",
+  //     error: error.message,
+  //   });
+  // }
+}
 
 const nodeExecution = async (
   node: Node,

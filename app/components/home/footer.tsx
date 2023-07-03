@@ -5,7 +5,7 @@ const footerNavigationMenuTriggerStyle = cva(
   "group inline-flex w-max items-center justify-center rounded-md text-sm  transition-colors hover:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
 );
 
-const footerData = {
+const footerData: Record<string, Record<string, string>[]> = {
   Documentation: [
     {
       "Getting Started": "/signup",
@@ -40,7 +40,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="flex flex-row gap-20">
-        {Object.keys(footerData).map((key: string) => (
+        {Object.keys(footerData).map((key: any) => (
           <div key={key} className="flex flex-col gap-4">
             <h6
               className={`${footerNavigationMenuTriggerStyle()} font-semibold select-none`}

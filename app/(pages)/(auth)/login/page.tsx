@@ -126,7 +126,7 @@ export default function Login() {
               className="flex flex-row items-center justify-center gap-3"
             >
               <div>{loading ? <Loader className="animate-spin" /> : <></>}</div>
-              <div>{isPasswordNull ? "Send magic link" : "Sign up"}</div>
+              <div>{isPasswordNull ? "Send magic link" : "Log In"}</div>
               <div>{<></>}</div>
             </Button>
           </div>

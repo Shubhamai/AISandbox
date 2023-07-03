@@ -13,6 +13,10 @@ import {
 import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
+import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs";
+
+dayjs.extend(relativeTime);
 
 export default function Profile() {
   const supabase = createClientComponentClient();
@@ -34,7 +38,11 @@ export default function Profile() {
   return (
     <div className="grid grid-cols-4 gap-4">
       {projects.map((project: any) => (
-        <Card key={project.id} className="border-none shadow-none" onClick={() => router.push(`/project/${project.id}`)}>
+        <Card
+          key={project.id}
+          className="border-none shadow-none"
+          onDoubleClick={() => router.push(`/project/${project.id}`)}
+        >
           <CardContent className="p-0">
             <Image
               className="rounded-xl"
@@ -46,7 +54,9 @@ export default function Profile() {
           </CardContent>
           <CardFooter className="flex flex-col gap-1 items-start p-2">
             <p>{project.name}</p>
-            <p className="text-xs text-foreground/50">Edited 4 hours ago</p>
+            <p className="text-xs text-foreground/50">
+              {dayjs(project.updated_at).fromNow()}
+            </p>
           </CardFooter>
         </Card>
       ))}

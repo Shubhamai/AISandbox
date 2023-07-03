@@ -29,7 +29,8 @@ export const APICodeDialog = () => {
     });
   }
 
-  let url = `${window?.location?.protocol}//${window?.location?.hostname}:${window?.location?.port}/api/execute/`; // TODO : ${uuid}
+  // let url = `${window?.location?.protocol}//${window?.location?.hostname}:${window?.location?.port}/api/execute/`; // TODO : ${uuid}
+  let url = "sda";
 
   const pythonCode = `
   import requests

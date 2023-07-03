@@ -31,8 +31,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
   const reactFlowWrapper = useRef(null);
   const edgeUpdateSuccessful = useRef(true);
-  const [projectData, setProjectData] = useState<any>({});
-  const [projectName, setProjectName] = useState<null | string>(null);
+  const [projectName, setProjectName] = useState<string>("");
 
   const {
     nodes,
@@ -50,6 +49,7 @@ export default function Home({ params }: { params: { id: string } }) {
     onConnect,
     onDragOver,
     onDrop,
+    setProjectId,
   } = graphState();
   const { zenMode, showMiniMap, background } = useAppState();
 
@@ -69,9 +69,15 @@ export default function Home({ params }: { params: { id: string } }) {
         .eq("id", params.id)
         .single();
 
-      const { nodes, edges } = project.data;
-      updateGraph(nodes, edges);
-      setProjectName(project.name);
+      if (project) {
+        const { nodes, edges } = project.data;
+
+        updateGraph(nodes, edges);
+        setProjectName(project.name);
+        setProjectId(params.id);
+      } else {
+        console.log(error);
+      }
     };
 
     getProjectData();

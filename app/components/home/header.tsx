@@ -27,11 +27,12 @@ const Header = () => {
   useEffect(() => {
     const getUser = async () => {
       const {
-        data: { user },
-      } = await supabase.auth.getUser();
+        data: { session },
+        error
+      } = await supabase.auth.getSession();
 
-      if (user) {
-        setUser(user);
+      if (session) {
+        setUser(session.user);
       }
     };
 

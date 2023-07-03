@@ -35,8 +35,7 @@ const Header = ({
           <input
             className="text-md font-bold text-foreground italic !outline-none"
             defaultValue={projectName}
-            // TODO : Too many API calls, fix this
-            onChange={async (e) => {
+            onBlur={async (e) => {
               const { data, error } = await supabase
                 .from("projects")
                 .update({ name: e.target.value })

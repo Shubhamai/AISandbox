@@ -52,9 +52,12 @@ export default function Signup() {
       // router.push("/dashboard");
       // router.refresh();
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
       });
 
       if (error) {
@@ -65,10 +68,10 @@ export default function Signup() {
       } else {
         toast({
           title: "Account Created",
-          description: "Account created successfully",
+          description: "Please confirm your email to continue",
         });
 
-        router.push("/dashboard");
+        router.push("/login");
         router.refresh();
       }
     }
@@ -77,7 +80,10 @@ export default function Signup() {
   };
   return (
     <div className="flex flex-col gap-10 items-center justify-center mx-auto min-h-screen w-[400px]">
-      <Link href={"/"} className="absolute left-8 top-12 rounded-full flex flex-row text-sm text-foreground/80 items-center gap-1">
+      <Link
+        href={"/"}
+        className="absolute left-8 top-12 rounded-full flex flex-row text-sm text-foreground/80 items-center gap-1"
+      >
         <ChevronLeft size={16} /> <div>Home</div>
       </Link>
       <div className="flex flex-col gap-2 w-full">

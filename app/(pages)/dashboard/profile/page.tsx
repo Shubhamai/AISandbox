@@ -6,16 +6,17 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export default async function Profile() {
   const supabase = createServerComponentClient({ cookies });
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
 
-  if (!user) {
+  if (!session) {
     return <div>No User Found</div>;
   }
 
@@ -24,7 +25,7 @@ export default async function Profile() {
       <section>Account Information</section>
       <div className="flex flex-row justify-between gap-28 items-center">
         Email
-        <Input value={user?.email} readOnly />
+        <Input value={session.user.email} readOnly />
       </div>
     </div>
   );

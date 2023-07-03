@@ -9,6 +9,7 @@ import {
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import CreateProjectButton from "@/app/components/dashboard/createProject";
+import { Separator } from "@/app/components/ui/separator";
 
 export const runtime = 'edge';
 
@@ -33,10 +34,16 @@ export default function DashboardLayout({
         {/* <FeedbackDialogForm /> */}
         < CreateProjectButton />
       </div>
-      <div className="p-2 flex flex-col items-start gap-8 border-r">
-        <section className="flex flex-col gap-3">
+      <div className="p-2 flex flex-col items-start gap-3 border-r">
+      <section className="flex flex-col gap-2">
+          <h4 className="text-foreground/50 text-sm">Dashboard</h4>
+          <Link className="text-base" href="/dashboard">Projects</Link>
+        </section>
+        <Separator className="" />
+        <section className="flex flex-col gap-2">
           <h4 className="text-foreground/50 text-sm">Account</h4>
-          <Link href="/dashboard/profile">Settings</Link>
+          <Link className="text-base" href="/dashboard/profile">Profile</Link>
+          <Link className="text-base" href="/dashboard/apikeys">API Keys</Link>
         </section>
         <Button
           variant={"link"}

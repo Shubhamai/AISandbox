@@ -12,15 +12,18 @@ const CreateProjectButton = () => {
 
   const createNewProject = async () => {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
 
-    if (user) {
+    if (session) {
       const emptyData = { nodes: [], edges: [] };
 
       const { data, error } = await supabase
         .from("projects")
-        .insert([{ data: emptyData, user_id: user.id, name : "Untitled" }])
+        .insert([
+          { data: emptyData, user_id: session.user.id, name: "Untitled" },
+        ])
         .select();
 
       if (error) {

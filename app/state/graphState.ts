@@ -20,6 +20,7 @@ import nodeTypes from "../components/Nodes/nodeTypes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type RFState = {
+  projectId: string | null;
   id: number;
   nodes: Node[];
   edges: Edge[];
@@ -43,9 +44,11 @@ type RFState = {
   onDragOver: (event: any) => void;
   onDrop: (event: any) => void;
   getId: (type: string) => string;
+  setProjectId: (projectId: string) => void;
 };
 
 const graphState = create<RFState>((set, get) => ({
+  projectId: null,
   id: 0, // TODO : Could be problematic, either numerical or string id
   nodes: [], // TODO : Maybe load from local storage
   edges: [], // TODO : Maybe load from local storage
@@ -193,28 +196,34 @@ const graphState = create<RFState>((set, get) => ({
     set({ id: id });
     return `${type}-${id}`;
   },
+  setProjectId: (projectId: string) => {
+    set({ projectId });
+  },
 }));
 
 export default graphState;
 
 graphState.subscribe((state, prevState) => {
-  const { nodes, edges } = state;
-
+  const { nodes, edges, projectId } = state;
+  if (!projectId) {
+    console.log("No project id");
+    return;
+  }
   if (
     compareNodes(nodes, prevState.nodes) &&
     compareEdges(edges, prevState.edges)
   ) {
     return;
   }
-
   const supabase = createClientComponentClient();
   supabase
     .from("projects")
     .update({
       data: { nodes, edges },
     })
-    .eq("id", "db4cfed2-595e-4879-9adc-cd8939c94708")
-    .select();
+    .eq("id", projectId).then((res) => {
+      console.log(res);
+    });
 });
 
 const nodeMapFn = (nodes: Node[]) => {
