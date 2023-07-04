@@ -11,10 +11,14 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  Session,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 dayjs.extend(relativeTime);
 
@@ -22,18 +26,42 @@ export default function Profile() {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const [projects, setProjects] = useState<any>([]);
+  // const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
     const getProjects = async () => {
-      let { data: projects, error } = await supabase
-        .from("projects")
-        .select("*");
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-      setProjects(projects);
+      if (!session) {
+        console.log("no session");
+      } else {
+        let { data: projects, error } = await supabase
+          .from("projects")
+          .select("*");
+
+        if (!projects) {
+          console.log(error);
+        } else {
+          for (let project of projects) {
+            project.image = await getImageUrl(session, project);
+          }
+          setProjects(projects);
+        }
+      }
     };
 
     getProjects();
   }, []);
+
+  const getImageUrl = async (session: Session, project: any) => {
+    const { data } = await supabase.storage
+      .from("projects")
+      .createSignedUrl(`${session.user.id}/${project.id}.jpeg`, 60);
+
+    return data?.signedUrl || "";
+  };
 
   return (
     <div className="grid grid-cols-4 gap-4">
@@ -45,8 +73,8 @@ export default function Profile() {
         >
           <CardContent className="p-0">
             <Image
-              className="rounded-xl"
-              src={"/assets/image.jpg"}
+              className="rounded-xl border"
+              src={project.image}
               alt="black image"
               width={300}
               height={170}

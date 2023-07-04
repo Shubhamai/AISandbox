@@ -13,11 +13,14 @@ import {
   applyEdgeChanges,
   NodeTypes,
   updateEdge,
+  getRectOfNodes,
+  getTransformForBounds,
 } from "reactflow";
-import { debounce, isEqual, sortBy } from "lodash";
 
 import nodeTypes from "../components/Nodes/nodeTypes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { compareEdges, compareNodes } from "../utils";
+import { toBlob, toJpeg } from "html-to-image";
 
 type RFState = {
   projectId: string | null;
@@ -215,55 +218,51 @@ graphState.subscribe((state, prevState) => {
   ) {
     return;
   }
+
   const supabase = createClientComponentClient();
-  supabase
-    .from("projects")
-    .update({
-      data: { nodes, edges },
-    })
-    .eq("id", projectId).then((res) => {
-      console.log(res);
-    });
-});
+  const viewport: HTMLElement | null = document.querySelector(
+    ".react-flow__viewport"
+  );
 
-const nodeMapFn = (nodes: Node[]) => {
-  return sortBy(
-    nodes.map((node) => {
+  const imageWidth = 1024;
+  const imageHeight = 768;
+
+  const nodesBounds = getRectOfNodes(nodes);
+  const transform = getTransformForBounds(
+    nodesBounds,
+    imageWidth,
+    imageHeight,
+    0.5,
+    2
+  );
+
+  if (viewport) {
+    toBlob(viewport, {
+      backgroundColor: "#ffffff",
+      width: imageWidth,
+      height: imageHeight,
+      style: {
+        width: `${imageWidth}`,
+        height: `${imageHeight}`,
+        transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+      },
+    }).then(async (outImage) => {
+      if (!outImage) {
+        console.log("No outImage");
+        return;
+      }
+
       const {
-        position,
-        positionAbsolute,
-        selected,
-        height,
-        width,
-        dragging,
-        ...otherProps
-      } = node;
-      return otherProps;
-    }),
-    ["id"]
-  );
-};
+        data: { session },
+      } = await supabase.auth.getSession();
 
-const edgeMapFn = (nodes: Edge[]) => {
-  return sortBy(
-    nodes.map((node) => {
-      const { ...otherProps } = node;
-      return otherProps;
-    }),
-    ["id"]
-  );
-};
+      const { data, error } = await supabase.storage
+        .from("projects")
+        .upload(`${session?.user.id}/${projectId}.jpeg`, outImage);
 
-const compareNodes = (nodes1: Node[], nodes2: Node[]) => {
-  const filterdNodes1 = nodeMapFn(nodes1);
-  const filterdNodes2 = nodeMapFn(nodes2);
-
-  return isEqual(filterdNodes1, filterdNodes2);
-};
-
-const compareEdges = (edges1: Edge[], edges2: Edge[]) => {
-  const filterdEdges1 = edgeMapFn(edges1);
-  const filterdEdges2 = edgeMapFn(edges2);
-
-  return isEqual(filterdEdges1, filterdEdges2);
-};
+      console.log("error", error, data);
+    });
+  } else {
+    console.log("Viewport not found! Unable to Download");
+  }
+});

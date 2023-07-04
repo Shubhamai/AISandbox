@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   const reqBody = await request.json();
 
   const apiKeyValues = crypto.getRandomValues(new Uint8Array(16));
-  const apiKey = "ais-" + Buffer.from(apiKeyValues).toString("hex");
+  const apiKey = "ais-" + crypto.randomUUID();
 
   const hashedApiKey = await hashApiKey(apiKey);
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       hash: hashedApiKey,
       key: public_key,
       user_id: reqBody.user_id,
-      name : reqBody.name
+      name: reqBody.name,
     })
     .select();
 
