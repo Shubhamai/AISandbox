@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Panel,
   getIncomers,
@@ -38,26 +40,11 @@ const ToolBar = () => {
 
   const [isExecuting, setIsExecuting] = useState(false);
 
-  // const getStartingInputNodes = () => {
-  //   const { nodes, edges } = graphState.getState();
-
-  //   const inputNodes = [];
-  //   for (const node of nodes) {
-  //     const incomingNodes = getIncomers(node, nodes, edges);
-
-  //     if (incomingNodes.length === 0) {
-  //       inputNodes.push(node);
-  //     }
-  //   }
-
-  //   return inputNodes;
-  // };
-
-  const Execute = () => {
+  const Execute = async () => {
     setIsExecuting(true);
     const { nodes, edges } = graphState.getState();
 
-    ExecuteNodes(
+    await ExecuteNodes(
       nodes,
       edges,
       true, // isFrontEnd
@@ -69,81 +56,6 @@ const ToolBar = () => {
 
     setIsExecuting(false);
   };
-
-  //   resetNodesIsComputed();
-
-  //   // Create a queue to manage nodes to process and a set to keep track of visited nodes
-  //   let queue = getStartingInputNodes();
-  //   let visited = new Set();
-
-  //   while (queue.length > 0) {
-  //     let node = queue.shift(); // Remove node from the front of the queue
-
-  //     // If we've already visited this node, skip it
-  //     if (node === undefined || visited.has(node.id)) {
-  //       continue;
-  //     }
-
-  //     if (stopExecution) {
-  //       setStopExecution(false);
-  //       break;
-  //     }
-
-  //     // Get incoming and outgoing nodes
-  //     const incomingNodes = getIncomers(node, nodes, edges);
-  //     const outgoingNodes = getOutgoers(node, nodes, edges);
-
-  //     const allInputsComputed = incomingNodes.every((n) => n.data.hasComputed);
-
-  //     if (allInputsComputed) {
-  //       visited.add(node.id);
-
-  //       const updatedNode = await nodeExecution(node, incomingNodes);
-  //       updateNodeData(updatedNode.id, { ...updatedNode.data });
-  //       queue.push(...outgoingNodes.filter((n) => !visited.has(n.id)));
-
-  //       // Update edges
-  //       for (const edge of getConnectedEdges(queue, edges)) {
-  //         // if (edge.source === node.id) {
-  //         // const updatedEdge = await nodeExecution(edge, incomingNodes);
-  //         updateEdgeData(edge.id, { animated: true });
-  //         // }
-  //       }
-  //     }
-
-  //     queue.push(...incomingNodes.filter((n) => !visited.has(n.id)));
-  //   }
-
-  //   for (const edge of edges) {
-  //     updateEdgeData(edge.id, { animated: false });
-  //   }
-  //   setIsExecuting(false);
-  // };
-
-  // useEffect(() => {
-  //   const keyDownHandler = (e: KeyboardEvent) => {
-  //     if (e.key === "Enter") Execute();
-  //   };
-  //   document.addEventListener("keydown", keyDownHandler);
-  //   return () => {
-  //     document.removeEventListener("keydown", keyDownHandler);
-  //   };
-  // }, []);
-
-  // const postData = async () => {
-  //   const nodesInput = {
-  //     data: [
-  //       {
-  //         id: "1",
-  //         data: { text: "hello, tallest tower?" },
-  //       },
-  //     ],
-  //   };
-
-  //   const res = await axios.post("/api/execute/2", nodesInput);
-
-  //   console.log("execute RES", res);
-  // };
 
   return (
     <>

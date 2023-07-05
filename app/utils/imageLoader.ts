@@ -18,6 +18,8 @@ export default function cloudflareLoader({
   const paramsString = params.join(",");
   if (normalizeSrc(src).includes("supabase")) {
     return normalizeSrc(src);
+  } else if (normalizeSrc(src).includes("replicate")) {
+    return normalizeSrc(src);
   } else {
     return `https://raw.githubusercontent.com/Shubhamai/AISandbox/main/public/${normalizeSrc(
       src

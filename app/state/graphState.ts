@@ -21,10 +21,10 @@ import nodeTypes from "../components/Nodes/nodeTypes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { compareEdges, compareNodes } from "../utils";
 import { toBlob, toJpeg } from "html-to-image";
+import { nanoid } from "nanoid";
 
 type RFState = {
   projectId: string | null;
-  id: number;
   nodes: Node[];
   edges: Edge[];
   nodeTypes: NodeTypes;
@@ -52,7 +52,6 @@ type RFState = {
 
 const graphState = create<RFState>((set, get) => ({
   projectId: null,
-  id: 0, // TODO : Could be problematic, either numerical or string id
   nodes: [], // TODO : Maybe load from local storage
   edges: [], // TODO : Maybe load from local storage
   nodeTypes: nodeTypes,
@@ -194,9 +193,7 @@ const graphState = create<RFState>((set, get) => ({
     });
   },
   getId: (type: string) => {
-    // TODO : Clean this up
-    let id = get().id + 1;
-    set({ id: id });
+    let id = nanoid();
     return `${type}-${id}`;
   },
   setProjectId: (projectId: string) => {
@@ -215,6 +212,13 @@ graphState.subscribe((state, prevState) => {
   if (
     compareNodes(nodes, prevState.nodes) &&
     compareEdges(edges, prevState.edges)
+  ) {
+    return;
+  }
+
+  if (
+    prevState.nodes.length === state.nodes.length &&
+    prevState.edges.length === state.edges.length
   ) {
     return;
   }
@@ -255,6 +259,15 @@ graphState.subscribe((state, prevState) => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
+      // for (let edge of edges) {
+      //   edge = { ...edge, animated: false };
+      // }
+      for (let i = 0; i < edges.length; i++) {
+        edges[i] = { ...edges[i], animated: false };
+      }
+
+      // console.log("Saving...", edges);
 
       await supabase
         .from("projects")
