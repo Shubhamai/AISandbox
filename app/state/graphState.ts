@@ -256,11 +256,21 @@ graphState.subscribe((state, prevState) => {
         data: { session },
       } = await supabase.auth.getSession();
 
+      await supabase
+        .from("projects")
+        .update({
+          data: { nodes, edges },
+        })
+        .eq("id", projectId);
+      // .then((res) => {
+      //   console.log(res);
+      // });
+
       const { data, error } = await supabase.storage
         .from("projects")
-        .upload(`${session?.user.id}/${projectId}.jpeg`, outImage);
-
-      console.log("error", error, data);
+        .upload(`${session?.user.id}/${projectId}.jpeg`, outImage, {
+          upsert: true,
+        });
     });
   } else {
     console.log("Viewport not found! Unable to Download");

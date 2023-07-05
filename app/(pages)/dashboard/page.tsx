@@ -74,10 +74,12 @@ export default function Profile() {
           <CardContent className="p-0">
             <Image
               className="rounded-xl border"
+              unoptimized
+              priority
               src={project.image}
               alt="black image"
-              width={300}
-              height={170}
+              width={512}
+              height={384}
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-1 items-start p-2">
