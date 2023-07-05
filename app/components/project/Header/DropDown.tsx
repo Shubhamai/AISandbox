@@ -14,7 +14,7 @@ import {
 } from "@/app/components/ui/dropdown-menu";
 import { MenubarSeparator } from "@/app/components/ui/menubar";
 import { Separator } from "@/app/components/ui/separator";
-import { toPng } from "html-to-image";
+import { toPng, toSvg } from "html-to-image";
 import {
   AlignJustify,
   Download,
@@ -88,20 +88,24 @@ const DropDown = () => {
       0.5,
       2
     );
-    const viewport: HTMLElement | null = document.querySelector(
-      ".react-flow__viewport"
-    );
+    const viewport: HTMLElement | null = document.querySelector(".dndflow");
     if (viewport) {
-      toPng(viewport, {
+      toSvg(viewport, {
         backgroundColor: "#ffffff",
-        width: imageWidth,
-        height: imageHeight,
-        style: {
-          width: `${imageWidth}`,
-          height: `${imageHeight}`,
-          transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
-        },
-      }).then(downloadImage);
+        // width: imageWidth,
+        // height: imageHeight,
+        // style: {
+        // width: `${imageWidth}`,
+        // height: `${imageHeight}`,
+        // transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+        // },
+      }).then(async (outImage) => {
+        if (!outImage) {
+          console.log("No outImage");
+          return;
+        }
+        console.log(outImage);
+      });
     } else {
       console.log("Viewport not found! Unable to Download");
     }

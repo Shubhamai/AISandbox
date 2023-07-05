@@ -20,7 +20,7 @@ import {
 import nodeTypes from "../components/Nodes/nodeTypes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { compareEdges, compareNodes } from "../utils";
-import { toBlob, toJpeg } from "html-to-image";
+import { toBlob, toJpeg, toSvg } from "html-to-image";
 import { nanoid } from "nanoid";
 
 type RFState = {
@@ -260,9 +260,6 @@ graphState.subscribe((state, prevState) => {
         data: { session },
       } = await supabase.auth.getSession();
 
-      // for (let edge of edges) {
-      //   edge = { ...edge, animated: false };
-      // }
       for (let i = 0; i < edges.length; i++) {
         edges[i] = { ...edges[i], animated: false };
       }
@@ -275,9 +272,6 @@ graphState.subscribe((state, prevState) => {
           data: { nodes, edges },
         })
         .eq("id", projectId);
-      // .then((res) => {
-      //   console.log(res);
-      // });
 
       const { data, error } = await supabase.storage
         .from("projects")
