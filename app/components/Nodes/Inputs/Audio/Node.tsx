@@ -55,7 +55,6 @@ const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
     requestPermissionAndUpdateDevices();
 
     if (navigator.mediaDevices) {
-      console.log("getUserMedia supported.");
 
       if (selectedDevice) {
         console.log("selectedDevice", selectedDevice);

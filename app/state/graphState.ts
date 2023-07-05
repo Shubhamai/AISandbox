@@ -267,7 +267,7 @@ graphState.subscribe((state, prevState) => {
         edges[i] = { ...edges[i], animated: false };
       }
 
-      // console.log("Saving...", edges);
+      // console.log("Saving...", projectId);
 
       await supabase
         .from("projects")

@@ -83,6 +83,12 @@ export default function Home({ params }: { params: { id: string } }) {
     getProjectData();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      setProjectId("");
+    };
+  }, []);
+
   return (
     <div className="dndflow">
       <ReactFlowProvider>
