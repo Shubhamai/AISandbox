@@ -12,33 +12,11 @@ import {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-import {
-  User,
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
+import { User } from "@supabase/auth-helpers-nextjs";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
 
 // TODO : Remove the async
-const Header = () => {
-  const supabase = createClientComponentClient();
-  const [user, setUser] = useState<null | User>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { session },
-        error
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        setUser(session.user);
-      }
-    };
-
-    getUser();
-  }, []);
-
+const Header = ({ user }: { user: User | null }) => {
   return (
     <div className="fixed top-3 flex flex-row items-center justify-between w-[800px] backdrop-blur-sm bg-background/70 rounded-full py-2 pl-4 pr-2">
       <Link href="/" className="text-2xl font-bold">

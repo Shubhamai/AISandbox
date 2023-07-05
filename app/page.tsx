@@ -1,15 +1,22 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "./components/ui/button";
 import Image from "next/image";
 import Header from "./components/home/header";
 import Footer from "./components/home/footer";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createServerComponentClient({ cookies });
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <Header />
+      <Header user={session ? session.user : null} />
 
       <div className="flex flex-col items-center gap-10 mt-[300px]">
         <h1 className="font-extrabold text-6xl">Build AI Tools</h1>
@@ -18,7 +25,7 @@ export default function Home() {
           through integrating AI models in a node base editor.
         </h4>
         <div className="flex flex-row gap-5">
-          <Link href="/signup">
+          <Link href={session ? "/dashboard" : "/signup"}>
             <Button className="rounded-full">Get Started</Button>
           </Link>
           <Link href="/docs">
@@ -31,8 +38,8 @@ export default function Home() {
         <Image
           className="mt-32"
           src="/assets/image.jpg"
-          width={1000}
-          height={1000}
+          width={1200}
+          height={1200}
           alt="Picture of the author"
         />
       </div>

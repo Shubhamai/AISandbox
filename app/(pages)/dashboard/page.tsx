@@ -18,7 +18,6 @@ import {
 import { useEffect, useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 dayjs.extend(relativeTime);
 
@@ -78,8 +77,8 @@ export default function Profile() {
               priority
               src={project.image}
               alt="black image"
-              width={512}
-              height={384}
+              width={1024/2}
+              height={768/2}
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-1 items-start p-2">
