@@ -23,84 +23,51 @@ export async function POST(request: NextRequest) {
   const reqBody = await request.json();
 
   const Authorization = request.headers.get("Authorization");
-  const Project = request.headers.get("Project");
+  const ProjectId = request.headers.get("Project");
 
-  if (!Authorization || !Project) {
+  if (!Authorization || !ProjectId) {
     return NextResponse.json(
       Response.Error("API Key or Project ID not provided"),
       { status: 401 }
     );
-  } else {
-    return NextResponse.json(
-      Response.Success("API Key and Project ID provided"),
-      { status: 200 }
-    );
   }
 
-  // const nodesInput = reqData;
+  try {
+    const { data, error } = await supabaseService
+      .from("projects")
+      .select("data")
+      .eq("id", ProjectId)
+      .single();
 
-  // let id = context?.params.id;
+    if (error) {
+      return NextResponse.json(Response.Error(error.message));
+    }
 
-  // try {
-  //   // GET NODES & EDGES DATA
-  //   const { data, error } = await supabaseService
-  //     .from("data")
-  //     .select()
-  //     .eq("id", id)
-  //     .single();
+    const { nodes, edges } = data.data;
 
-  //   if (error) {
-  //     console.log("ERROR SUPABASE");
+    for (const nodeInput of reqBody.data) {
+      const node = nodes.find((n: Node) => n.id === nodeInput.id);
+      if (node) {
+        node.data.input = nodeInput.data;
+        node.data.output = nodeInput.data;
+      }
+    }
 
-  //     return NextResponse.json({
-  //       type: "error",
-  //       error: error.message,
-  //     });
-  //   }
+    try {
+      let processedOutputs = await ExecuteNodes(
+        nodes,
+        edges,
+        false,
+        nodeExecution
+      );
 
-  //   if (!data || !data.data) {
-  //     console.log("ERROR SUPABASE NO DATA");
-
-  //     return NextResponse.json({
-  //       type: "error",
-  //       error: "No data found with given Id",
-  //     });
-  //   }
-
-  //   const { nodes, edges } = JSON.parse(data.data);
-
-  //   for (const nodeInput of nodesInput.data) {
-  //     const node = nodes.find((n: Node) => n.id === nodeInput.id);
-  //     if (node) {
-  //       node.data.input = nodeInput.data;
-  //       node.data.output = nodeInput.data;
-  //     }
-  //   }
-
-  //   // EXECUTE
-  //   try {
-  //     let processedOutputs = await ExecuteNodes(nodes, edges, false, nodeExecution);
-
-  //     return NextResponse.json({
-  //       type: "success",
-  //       data: processedOutputs,
-  //     });
-  //   } catch (err: any) {
-  //     console.log("ERROR EXECUTING", err);
-
-  //     return NextResponse.json({
-  //       type: "error",
-  //       error: err.message,
-  //     });
-  //   }
-  // } catch (error: any) {
-  //   console.log("ERROR API ROUTE", error);
-
-  //   return NextResponse.json({
-  //     type: "error",
-  //     error: error.message,
-  //   });
-  // }
+      return NextResponse.json(Response.Success(processedOutputs));
+    } catch (err: any) {
+      return NextResponse.json(Response.Error(err.message));
+    }
+  } catch (error: any) {
+    return NextResponse.json(Response.Error(error.message));
+  }
 }
 
 const nodeExecution = async (
@@ -147,15 +114,6 @@ const nodeExecution = async (
 
       return node;
     } else {
-      // window.alert("Invalid Node...");
-      // node.data = {
-      //   ...node.data,
-      //   hasComputed: true,
-      //   // input: previousNodes[0].data.output, // TODO: This is a hack, need to fix this
-      //   output: node.data.input,
-      // };
-      // return node;
-      // Return error
       throw new Error("Invalid Node");
     }
   } catch (err) {
