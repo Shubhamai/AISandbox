@@ -6,6 +6,7 @@ import Footer from "./components/home/footer";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { MoveUpRight } from "lucide-react";
+import LandingCard from "./components/landing/Card";
 
 export const runtime = "edge";
 
@@ -46,44 +47,29 @@ export default async function Home() {
           alt="Editor"
         />
 
-        <div className="flex flex-row mt-36 items-center gap-10">
-          <Link href="https://github.com/shubhamai/aisandbox">
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-row justify-between">
-                <h1 className="font-medium text-2xl">Open Source</h1>
-                <div className="p-1 border-2 rounded-full">
-                  <MoveUpRight />
-                </div>
-              </div>
-              <h4 className="font-medium text-lg text-foreground/50 text-left">
-                AI Sandbox is an open source project. <br />
-                You can contribute to the project on Github
-              </h4>
-            </div>
+        <div className="flex flex-row mt-36 items-center gap-16">
+          <Link
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://github.com/shubhamai/aisandbox"
+          >
+            <LandingCard title="Open Source">
+              AI Sandbox is an open source project. <br />
+              You can contribute to the project on Github.
+            </LandingCard>
           </Link>
-          <Link href="https://github.com/shubhamai/aisandbox">
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-row justify-between">
-                <h1 className="font-medium text-2xl">Open Source</h1>
-                <MoveUpRight className="border-2 rounded-full" />
-              </div>
-              <h4 className="font-medium text-lg text-foreground/50 text-left">
-                AI Sandbox is an open source project. <br />
-                You can contribute to the project on Github
-              </h4>
-            </div>
+          <Link rel="noopener noreferrer" target="_blank" href="/docs">
+            <LandingCard title="AI Models">
+              The editor provides a wide range of AI models <br />
+              to build your AI architectures.
+            </LandingCard>
           </Link>
-          <Link href="https://github.com/shubhamai/aisandbox">
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-row justify-between">
-                <h1 className="font-medium text-2xl">Open Source</h1>
-                <MoveUpRight className="border-2 rounded-full" />
-              </div>
-              <h4 className="font-medium text-lg text-foreground/50 text-left">
-                AI Sandbox is an open source project. <br />
-                You can contribute to the project on Github
-              </h4>
-            </div>
+
+          <Link rel="noopener noreferrer" target="_blank" href="/docs">
+            <LandingCard title="API Integration">
+              Integrated the architectures to any application <br />
+              by serving as an API endpoint.
+            </LandingCard>
           </Link>
         </div>
       </div>
