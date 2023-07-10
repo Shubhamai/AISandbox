@@ -1,6 +1,6 @@
 import { Panel } from "reactflow";
 
-import { WorkflowIcon } from "lucide-react";
+import { Container, WorkflowIcon } from "lucide-react";
 import useAppState from "@/app/state/appState";
 import DropDown from "./DropDown";
 import Link from "next/link";
@@ -29,7 +29,7 @@ const Header = ({
           href={"/dashboard"}
           className="flex gap-1 p-2 items-center rounded-full shadow-lg select-none bg-background text-foreground hover:text-background hover:bg-foreground border border-foreground/20"
         >
-          <WorkflowIcon />
+          <Container />
         </Link>
         <div className="flex flex-col w-fit">
           <input

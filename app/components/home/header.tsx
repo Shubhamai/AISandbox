@@ -14,13 +14,14 @@ import {
 } from "../ui/navigation-menu";
 import { User } from "@supabase/auth-helpers-nextjs";
 import { Button } from "../ui/button";
+import { Container } from "lucide-react";
 
 // TODO : Remove the async
 const Header = ({ user }: { user: User | null }) => {
   return (
     <div className="fixed top-3 flex flex-row items-center justify-between w-[800px] backdrop-blur-sm bg-background/70 rounded-full py-2 pl-4 pr-2">
-      <Link href="/" className="text-2xl font-bold">
-        AISandbox
+      <Link href="/" className="flex flex-row gap-2 items-center text-2xl font-bold">
+        <Container /> AISandbox
       </Link>
 
       <NavigationMenu>
