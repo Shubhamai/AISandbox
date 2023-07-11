@@ -78,6 +78,7 @@ export default function Signup() {
 
     setLoading(false);
   };
+
   return (
     <div className="flex flex-col gap-10 items-center justify-center mx-auto min-h-screen w-[400px]">
       <Link
@@ -150,6 +151,14 @@ export default function Signup() {
           <Button
             variant={"secondary"}
             className="flex flex-row items-center gap-3 rounded-md w-full"
+            onClick={async () => {
+              const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: "github",
+                options: {
+                  redirectTo: `${location.origin}/auth/callback`,
+                },
+              });
+            }}
           >
             <Image
               src="/assets/github-mark.png"
