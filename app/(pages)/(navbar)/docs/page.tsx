@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 const Docs = () => {
   return (
     <div className="flex flex-col gap-10 items-center justify-center mx-auto min-h-screen w-[400px]">
