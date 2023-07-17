@@ -41,7 +41,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          {children}
+          <div id="root" className="w-screen h-screen">
+            {children}
+          </div>
         </ThemeProvider>
         <Toaster />
       </body>
