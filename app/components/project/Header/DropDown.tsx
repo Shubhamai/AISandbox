@@ -14,7 +14,7 @@ import {
 } from "@/app/components/ui/dropdown-menu";
 import { MenubarSeparator } from "@/app/components/ui/menubar";
 import { Separator } from "@/app/components/ui/separator";
-import { toPng, toSvg } from "html-to-image";
+import { toBlob, toPng, toSvg } from "html-to-image";
 import {
   AlignJustify,
   Download,
@@ -31,16 +31,7 @@ import {
 import { getRectOfNodes, getTransformForBounds } from "reactflow";
 import { useRouter } from "next/navigation";
 
-// TODO : Move this to a utils file or something...
-function downloadImage(dataUrl: any) {
-  const a = document.createElement("a");
-
-  a.setAttribute("download", "reactflow.png");
-  a.setAttribute("href", dataUrl);
-  a.click();
-}
-
-const DropDown = () => {
+const DropDown = ({ projectName }: { projectName: string }) => {
   const router = useRouter();
 
   const updateGraph = graphState((s) => s.updateGraph);
@@ -51,29 +42,52 @@ const DropDown = () => {
     updateGraph([], []);
   };
 
-  // TODO : Save will be downlading a json file
-  // The local storage will be used to save the canvas automatically
   const saveCanvas = () => {
     const flow = reactFlowInstance.toObject();
+
+    const jsonDataBlob = new Blob([JSON.stringify(flow)], {
+      type: "application/json",
+    });
+
     localStorage.setItem("canvas", JSON.stringify(flow));
+    let aElement = document.createElement("a");
+    aElement.href = window.URL.createObjectURL(jsonDataBlob);
+    aElement.download = `${projectName}.json`;
+    aElement.style.display = "none";
+    document.body.appendChild(aElement);
+    aElement.click();
+    aElement.remove();
   };
 
   // TODO : Load will be loading a json file to the canvas
   const loadCanvas = () => {
-    const flow = localStorage.getItem("canvas");
-    if (flow) {
-      console.log("Loading canvas from local storage");
-      const parsedFlow = JSON.parse(flow);
-
-      // Disable animation on all edges
-      for (let edgeId in parsedFlow.edges) {
-        parsedFlow.edges[edgeId].animated = false;
+    // Open the dialog to upload a file
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.click();
+    input.onchange = async (e: any) => {
+      const file = e.target.files[0];
+      if (!file) {
+        return;
       }
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const text = e.target?.result;
+        if (!text) {
+          return;
+        }
 
-      updateGraph(parsedFlow.nodes, parsedFlow.edges);
-    } else {
-      console.log("No canvas found in local storage");
-    }
+        const parsedFlow = JSON.parse(text.toString());
+
+        // Disable animation on all edges
+        for (let edgeId in parsedFlow.edges) {
+          parsedFlow.edges[edgeId].animated = false;
+        }
+        updateGraph(parsedFlow.nodes, parsedFlow.edges);
+      };
+      reader.readAsText(file);
+    };
   };
 
   const exportImage = () => {
@@ -88,23 +102,32 @@ const DropDown = () => {
       0.5,
       2
     );
-    const viewport: HTMLElement | null = document.querySelector(".dndflow");
+    const viewport: HTMLElement | null = document.querySelector(
+      ".react-flow__viewport"
+    );
     if (viewport) {
-      toSvg(viewport, {
+      toBlob(viewport, {
         backgroundColor: "#ffffff",
-        // width: imageWidth,
-        // height: imageHeight,
-        // style: {
-        // width: `${imageWidth}`,
-        // height: `${imageHeight}`,
-        // transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
-        // },
+        width: imageWidth,
+        height: imageHeight,
+        style: {
+          width: `${imageWidth}`,
+          height: `${imageHeight}`,
+          transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+        },
       }).then(async (outImage) => {
         if (!outImage) {
           console.log("No outImage");
           return;
         }
-        console.log(outImage);
+
+        let aElement = document.createElement("a");
+        aElement.href = window.URL.createObjectURL(outImage); // xhr.response is a blob
+        aElement.download = `${projectName}.png`; // Set the file name.
+        aElement.style.display = "none"; // set anchor as hidden
+        document.body.appendChild(aElement);
+        aElement.click();
+        aElement.remove();
       });
     } else {
       console.log("Viewport not found! Unable to Download");

@@ -77,8 +77,8 @@ export default function Profile() {
               priority
               src={project.image}
               alt="black image"
-              width={1024/2}
-              height={768/2}
+              width={1024 / 2}
+              height={768 / 2}
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-1 items-start p-2">
@@ -89,6 +89,16 @@ export default function Profile() {
           </CardFooter>
         </Card>
       ))}
+      {projects.length === 0 ? (
+        <div className="col-span-4 flex flex-col items-center justify-center">
+          <p className="text-foreground/50">No projects yet</p>
+          <Button className="mt-4" onClick={() => router.push("/project/new")}>
+            Create Project
+          </Button>
+        </div>
+      ) : (
+        <div></div>
+      )}
       {/*<Card className="border-none shadow-none">
          <CardContent className="p-0">
           <Image

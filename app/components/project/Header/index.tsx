@@ -46,7 +46,7 @@ const Header = ({
         </div>
       </div>
       <div className="flex flex-row items-center gap-5">
-        <DropDown />
+        <DropDown projectName={projectName} />
       </div>
     </Panel>
   );
