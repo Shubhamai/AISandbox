@@ -21,7 +21,7 @@ export default async function Profile() {
   }
 
   return (
-    <div className="flex flex-col gap-10 w-[600px]">
+    <div className="flex flex-col gap-10 w-[600px] p-6">
       <section>Account Information</section>
       <div className="flex flex-row justify-between gap-28 items-center">
         Email

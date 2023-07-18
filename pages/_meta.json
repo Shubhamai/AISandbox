@@ -1,0 +1,20 @@
+{
+    "index": {
+      "title": "Home",
+      "display": "hidden",
+      "theme": {
+        "layout": "raw"
+      }
+    },
+    "docs": {
+      "title": "Documentation",
+      "type": "page",
+      "href": "/docs"
+    },
+    "API": {
+      "title": "API Reference",
+      "type": "page",
+      "href": "/api",
+      "newWindow": true
+    }
+  }

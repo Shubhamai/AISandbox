@@ -83,7 +83,7 @@ export default function Profile() {
             >
               <CardContent className="p-0">
                 <Image
-                  className="rounded-xl border"
+                  className="rounded-xl border hover:shadow-xl transition-shadow"
                   unoptimized
                   priority
                   src={project.image}
