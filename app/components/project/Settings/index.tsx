@@ -3,7 +3,7 @@ import nodeTypes, {
   inputNodes,
   outputNodes,
   modelNodes,
-} from "@/app/components/Nodes/nodeTypes";
+} from "@/app/components/Nodes/nodeMapping";
 import { DragEvent, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";

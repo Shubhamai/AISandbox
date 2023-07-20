@@ -1,4 +1,4 @@
-import allNodes, { allNodesData } from "@/app/components/Nodes/nodeTypes";
+import allNodes, { allNodesData } from "@/app/components/Nodes/nodeMapping";
 import {
   Command,
   CommandEmpty,

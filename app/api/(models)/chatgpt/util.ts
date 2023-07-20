@@ -1,8 +1,8 @@
 import { Node } from "reactflow";
 
-const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY as string;
+export const fetchResult = async (req: any) => {
+  const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY as string;
 
-export const ExecuteChatGPT = async (req: any) => {
   const payload = {
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: req.text }],
@@ -26,17 +26,37 @@ export const ExecuteChatGPT = async (req: any) => {
 
 export const executeOpenAIChatGPTNode = async (
   node: Node,
-  previousNode: Node
+  previousNode: Node,
+  localExecution: boolean = false
 ) => {
   try {
-    const data = await ExecuteChatGPT({ text: previousNode.data.output.text });
+    let startTime = performance.now();
 
+    let data;
+    if (localExecution) {
+      const out = await fetch("/api/chatgpt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: previousNode.data.output.text }),
+      });
+      data = await out.json();
+    } else {
+      data = await fetchResult({
+        text: previousNode.data.output.text,
+      });
+    }
+
+    let endTime = performance.now();
+
+    node.data.output.executionTime = endTime - startTime;
     node.data.output.text = data.text;
     node.data.hasComputed = true;
 
     return node;
   } catch (e) {
-    console.log("OPENAI CHARGPT EXECUTE ERROR", e);
+    console.log("ChatGPT Error : ", e);
 
     return node;
   }

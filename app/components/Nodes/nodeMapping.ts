@@ -2,7 +2,7 @@ import { inputNodes, inputNodesData } from "./Inputs/Inputs";
 import { modelNodes, modelsNodesData } from "./Models/models";
 import { outputNodes, outputNodesData } from "./Output/outputs";
 import { ToolsNodes } from "./Tools/tools";
-import { utilsNodes, utilsNodesData } from "./Utils/Utils";
+import { utilsNodes, utilsNodesData } from "./Others/Utils";
 
 const allNodes = {
   ...inputNodes,

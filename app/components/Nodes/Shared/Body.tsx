@@ -5,6 +5,7 @@ type NodeBodyProps = {
 };
 
 const NodeBody = ({ children, ...props }: NodeBodyProps) => {
+
   return (
     <div
       className={`bg-background flex flex-col rounded-md drop-shadow-lg border-[1px] border-solid border-foreground/10 relative ${props.className}`}

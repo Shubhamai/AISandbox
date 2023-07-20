@@ -9,7 +9,6 @@ import {
 } from "reactflow";
 import { useCallback, useEffect, useState } from "react";
 import graphState from "@/app/state/graphState";
-import nodeExecution from "./Execution";
 import {
   LayoutGrid,
   Maximize,
@@ -24,11 +23,10 @@ import { Button } from "@/app/components/ui/button";
 import useAppState from "@/app/state/appState";
 import ToolBarItem from "./ToolBarItem";
 import { ToolsNodesData } from "../../Nodes/Tools/tools";
-import axios from "axios";
 import { APICodeDialog } from "./APICode";
 import { cn } from "@/app/utils";
 import { ExecuteNodes } from "@/app/lib/execute";
-import { update } from "lodash";
+import { nodeExecution } from "@/app/api/(models)/execution";
 
 const ToolBar = () => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();

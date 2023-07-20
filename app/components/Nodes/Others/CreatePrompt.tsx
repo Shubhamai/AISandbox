@@ -8,19 +8,19 @@ import useAppState from "@/app/state/appState";
 import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 
-export const executeCreatePromptNode = (node: Node, previousNodes: Node[]) => {
-  let outText = node.data.input.text;
-  for (let previousNode of previousNodes) {
-    const nodeId = previousNode.id;
+// export const executeCreatePromptNode = (node: Node, previousNodes: Node[]) => {
+//   let outText = node.data.input.text;
+//   for (let previousNode of previousNodes) {
+//     const nodeId = previousNode.id;
 
-    outText = outText.replace(`\${${nodeId}}`, previousNode.data.output.text);
-  }
+//     outText = outText.replace(`\${${nodeId}}`, previousNode.data.output.text);
+//   }
 
-  node.data.output.text = outText;
-  node.data.hasComputed = true;
+//   node.data.output.text = outText;
+//   node.data.hasComputed = true;
 
-  return node;
-};
+//   return node;
+// };
 
 const CreatePromptNode = memo(
   ({ data, isConnectable, selected }: NodeProps) => {

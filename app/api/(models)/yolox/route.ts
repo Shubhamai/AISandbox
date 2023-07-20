@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ExecuteYolox } from "./util";
+import { fetchResult } from "./util";
 
 export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
-  const res = await ExecuteYolox(data);
+  const res = await fetchResult(data);
 
   // TODO : Need to get the audio from the output url
 

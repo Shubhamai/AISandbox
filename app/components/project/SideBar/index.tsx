@@ -11,7 +11,7 @@ import { inputNodesData } from "../../Nodes/Inputs/Inputs";
 import SidebarSection from "./SidebarSection";
 import { modelsNodesData } from "../../Nodes/Models/models";
 import { outputNodesData } from "../../Nodes/Output/outputs";
-import { utilsNodesData } from "../../Nodes/Utils/Utils";
+import { utilsNodesData } from "../../Nodes/Others/Utils";
 import { Brain, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Separator } from "@/app/components/ui/separator";

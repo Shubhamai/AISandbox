@@ -14,7 +14,7 @@ const config = {
     link: "https://github.com/shubhamai/aisandbox",
   },
   docsRepositoryBase:
-    "https://github.com/Shubhamai/AISandbox/tree/main/pages/docs",
+    "https://github.com/Shubhamai/AISandbox/tree/main",
   sidebar: {
     toggleButton: true,
   },

@@ -7,28 +7,28 @@ import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeStableDiffusionNode = async (
-  node: Node,
-  previousNode: Node
-) => {
-  let startTime = performance.now();
+// export const executeStableDiffusionNode = async (
+//   node: Node,
+//   previousNode: Node
+// ) => {
+//   let startTime = performance.now();
 
-  const dataJSON = await fetch("/api/stablediffusion", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text: previousNode.data.output.text }),
-  });
+//   const dataJSON = await fetch("/api/stablediffusion", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ text: previousNode.data.output.text }),
+//   });
 
-  const data = await dataJSON.json();
-  let endTime = performance.now();
+//   const data = await dataJSON.json();
+//   let endTime = performance.now();
 
-  node.data.output.image = data.image;
-  node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
-  return node;
-};
+//   node.data.output.image = data.image;
+//   node.data.output.executionTime = endTime - startTime;
+//   node.data.hasComputed = true; // TODO : Is hasComputed needed?
+//   return node;
+// };
 
 const StableDiffusionNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);

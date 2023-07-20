@@ -14,22 +14,6 @@ import useAppState from "@/app/state/appState";
 import NodeTitle from "../Shared/Title";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeWhisperNode = async (node: Node, previousNode: Node) => {
-  let startTime = performance.now();
-
-  const newForm = new FormData();
-  newForm.append("model", "whisper-1");
-
-  newForm.append("file", previousNode.data.output.audio, "audio.webm");
-
-  const response = await axios.post("/api/whisper", newForm);
-  let endTime = performance.now();
-
-  node.data.output.text = response.data.text;
-  node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
-  return node;
-};
 
 const WhisperNode = ({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this

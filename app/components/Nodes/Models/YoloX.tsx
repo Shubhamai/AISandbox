@@ -13,25 +13,6 @@ import NodeTitle from "../Shared/Title";
 import useAppState from "@/app/state/appState";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeYoloXNode = async (node: Node, previousNode: Node) => {
-  let startTime = performance.now();
-
-  const dataJSON = await fetch("/api/yolox", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ image: previousNode.data.output.image }),
-  });
-
-  const data = await dataJSON.json();
-  let endTime = performance.now();
-
-  node.data.output.text = data.text;
-  node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
-  return node;
-};
 
 const YoloXNode = ({ data, isConnectable }: NodeProps) => {
   const nodeId = useNodeId() || ""; // TODO : Fix this

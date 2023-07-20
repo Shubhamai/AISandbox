@@ -7,30 +7,6 @@ import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeVicuna13BNode = async (node: Node, previousNode: Node) => {
-  let startTime = performance.now();
-
-  const dataJSON = await fetch("/api/replicatellm", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model_url:
-        "replicate/vicuna-13b:6282abe6a492de4145d7bb601023762212f9ddbbe78278bd6771c8b3b2f2a13b",
-      text: previousNode.data.output.text,
-    }),
-  });
-
-  let endTime = performance.now();
-
-  const data = await dataJSON.json();
-
-  node.data.output.text = data.text;
-  node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true;
-  return node;
-};
 
 const Vicuna13B = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);

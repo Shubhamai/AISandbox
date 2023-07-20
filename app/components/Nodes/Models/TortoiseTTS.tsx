@@ -13,24 +13,6 @@ import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeTortoiseTTSNode = async (
-  node: Node,
-  previousNode: Node
-) => {
-  const dataJSON = await fetch("/api/tortoisetts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text: previousNode.data.output.text }),
-  });
-
-  const data = await dataJSON.json();
-
-  node.data.output.audio = data.audio;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
-  return node;
-};
 
 const TortoiseTTSNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);

@@ -7,31 +7,6 @@ import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-export const executeDollyV2Node = async (node: Node, previousNode: Node) => {
-  let startTime = performance.now();
-
-  const dataJSON = await fetch("/api/replicatellm", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model_url:
-        "replicate/dolly-v2-12b:ef0e1aefc61f8e096ebe4db6b2bacc297daf2ef6899f0f7e001ec445893500e5",
-      text: previousNode.data.output.text,
-    }),
-  });
-
-  let endTime = performance.now();
-
-  const data = await dataJSON.json();
-
-  node.data.output.text = data.text;
-  node.data.output.executionTime = endTime - startTime;
-  node.data.hasComputed = true;
-  return node;
-};
-
 const DollyV2 = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode, showStats } = useAppState();
