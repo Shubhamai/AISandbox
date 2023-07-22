@@ -83,7 +83,7 @@ export default async function Home() {
             </LandingCard>
           </Link>
 
-          <Link rel="noopener noreferrer" target="_blank" href="/docs">
+          <Link rel="noopener noreferrer" target="_blank" href="/api">
             <LandingCard title="API Integration">
               Integrated the architectures to any application <br />
               by serving as an API endpoint.

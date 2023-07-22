@@ -1,19 +1,6 @@
-import { cookies } from "next/headers";
-import { APIKey, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 
 export default async function ApiKeys() {
-  const supabase = createServerActionClient({ cookies });
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const { data, error } = await supabase
-    .from("apikeys")
-    .select("id,key,name,created");
-
   return (
     <div className="p-10 flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -24,7 +11,7 @@ export default async function ApiKeys() {
         </h4>
       </div>
       <div className="w-[800px]">
-        <DataTable columns={columns} data={data ? data : []} />
+        <DataTable />
       </div>
     </div>
   );

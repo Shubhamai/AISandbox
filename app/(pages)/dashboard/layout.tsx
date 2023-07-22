@@ -1,5 +1,5 @@
 import { Button } from "@/app/components/ui/button";
-import { LogOut } from "lucide-react";
+import { ArrowUpRight, LogOut } from "lucide-react";
 import Link from "next/link";
 import { FeedbackDialogForm } from "@/app/components/dashboard/feedback";
 import {
@@ -26,35 +26,64 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="grid grid-cols-[220px_1fr] grid-rows-[50px_1fr] p-4 h-full w-full border border-background">
-      <Link href={"/"} className="p-1 font-extrabold text-xl border-b">
+    <div className="grid grid-cols-[220px_1fr] grid-rows-[50px_1fr] h-full w-full border border-background py-4">
+      <Link href={"/"} className="px-4 font-extrabold text-xl border-b">
         AISandbox
       </Link>
-      <div className="flex flex-col items-end border-b">
+      <div className="pr-4 flex flex-col items-end border-b">
         {/* <FeedbackDialogForm /> */}
         <CreateProjectButton />
       </div>
-      <div className="p-2 flex flex-col items-start gap-3 border-r">
-        <section className="flex flex-col gap-2">
+      <div className="flex flex-col items-stretch border-r">
+        <section className="pl-4 py-2 flex flex-col gap-2">
           <h4 className="text-foreground/50 text-sm">Dashboard</h4>
-          <Link className="text-base" href="/dashboard">
+          <Link className="px-2 text-base" href="/dashboard">
             Projects
+          </Link>
+          <Link className="px-2 text-base" href="/dashboard/usage">
+            Usage
           </Link>
         </section>
         <Separator className="" />
-        <section className="flex flex-col gap-2">
+        <section className="pl-4 py-2 flex flex-col gap-2">
           <h4 className="text-foreground/50 text-sm">Account</h4>
-          <Link className="text-base" href="/dashboard/profile">
+          <Link className="px-2 text-base" href="/dashboard/profile">
             Profile
           </Link>
-          <Link className="text-base" href="/dashboard/apikeys">
+          <Link className="px-2 text-base" href="/dashboard/apikeys">
             API Keys
           </Link>
+          <Link className="px-2 text-base" href="/dashboard/billing">
+            Billing
+          </Link>
         </section>
+        <Separator className="" />
+        <section className="pl-4 py-2 flex flex-col gap-2">
+          <h4 className="text-foreground/50 text-sm">Documentation</h4>
+          <Link
+            rel="noopener noreferrer"
+            target="_blank"
+            className="px-1 text-base flex flex-row items-center gap-2"
+            href="/docs"
+          >
+            <ArrowUpRight className="text-foreground/50" size={21} />{" "}
+            Documentation
+          </Link>
+          <Link
+            rel="noopener noreferrer"
+            target="_blank"
+            className="text-base flex flex-row items-center gap-2"
+            href="/docs"
+          >
+            <ArrowUpRight className="text-foreground/50" size={21} /> API
+            Reference
+          </Link>
+        </section>
+        <Separator className="" />
         <Button
           variant={"link"}
           onClick={onSignOutClick}
-          className="flex flex-row gap-4 p-0"
+          className="flex flex-row justify-start px-5 py-4 items-start gap-4"
         >
           <LogOut className="w-4 h-4" /> <span>Logout</span>
         </Button>

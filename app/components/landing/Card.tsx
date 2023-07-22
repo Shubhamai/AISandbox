@@ -10,7 +10,7 @@ const LandingCard = ({
 ) => {
 
   return (
-    <div className="flex flex-col gap-3 border-1 shadow-lg p-4 rounded-3xl hover:shadow-xl hover:-translate-y-1 hover:scale-[1.005] transition ease-in-out delay-40">
+    <div className="flex flex-col gap-3 border-2 border-foreground/10 shadow-md p-4 rounded-2xl hover:shadow-lg hover:-translate-y-1 hover:scale-[1.005] transition ease-in-out delay-40">
       <div className="flex flex-row justify-between">
         <h1 className="font-medium text-2xl">{title}</h1>
         {/* <div className="p-1 border-2 rounded-full">

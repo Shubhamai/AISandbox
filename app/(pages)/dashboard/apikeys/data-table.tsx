@@ -27,7 +27,7 @@ import {
   DialogTrigger,
 } from "@/app/components/ui/dialog";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
@@ -35,16 +35,34 @@ import { Copy } from "lucide-react";
 import { useToast, toast } from "@/app/components/ui/use-toast";
 import { set } from "lodash";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { columns } from "./columns";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+export function DataTable<TData, TValue>() {
+  const supabase = createClientComponentClient();
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+  const [data, setData] = useState<any>([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      let { data, error } = await supabase
+        .from("apikeys")
+        .select("id,key,name,created");
+
+      if (error) {
+        console.error(error);
+      }
+
+      if (!data) {
+        data = [];
+      }
+      setData(data);
+    };
+    fetch();
+  }, []);
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
@@ -61,7 +79,6 @@ export function DataTable<TData, TValue>({
   const [apiKeyName, setApiKeyName] = useState("My Test Key");
   const [apiKey, setApiKey] = useState("");
   const [nameSubmitted, setNameSubmitted] = useState(false);
-  const supabase = createClientComponentClient();
 
   const getAPIKey = async () => {
     const {
