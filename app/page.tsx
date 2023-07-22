@@ -43,8 +43,7 @@ export default async function Home() {
           Build AI Tools
         </h1>
         <h4 className="font-medium text-xl text-foreground/50 text-center">
-          AI Sandbox enables rapid prototyping of AI architectures <br />
-          through integrating AI models in a node base editor.
+          Prototyping AI architectures in a node based editor.
         </h4>
         <div className="flex flex-row gap-5">
           <Link href={session ? "/dashboard" : "/signup"}>
@@ -92,7 +91,9 @@ export default async function Home() {
         </div>
       </div>
 
-      <Footer />
+      <div className="border-t w-full flex flex-row items-center justify-center mt-[200px]">
+        <Footer />
+      </div>
     </div>
   );
 }

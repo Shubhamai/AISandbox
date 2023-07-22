@@ -100,6 +100,18 @@ export function DataTable<TData, TValue>() {
       if (responseJson.type === "success") {
         setNameSubmitted(true);
         setApiKey(responseJson.data);
+
+        // Render the row to the table
+        data.push({
+          id: responseJson.id,
+          name: apiKeyName,
+          key:
+            responseJson.data.slice(0, 4) +
+            "..." +
+            responseJson.data.slice(-4, -1),
+          created: new Date().toISOString(),
+        });
+        setData([...data]);
       } else {
         toast({
           title: "Error",

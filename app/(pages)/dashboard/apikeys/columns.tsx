@@ -78,11 +78,11 @@ export const columns: ColumnDef<APIKey>[] = [
                 .eq("id", apikeyId.id);
 
               if (!error) {
-              toast({
-                title: "API Key deleted",
-                description: "Your API Key has been deleted.",
-              });
-            }
+                toast({
+                  title: "API Key deleted",
+                  description: "Your API Key has been deleted.",
+                });
+              }
             }
           }}
         >

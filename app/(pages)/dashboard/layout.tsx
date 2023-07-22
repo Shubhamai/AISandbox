@@ -63,7 +63,7 @@ export default function DashboardLayout({
           <Link
             rel="noopener noreferrer"
             target="_blank"
-            className="px-1 text-base flex flex-row items-center gap-2"
+            className="text-base flex flex-row items-center gap-2"
             href="/docs"
           >
             <ArrowUpRight className="text-foreground/50" size={21} />{" "}

@@ -14,18 +14,15 @@ export const metadata: Metadata = {
     shortcut:
       "https://raw.githubusercontent.com/Shubhamai/AISandbox/main/public/icon.svg",
   },
-  description:
-    "AI Sandbox enables rapid prototyping of AI architectures through integrating AI models in a node base editor.",
+  description: "Prototyping AI architectures in a node based editor.",
   openGraph: {
     title: "AI Sandbox",
-    description:
-      "AI Sandbox enables rapid prototyping of AI architectures through integrating AI models in a node base editor.",
+    description: "Prototyping AI architectures in a node based editor.",
   },
   twitter: {
     card: "summary_large_image",
     title: "AISandbox",
-    description:
-      'AI Sandbox enables rapid prototyping of AI architectures through integrating AI models in a node base editor."',
+    description: "Prototyping AI architectures in a node based editor.",
     images: [
       "https://raw.githubusercontent.com/Shubhamai/AISandbox/main/public/icon.svg",
     ],

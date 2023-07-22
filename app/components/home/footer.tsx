@@ -30,7 +30,7 @@ const footerData: Record<string, Record<string, string>[]> = {
 
 const Footer = () => {
   return (
-    <div className="flex flex-row justify-between items-start w-[800px] mt-[200px] mb-[30px]">
+    <div className="flex flex-row justify-between items-start w-[800px] mt-[40px] mb-[30px]">
       <div className="flex flex-col gap-10">
         <div className="flex flex-row items-center gap-2 font-semibold">
           <Container /> AISandbox
