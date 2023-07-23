@@ -14,7 +14,7 @@ import { Button } from "@/app/components/ui/button";
 import { DeleteIcon, LeafIcon, SortDesc, Trash } from "lucide-react";
 import dayjs from "dayjs";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { toast, useToast } from "@/app/components/ui/use-toast";
+// import { toast, useToast } from "@/app/components/ui/use-toast";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -59,7 +59,7 @@ export const columns: ColumnDef<APIKey>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const apikeyId = row.original;
-      const { toast } = useToast();
+      // const { toast } = useToast();
 
       return (
         <Button
@@ -77,12 +77,12 @@ export const columns: ColumnDef<APIKey>[] = [
                 .delete()
                 .eq("id", apikeyId.id);
 
-              if (!error) {
-                toast({
-                  title: "API Key deleted",
-                  description: "Your API Key has been deleted.",
-                });
-              }
+              // if (!error) {
+              //   toast({
+              //     title: "API Key deleted",
+              //     description: "Your API Key has been deleted.",
+              //   });
+              // }
             }
           }}
         >

@@ -27,7 +27,7 @@ const ListLayout = ({ projects }: { projects: any }) => {
       </TableHeader>
       <TableBody>
         {projects.map((project: any) => (
-          <TableRow>
+          <TableRow key={project.id}>
             <TableCell className="text-left">
               <div className="flex flex-row items-center gap-6">
                 {/* <AspectRatio ratio={1024 / 768} className="w-20 h-24"> */}
