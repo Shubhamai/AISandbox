@@ -6,7 +6,11 @@
 
 <p align="center">
   <a href="https://github.com/Shubhamai/AISandbox/blob/master/LICENSE">
-    <img alt="Excalidraw is released under the MIT license." src="https://img.shields.io/badge/license-MIT-blue.svg"  />
+    <img alt="AISandbox is released under the MIT license." src="https://img.shields.io/badge/license-MIT-blue.svg"  />
+    <img alt="Status" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fupptime%2Fupptime%2Fmaster%2Fapi%2Fgoogle%2Fuptime.json" />
+
+<img alt="Response time" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FShubhamai%2FAISandbox-Status%2FHEAD%2Fapi%2Fai-sandbox%2Fresponse-time.json">
+    
   </a>
 </p>
 
