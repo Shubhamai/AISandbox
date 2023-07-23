@@ -28,17 +28,40 @@ const footerData: Record<string, Record<string, string>[]> = {
   ],
 };
 
-const Footer = () => {
+const Footer = async () => {
+  // Read Status text form github readme
+  // TODO : Real Hacky, find a better way to do this
+
+  const checkStatus = async () => {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/Shubhamai/AISandbox-Status/master/README.md"
+    );
+    const text = await response.text();
+    let status = text.split("**")[1].split("**")[0].trim();
+
+    // Remove initial emoji
+    status = status.slice(2, status.length);
+
+    return status;
+  };
+
+  const status = await checkStatus();
+
   return (
     <div className="flex flex-row justify-between items-start w-[800px] mt-[40px] mb-[30px]">
       <div className="flex flex-col gap-10">
         <div className="flex flex-row items-center gap-2 font-semibold">
           <Container /> AISandbox
         </div>
-        <div className="text-sm flex flex-row items-center gap-3 rounded-lg py-[2px] px-[5px] border">
-          <div className="w-2 h-2 rounded-full bg-green-600">{"  "}</div> All
-          Systems nominal
-        </div>
+        <Link
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://status.aisandbox.app"
+          className="text-sm flex flex-row items-center gap-3 rounded-lg py-[2px] px-[5px] border"
+        >
+          <div className="w-2 h-2 rounded-full bg-green-600"></div>
+          {status}
+        </Link>
       </div>
       <div className="flex flex-row gap-20">
         {Object.keys(footerData).map((key: any) => (
