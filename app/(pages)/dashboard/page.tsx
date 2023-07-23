@@ -9,28 +9,40 @@ import {
 import { useEffect, useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
-import { GanttChart, LayoutGrid, List, Loader } from "lucide-react";
+import {
+  ChevronDown,
+  GanttChart,
+  LayoutGrid,
+  List,
+  Loader,
+} from "lucide-react";
 import CreateProjectButton from "@/app/components/dashboard/createProject";
 import ProjectCard from "@/app/components/dashboard/projectCard";
 import { toast } from "@/app/components/ui/use-toast";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/app/components/ui/table";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/app/components/ui/dropdown-menu";
+
 import ListLayout from "@/app/components/dashboard/listLayout";
 dayjs.extend(relativeTime);
 
 export default function Profile() {
   const supabase = createClientComponentClient();
   const [projects, setProjects] = useState<any>(null);
+  const [sectionProjects, setSectionProjects] = useState<any>(null); // recent | favorites
+
   const [loading, setLoading] = useState<boolean>(true);
-  const [layout, setLayout] = useState<string>("grid");
+  const [layout, setLayout] = useState<string>("grid"); // grid | list
+  const [section, setSection] = useState<string>("recent"); // recent | favorites
+  const [sort, setSort] = useState<string>("Last Modified"); // Alphabetical | Last Modified | Created At
   // const [session, setSession] = useState<any>(null);
 
   const deleteProject = async (id: string) => {
@@ -102,6 +114,7 @@ export default function Profile() {
             project.image = await getImageUrl(session, project);
           }
           setProjects(projects);
+          setSectionProjects(projects);
           setLoading(false);
         }
       }
@@ -131,16 +144,96 @@ export default function Profile() {
         <div className="flex flex-col gap-10">
           <div className="flex flex-row gap-4 items-center justify-between">
             <div className="flex flex-row gap-4 items-center">
-              {/* <h4 className="text-xs text-foreground/60 border-[1px] rounded-md px-2 py-[1px]">
-                Recently Viewed
-              </h4>
-              <h4 className="text-xs text-foreground/60 border-[1px] rounded-md px-2 py-[1px]">
-                Shared Projects
-              </h4> */}
-            </div>
-            <div className="flex flex-row gap-4 items-center">
               <ToggleGroup.Root
                 className="flex flex-row gap-3"
+                type="single"
+                value={section}
+                onValueChange={(value) => {
+                  if (value === "recent") {
+                    setSection("recent");
+                    setSectionProjects([...projects]);
+                  }
+                  if (value === "favorites") {
+                    setSection("favorites");
+                    let onlyFavorites = projects.filter(
+                      (project: any) => project.favorite
+                    );
+                    setSectionProjects([...onlyFavorites]);
+                  }
+                }}
+              >
+                <ToggleGroup.Item
+                  className="data-[state=on]:bg-foreground/10 rounded-sm"
+                  value="recent"
+                >
+                  <h4 className="text-xs text-foreground/60 border-[1px] rounded-md p-[4px] select-none">
+                    Recently Viewed
+                  </h4>
+                </ToggleGroup.Item>
+                <ToggleGroup.Item
+                  className="data-[state=on]:bg-foreground/10 rounded-sm"
+                  value="favorites"
+                >
+                  <h4 className="text-xs text-foreground/60 border-[1px] rounded-md p-[4px] select-none">
+                    Favorites
+                  </h4>
+                </ToggleGroup.Item>
+              </ToggleGroup.Root>
+            </div>
+            <div className="flex flex-row gap-4 items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-xs flex flex-row gap-1 items-center outline-none">
+                  {sort}
+                  <ChevronDown size={14} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel className="text-foreground/60">
+                    Sort By
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={sort}
+                    onValueChange={(value) => {
+                      if (value === "Alphabetical") {
+                        setSectionProjects(
+                          [...sectionProjects].sort((a: any, b: any) =>
+                            a.name.localeCompare(b.name)
+                          )
+                        );
+                      }
+                      if (value === "Last Modified") {
+                        setSectionProjects(
+                          [...sectionProjects].sort((a: any, b: any) =>
+                            dayjs(b.updated_at).diff(dayjs(a.updated_at))
+                          )
+                        );
+                      }
+                      if (value === "Created At") {
+                        setSectionProjects(
+                          [...sectionProjects].sort((a: any, b: any) =>
+                            dayjs(b.created_at).diff(dayjs(a.created_at))
+                          )
+                        );
+                      }
+
+                      setSort(value);
+                    }}
+                  >
+                    <DropdownMenuRadioItem value="Alphabetical">
+                      Alphabetical
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Last Modified">
+                      Last Modified
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Created At">
+                      Created At
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <ToggleGroup.Root
+                className="flex flex-row gap-2"
                 type="single"
                 value={layout}
                 onValueChange={(value) => {
@@ -170,7 +263,7 @@ export default function Profile() {
           </div>
           {layout === "grid" ? (
             <div className="grid grid-cols-4 gap-4">
-              {projects.map((project: any) => (
+              {sectionProjects.map((project: any) => (
                 <ProjectCard
                   key={project.id}
                   project={project}
@@ -179,7 +272,7 @@ export default function Profile() {
               ))}
             </div>
           ) : (
-            <ListLayout projects={projects} />
+            <ListLayout projects={sectionProjects} />
           )}
         </div>
       ) : (

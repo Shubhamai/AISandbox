@@ -58,41 +58,35 @@ const ProjectCard = ({
   const router = useRouter();
   const supabase = createClientComponentClient();
   const { toast } = useToast();
-  const [name, setName] = useState<string>(project.name);
+  const [projectState, setProjectState] = useState<any>(project);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Dialog>
-      {/* open={dialogOpen} */}
       <ContextMenu>
         <ContextMenuTrigger>
           <Card
-            key={project.id}
+            key={projectState.id}
             className="border-none shadow-none"
-            onDoubleClick={() => router.push(`/project/${project.id}`)}
+            onDoubleClick={() => router.push(`/project/${projectState.id}`)}
           >
             <CardContent className="p-0 relative">
-              {project.favorite ? (
-                <Star className="absolute top-2 right-2 stroke-foreground/20 fill-foreground/20" />
-              ) : (
-                <></>
-              )}
               {/* Same aspect ratio as when saving image */}
               <div className="className='focus:outline-none focus:ring focus:ring-violet-300'">
                 <AspectRatio ratio={1024 / 768}>
                   <Image
                     className="rounded-xl border hover:shadow-xl transition-shadow"
-                    // unoptimized
-                    // priority
-                    // "https://vmtqbrqycbywyeaocjan.supabase.co/storage/v1/object/sign/projects/b270c68b-5ae0-484c-bb3d-8e6297ed26e7/5e9434fe-8c36-4bae-90cb-5f2df13496c7.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9qZWN0cy9iMjcwYzY4Yi01YWUwLTQ4NGMtYmIzZC04ZTYyOTdlZDI2ZTcvNWU5NDM0ZmUtOGMzNi00YmFlLTkwY2ItNWYyZGYxMzQ5NmM3LmpwZWciLCJpYXQiOjE2OTAwODc1NjEsImV4cCI6MTY5MDY5MjM2MX0.2-l7yvKFcUAQK7eg8cAi4bh9j1vXKj-bpw8M9Kj-_nE&t=2023-07-23T04%3A46%3A01.908Z"
-                    src={project.image}
+                    src={projectState.image}
                     alt="Project Image"
                     fill
-                    // width={1024 / 2}
-                    // height={768 / 2}
                   />
                 </AspectRatio>
+                {projectState.favorite ? (
+                  <Star className="absolute top-2 right-2 stroke-foreground/30 fill-foreground/20" />
+                ) : (
+                  <></>
+                )}
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-1 items-start p-2">
@@ -100,17 +94,18 @@ const ProjectCard = ({
                 ref={inputRef}
                 className="bg-transparent"
                 // focus:outline-none
-                value={name}
+                value={projectState.name}
                 // onFocus={() => {
                 //   console.log("focus");
                 // }}
 
                 onChange={(e) => {
-                  setName(e.target.value);
+                  // setName(e.target.value);
+                  setProjectState({ ...projectState, name: e.target.value });
                 }}
               />
               <p className="text-xs text-foreground/50">
-                {dayjs(project.updated_at).fromNow()}
+                {dayjs(projectState.updated_at).fromNow()}
               </p>
             </CardFooter>
           </Card>
@@ -126,7 +121,7 @@ const ProjectCard = ({
         >
           <ContextMenuItem
             onClick={() => {
-              router.push(`/project/${project.id}`);
+              router.push(`/project/${projectState.id}`);
             }}
             inset
           >
@@ -136,7 +131,7 @@ const ProjectCard = ({
             <Link
               rel="noopener noreferrer"
               target="_blank"
-              href={`/project/${project.id}`}
+              href={`/project/${projectState.id}`}
             >
               Open in New Tab
             </Link>
@@ -147,18 +142,18 @@ const ProjectCard = ({
             onClick={async () => {
               const { data, error } = await supabase
                 .from("projects")
-                .update({ favorite: !project.favorite })
-                .eq("id", project.id);
+                .update({ favorite: !projectState.favorite })
+                .eq("id", projectState.id);
               if (error) {
                 toast({
                   title: "Error",
                   description: error.message,
                 });
               } else {
-                project.favorite = !project.favorite;
+                setProjectState({ ...projectState, favorite: !projectState.favorite });
               }
             }}
-            checked={project.favorite}
+            checked={projectState.favorite}
           >
             Add to your Favorites
           </ContextMenuCheckboxItem>
@@ -167,7 +162,7 @@ const ProjectCard = ({
             onClick={async () => {
               // TODO : Generate link more dynamically
               await navigator.clipboard.writeText(
-                `https://aisandbox.com/project/${project.id}`
+                `https://aisandbox.com/project/${projectState.id}`
               );
             }}
             inset
@@ -195,9 +190,9 @@ const ProjectCard = ({
                 .from("projects")
                 .insert([
                   {
-                    data: project.data,
-                    user_id: project.user_id,
-                    name: `${project.name} (Copy)`,
+                    data: projectState.data,
+                    user_id: projectState.user_id,
+                    name: `${projectState.name} (Copy)`,
                   },
                 ])
                 .select();
@@ -211,7 +206,7 @@ const ProjectCard = ({
                 await supabase.storage
                   .from("projects")
                   .copy(
-                    `${session?.user.id}/${project.id}.jpeg`,
+                    `${session?.user.id}/${projectState.id}.jpeg`,
                     `${session?.user.id}/${data[0].id}.jpeg`
                   );
 
@@ -255,7 +250,7 @@ const ProjectCard = ({
         <DialogFooter>
           <form
             action={async () => {
-              await deleteProject(project.id);
+              await deleteProject(projectState.id);
             }}
             className="flex flex-col gap-5"
           >

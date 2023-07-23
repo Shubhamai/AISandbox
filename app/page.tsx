@@ -91,7 +91,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="border-t w-full flex flex-row items-center justify-center mt-[200px]">
+      <div className="border-t w-[800px] flex flex-row items-center justify-center mt-[200px]">
         <Footer />
       </div>
     </div>

@@ -31,16 +31,26 @@ import { useEffect, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
-import { Copy } from "lucide-react";
+import { Copy, SortDesc, Trash } from "lucide-react";
 import { useToast, toast } from "@/app/components/ui/use-toast";
 import { set } from "lodash";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { columns } from "./columns";
+import dayjs from "dayjs";
+// import { columns } from "./columns";
 
-export function DataTable<TData, TValue>() {
+export function DataTable<TData, TValue>({
+  initialData,
+}: {
+  initialData: any;
+}) {
   const supabase = createClientComponentClient();
 
-  const [data, setData] = useState<any>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [apiKeyName, setApiKeyName] = useState("My Test Key");
+  const [apiKey, setApiKey] = useState("");
+  const [nameSubmitted, setNameSubmitted] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [data, setData] = useState<any>(initialData);
 
   useEffect(() => {
     const fetch = async () => {
@@ -63,7 +73,93 @@ export function DataTable<TData, TValue>() {
     };
     fetch();
   }, []);
-  const [sorting, setSorting] = useState<SortingState>([]);
+
+  type APIKey = {
+    id: string;
+    name: string;
+    key: string;
+    created: string;
+    //   TODO : last_used: string
+  };
+
+  const columns: ColumnDef<APIKey>[] = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <SortDesc className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize pl-4">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "key",
+      header: "Key",
+      cell: ({ row }) => <div>{row.getValue("key")}</div>,
+    },
+    {
+      accessorKey: "created",
+      header: "Created",
+      cell: ({ row }) => (
+        <div>{dayjs(row.getValue("created")).format("D MMMM, YYYY")}</div>
+      ),
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const apikeyId = row.original;
+        // const { toast } = useToast();
+
+        return (
+          <Button
+            className="outline-none border-none w-12"
+            variant={"outline"}
+            onClick={async () => {
+              const supabase = createClientComponentClient();
+              const {
+                data: { session },
+                error,
+              } = await supabase.auth.getSession();
+
+              if (session) {
+                const { error } = await supabase
+                  .from("apikeys")
+                  .delete()
+                  .eq("id", apikeyId.id);
+
+                if (!error) {
+                  toast({
+                    title: "API Key deleted",
+                    description: "Your API Key has been deleted.",
+                  });
+                  setData([
+                    ...data.filter((item: any) => item.id !== apikeyId.id),
+                  ]);
+                } else {
+                  toast({
+                    title: "Error",
+                    description: error.message,
+                  });
+                }
+              }
+            }}
+          >
+            <Trash className="h-4 w-4 outline-none border-none" />
+          </Button>
+        );
+      },
+    },
+  ];
+
   const table = useReactTable({
     data,
     columns,
@@ -74,11 +170,6 @@ export function DataTable<TData, TValue>() {
       sorting,
     },
   });
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [apiKeyName, setApiKeyName] = useState("My Test Key");
-  const [apiKey, setApiKey] = useState("");
-  const [nameSubmitted, setNameSubmitted] = useState(false);
 
   const getAPIKey = async () => {
     const {
