@@ -1,7 +1,5 @@
-import { Button } from "@/app/components/ui/button";
 import { ArrowUpRight, LogOut } from "lucide-react";
 import Link from "next/link";
-import { FeedbackDialogForm } from "@/app/components/dashboard/feedback";
 import {
   createClientComponentClient,
   createServerActionClient,
@@ -10,6 +8,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import CreateProjectButton from "@/app/components/dashboard/createProject";
 import { Separator } from "@/app/components/ui/separator";
+import SignOut from "@/app/components/dashboard/signout";
 
 export const runtime = "edge";
 
@@ -80,13 +79,7 @@ export default function DashboardLayout({
           </Link>
         </section>
         <Separator className="" />
-        <Button
-          variant={"link"}
-          onClick={onSignOutClick}
-          className="flex flex-row justify-start px-5 py-4 items-start gap-4"
-        >
-          <LogOut className="w-4 h-4" /> <span>Logout</span>
-        </Button>
+        <SignOut />
       </div>
       <div className="w-full h-full">{children}</div>
     </div>

@@ -23,11 +23,15 @@ import ToolBar from "@/app/components/project/ToolBar";
 import ContextItems from "@/app/components/project/ContextMenu";
 import SideBar from "@/app/components/project/SideBar";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/app/components/ui/use-toast";
 
 export const runtime = "edge";
 
 export default function Home({ params }: { params: { id: string } }) {
   const supabase = createClientComponentClient();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const reactFlowWrapper = useRef(null);
   const edgeUpdateSuccessful = useRef(true);
@@ -76,7 +80,12 @@ export default function Home({ params }: { params: { id: string } }) {
         setProjectName(project.name);
         setProjectId(params.id);
       } else {
-        console.log(error);
+        // console.log(error);
+        toast({
+          title: "Error",
+          description: error?.message,
+        });
+        router.push("/dashboard");
       }
     };
 

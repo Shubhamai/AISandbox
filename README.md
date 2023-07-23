@@ -70,5 +70,5 @@ To self-host this application ( at least some of it ), follow the steps :
 
 ## Acknowledgements
 
-- Thanks to [Resend](https://resend.com/home), [Skiff](https://skiff.com/), [Supabase](https://supabase.com/) and [Figma](https://figma.com/) for side UI, design and landing page inspirations.
+- Thanks to [Resend](https://resend.com/home), [Skiff](https://skiff.com/), [Supabase](https://supabase.com/) and [Figma](https://figma.com/) for site UI, design and landing page inspirations.
 - Thanks to [Sniffnet](https://github.com/GyulyVGC/sniffnet/), [nextjs-subscription-payments](https://github.com/vercel/nextjs-subscription-payments) for readme, code structure. 

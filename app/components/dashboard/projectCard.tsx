@@ -44,15 +44,16 @@ import { useToast } from "@/app/components/ui/use-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
 import { Star } from "lucide-react";
+import { AspectRatio } from "@/app/components/ui/aspect-ratio";
 
 dayjs.extend(relativeTime);
 
 const ProjectCard = ({
   project,
-  deleteProjectOnUI,
+  deleteProject,
 }: {
   project: any;
-  deleteProjectOnUI: (id: string) => void;
+  deleteProject: (id: string) => void;
 }) => {
   const router = useRouter();
   const supabase = createClientComponentClient();
@@ -71,16 +72,28 @@ const ProjectCard = ({
             className="border-none shadow-none"
             onDoubleClick={() => router.push(`/project/${project.id}`)}
           >
-            <CardContent className="p-0">
-              <Image
-                className="rounded-xl border hover:shadow-xl transition-shadow"
-                // unoptimized
-                // priority
-                src={project.image}
-                alt="Project Image"
-                width={1024 / 2}
-                height={768 / 2}
-              />
+            <CardContent className="p-0 relative">
+              {project.favorite ? (
+                <Star className="absolute top-2 right-2 stroke-foreground/20 fill-foreground/20" />
+              ) : (
+                <></>
+              )}
+              {/* Same aspect ratio as when saving image */}
+              <div className="className='focus:outline-none focus:ring focus:ring-violet-300'">
+                <AspectRatio ratio={1024 / 768}>
+                  <Image
+                    className="rounded-xl border hover:shadow-xl transition-shadow"
+                    // unoptimized
+                    // priority
+                    // "https://vmtqbrqycbywyeaocjan.supabase.co/storage/v1/object/sign/projects/b270c68b-5ae0-484c-bb3d-8e6297ed26e7/5e9434fe-8c36-4bae-90cb-5f2df13496c7.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9qZWN0cy9iMjcwYzY4Yi01YWUwLTQ4NGMtYmIzZC04ZTYyOTdlZDI2ZTcvNWU5NDM0ZmUtOGMzNi00YmFlLTkwY2ItNWYyZGYxMzQ5NmM3LmpwZWciLCJpYXQiOjE2OTAwODc1NjEsImV4cCI6MTY5MDY5MjM2MX0.2-l7yvKFcUAQK7eg8cAi4bh9j1vXKj-bpw8M9Kj-_nE&t=2023-07-23T04%3A46%3A01.908Z"
+                    src={project.image}
+                    alt="Project Image"
+                    fill
+                    // width={1024 / 2}
+                    // height={768 / 2}
+                  />
+                </AspectRatio>
+              </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-1 items-start p-2">
               <input
@@ -142,10 +155,6 @@ const ProjectCard = ({
                   description: error.message,
                 });
               } else {
-                toast({
-                  title: "Success",
-                  description: "Project updated successfully",
-                });
                 project.favorite = !project.favorite;
               }
             }}
@@ -169,6 +178,18 @@ const ProjectCard = ({
           <ContextMenuItem
             inset
             onClick={async () => {
+              const {
+                data: { session },
+              } = await supabase.auth.getSession();
+              if (!session) {
+                toast({
+                  title: "Unauthorized",
+                  description:
+                    "You need to be logged in to duplicate a project",
+                });
+                return;
+              }
+
               // TODO : Generate duplicate more dynamically
               const { data, error } = await supabase
                 .from("projects")
@@ -187,6 +208,13 @@ const ProjectCard = ({
                   description: error.message,
                 });
               } else {
+                await supabase.storage
+                  .from("projects")
+                  .copy(
+                    `${session?.user.id}/${project.id}.jpeg`,
+                    `${session?.user.id}/${data[0].id}.jpeg`
+                  );
+
                 toast({
                   title: "Success",
                   description: "Project duplicated successfully",
@@ -227,22 +255,7 @@ const ProjectCard = ({
         <DialogFooter>
           <form
             action={async () => {
-              const { data, error } = await supabase
-                .from("projects")
-                .delete()
-                .eq("id", project.id);
-              if (error) {
-                toast({
-                  title: "Error",
-                  description: error.message,
-                });
-              } else {
-                toast({
-                  title: "Success",
-                  description: "Project deleted successfully",
-                });
-                deleteProjectOnUI(project.id);
-              }
+              await deleteProject(project.id);
             }}
             className="flex flex-col gap-5"
           >

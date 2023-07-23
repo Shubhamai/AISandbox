@@ -153,6 +153,26 @@ export default function Signup() {
             className="flex flex-row items-center gap-3 rounded-md w-full"
             onClick={async () => {
               const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                  redirectTo: `${location.origin}/auth/callback`,
+                },
+              });
+            }}
+          >
+            <Image
+              src="/assets/google-logo.png"
+              width={22}
+              height={22}
+              alt="Google Logo"
+            />{" "}
+            <div>Continue with Google</div>
+          </Button>
+          <Button
+            variant={"secondary"}
+            className="flex flex-row items-center gap-3 rounded-md w-full"
+            onClick={async () => {
+              const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "github",
                 options: {
                   redirectTo: `${location.origin}/auth/callback`,
