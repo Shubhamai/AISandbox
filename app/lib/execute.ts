@@ -3,8 +3,8 @@ import { Connection, Edge, Node } from "reactflow";
 export const ExecuteNodes = async (
   nodes: Node[],
   edges: Edge[],
-  isFrontEnd: boolean = false,
-  nodeExecution: (node: Node, previousNodes: Node[]) => Promise<Node>,
+  isFrontEnd: boolean,
+  nodeExecution: (node: Node, previousNodes: Node[], isFrontEnd : boolean) => Promise<Node>,
   resetNodesIsComputed: () => void = () => {},
   updateNodeData: (id: string, data: any) => void = () => {},
   updateEdgeData: (id: string, data: any) => void = () => {}
@@ -52,7 +52,7 @@ export const ExecuteNodes = async (
     if (allInputsComputed) {
       visited.add(node.id);
 
-      const updatedNode = await nodeExecution(node, incomingNodes || []);
+      const updatedNode = await nodeExecution(node, incomingNodes || [], isFrontEnd);
       // console.log(updatedNode.id, updatedNode.data.output);
       node = updatedNode;
       if (isFrontEnd) {

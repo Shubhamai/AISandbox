@@ -26,9 +26,9 @@ import { ToolsNodesData } from "../../Nodes/Tools/tools";
 import { APICodeDialog } from "./APICode";
 import { cn } from "@/app/utils";
 import { ExecuteNodes } from "@/app/lib/execute";
-import { nodeExecution } from "@/app/api/(models)/execution";
+import { nodeExecution } from "@/app/api/v1/models/execution";
 
-const ToolBar = () => {
+const ToolBar = ({ projectId }: { projectId: string }) => {
   const { fitView, zoomIn, zoomOut } = useReactFlow();
   const { zenMode } = useAppState();
 
@@ -107,7 +107,7 @@ const ToolBar = () => {
               />
             </div>
 
-            <APICodeDialog />
+            <APICodeDialog projectId={projectId} />
           </div>
         </div>
       </Panel>

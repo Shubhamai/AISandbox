@@ -4,7 +4,10 @@ type NodeExecutionTimeProps = {
 };
 
 const NodeExecutionTime = (props: NodeExecutionTimeProps) => {
-  const executionTime = props.data.output.executionTime;
+  let executionTime = props.data.output.executionTime;
+
+  // Round to 2 decimal places
+  executionTime = Math.round(executionTime);
 
   return (
     <div

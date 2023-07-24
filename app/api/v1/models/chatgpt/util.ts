@@ -30,11 +30,10 @@ export const executeOpenAIChatGPTNode = async (
   localExecution: boolean = false
 ) => {
   try {
-    let startTime = performance.now();
 
     let data;
     if (localExecution) {
-      const out = await fetch("/api/chatgpt", {
+      const out = await fetch("/api/v1/models/chatgpt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,12 +46,7 @@ export const executeOpenAIChatGPTNode = async (
         text: previousNode.data.output.text,
       });
     }
-
-    let endTime = performance.now();
-
-    node.data.output.executionTime = endTime - startTime;
     node.data.output.text = data.text;
-    node.data.hasComputed = true;
 
     return node;
   } catch (e) {

@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Node } from "reactflow";
 import { supabaseService } from "@/app/lib/supabase/server";
 import { ExecuteNodes } from "@/app/lib/execute";
-import { Response } from "@/app/utils/response";
-import { nodeExecution } from "../../(models)/execution";
+import { Response as ResponseFormat } from "@/app/utils/response";
+import { nodeExecution } from "../models/execution";
 
 export const runtime = "edge";
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   if (!Authorization || !ProjectId) {
     return NextResponse.json(
-      Response.Error("API Key or Project ID not provided"),
+      ResponseFormat.Error("API Key or Project ID not provided"),
       { status: 401 }
     );
   }
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json(Response.Error(error.message));
+      return NextResponse.json(ResponseFormat.Error(error.message));
     }
 
     const { nodes, edges } = data.data;
@@ -49,12 +49,19 @@ export async function POST(request: NextRequest) {
         nodeExecution
       );
 
-      return NextResponse.json(Response.Success(processedOutputs));
+      return new Response(JSON.stringify(processedOutputs), {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers":
+            "Content-Type, Authorization, Project",
+        },
+      });
     } catch (err: any) {
-      return NextResponse.json(Response.Error(err.message));
+      return NextResponse.json(ResponseFormat.Error(err.message));
     }
   } catch (error: any) {
-    return NextResponse.json(Response.Error(error.message));
+    return NextResponse.json(ResponseFormat.Error(error.message));
   }
 }
-

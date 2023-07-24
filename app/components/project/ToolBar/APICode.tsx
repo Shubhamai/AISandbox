@@ -16,7 +16,7 @@ import { CopyIcon, Webhook } from "lucide-react";
 import graphState from "@/app/state/graphState";
 import { getStartingInputNodes } from "@/app/lib/execute";
 
-export const APICodeDialog = () => {
+export const APICodeDialog = ({ projectId }: { projectId: string }) => {
   const { toast } = useToast();
   const { nodes, edges } = graphState();
 
@@ -29,8 +29,7 @@ export const APICodeDialog = () => {
     });
   }
 
-  // let url = `${window?.location?.protocol}//${window?.location?.hostname}:${window?.location?.port}/api/execute/`; // TODO : ${uuid}
-  let url = "sda";
+  let url = `https://aisandbox.app/api/v1/execute/`; // TODO : ${uuid}
 
   const pythonCode = `
   import requests
@@ -42,7 +41,9 @@ export const APICodeDialog = () => {
     "data": ${JSON.stringify(startingNodesOut, null, 4)}
     })
   headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': 'YOUR_API_KEY_HERE',
+    'Project': '${projectId}'
     }
   
   response = requests.request("POST", url, headers=headers, data=payload)
@@ -108,7 +109,7 @@ export const APICodeDialog = () => {
             </Button>
 
             <div className="max-w-md">
-              <SyntaxHighlighter language="python" style={docco}>
+              <SyntaxHighlighter language="python" style={docco} >
                 {pythonCode}
               </SyntaxHighlighter>
             </div>

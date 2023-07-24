@@ -1,16 +1,12 @@
-import { executeOpenAIChatGPTNode } from "@/app/api/(models)/chatgpt/util";
-import { executeStableDiffusionNode } from "@/app/api/(models)/stablediffusion/util";
-import { executeWhisperNode } from "@/app/api/(models)/whisper/util";
-import { executeYoloXNode } from "@/app/api/(models)/yolox/util";
-import { executeTortoiseTTSNode } from "@/app/api/(models)/tortoisetts/util";
-import { executeVicuna13BNode } from "@/app/api/(models)/replicatellm/util";
-import { executeDollyV2Node } from "@/app/api/(models)/replicatellm/util";
-import { executeMpt7bNode } from "@/app/api/(models)/replicatellm/util";
-import { executeOpenAssistantNode } from "@/app/api/(models)/replicatellm/util";
-import { executeStableLMNode } from "@/app/api/(models)/replicatellm/util";
+
 import { Node } from "reactflow";
 import { executeCreatePromptNode } from "./others/utils";
-
+import { executeOpenAIChatGPTNode } from "./chatgpt/util";
+import { executeStableDiffusionNode } from "./stablediffusion/util";
+import { executeWhisperNode } from "./whisper/util";
+import { executeYoloXNode } from "./yolox/util";
+import { executeTortoiseTTSNode } from "./tortoisetts/util";
+import { executeDollyV2Node, executeMpt7bNode, executeOpenAssistantNode, executeStableLMNode, executeVicuna13BNode } from "./replicatellm/util";
 
 const modelFuncMapping = {
   OpenAIChatGPTNode: executeOpenAIChatGPTNode,
@@ -25,13 +21,13 @@ const modelFuncMapping = {
   StableLM: executeStableLMNode,
 };
 
-
 export const nodeExecution = async (
   node: Node,
-  previousNodes: Node[]
+  previousNodes: Node[],
+  isFrontEnd: boolean
 ): Promise<Node> => {
   const type = node.type;
-  const localExecution = true;
+  // const localExecution = true;
 
   // TODO : Improve this VERY bad logic
 
@@ -46,11 +42,23 @@ export const nodeExecution = async (
       previousNodes.length === 1 &&
       modelFuncMapping[type as keyof typeof modelFuncMapping]
     ) {
-      return await modelFuncMapping[type as keyof typeof modelFuncMapping](
-        node,
-        previousNodes[0],
-        localExecution
-      );
+      let startTime;
+      if (isFrontEnd) {
+        startTime = performance.now();
+      }
+
+      const outNode = await modelFuncMapping[
+        type as keyof typeof modelFuncMapping
+      ](node, previousNodes[0], isFrontEnd);
+
+      if (isFrontEnd && startTime) {
+        let endTime = performance.now();
+
+        outNode.data.output.executionTime = endTime - startTime;
+      }
+      outNode.data.hasComputed = true; // TODO : Is hasComputed needed?
+
+      return outNode;
     } else if (previousNodes.length === 0) {
       node.data.hasComputed = true;
       return node;

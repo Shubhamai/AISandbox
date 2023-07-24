@@ -25,11 +25,10 @@ const executeNode = async (
   model_url: string,
   localExecution: boolean = false
 ) => {
-  let startTime = performance.now();
 
   let data;
   if (localExecution) {
-    const out = await fetch("/api/replicatellm", {
+    const out = await fetch("/api/v1/models/replicatellm", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,11 +46,8 @@ const executeNode = async (
     });
   }
 
-  let endTime = performance.now();
 
-  node.data.output.executionTime = endTime - startTime;
   node.data.output.text = data.text;
-  node.data.hasComputed = true;
   return node;
 };
 

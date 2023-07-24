@@ -22,7 +22,6 @@ export const fetchResult = async (formData: any) => {
 };
 
 export const executeWhisperNode = async (node: Node, previousNode: Node, localExecution : boolean = false) => {
-  let startTime = performance.now();
 
   const newForm = new FormData();
   newForm.append("model", "whisper-1");
@@ -31,17 +30,13 @@ export const executeWhisperNode = async (node: Node, previousNode: Node, localEx
 
   let data;
   if (localExecution) {
-    const out = await axios.post("/api/whisper", newForm);
+    const out = await axios.post("/api/v1/models/whisper", newForm);
     data = await out.data;
   } else {
     data = await fetchResult(newForm);
   }
 
 
-  let endTime = performance.now();
-
-  node.data.output.executionTime = endTime - startTime;
   node.data.output.text = data.text;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
   return node;
 };

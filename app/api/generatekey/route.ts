@@ -7,7 +7,6 @@ export const runtime = "edge";
 export async function POST(request: NextRequest) {
   const reqBody = await request.json();
 
-  const apiKeyValues = crypto.getRandomValues(new Uint8Array(16));
   const apiKey = "ais-" + crypto.randomUUID();
 
   const hashedApiKey = await hashApiKey(apiKey);

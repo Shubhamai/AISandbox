@@ -1,4 +1,5 @@
 import Replicate from "replicate";
+
 import { Node } from "reactflow";
 
 export const fetchResult = async (data: any) => {
@@ -7,48 +8,42 @@ export const fetchResult = async (data: any) => {
   });
 
   const output: any = await replicate.run(
-    "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+    "daanelson/yolox:ae0d70cebf6afb2ac4f5e4375eb599c178238b312c8325a9a114827ba869e3e9",
     {
       input: {
-        prompt: data.text,
+        input_image: data.image,
+        return_json: true,
       },
     }
   );
 
   return {
-    image: output[0],
+    text: output.json_str,
   };
 };
 
-export const executeStableDiffusionNode = async (
+export const executeYoloXNode = async (
   node: Node,
   previousNode: Node,
   localExecution: boolean = false
 ) => {
-  let startTime = performance.now();
-
   let data;
-
   if (localExecution) {
-    const out = await fetch("/api/stablediffusion", {
+    const out = await fetch("/api/v1/models/yolox", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: previousNode.data.output.text }),
+      body: JSON.stringify({ image: previousNode.data.output.image }),
     });
 
     data = await out.json();
   } else {
     data = await fetchResult({
-      text: previousNode.data.output.text,
+      image: previousNode.data.output.image,
     });
   }
 
-  let endTime = performance.now();
-
-  node.data.output.executionTime = endTime - startTime;
-  node.data.output.image = data.image;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
+  node.data.output.text = data.text;
   return node;
 };

@@ -102,7 +102,7 @@ export default function Home({ params }: { params: { id: string } }) {
     <div className="dndflow">
       <ReactFlowProvider>
         <Header projectName={projectName} projectId={params.id} />
-        <ToolBar />
+        <ToolBar projectId={params.id} />
         <SideBar />
         {/* <Settings /> */}
         <ContextItems>

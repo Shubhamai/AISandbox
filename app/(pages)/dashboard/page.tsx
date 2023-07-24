@@ -115,6 +115,7 @@ export default function Profile() {
           }
           setProjects(projects);
           setSectionProjects(projects);
+          setProjectLayout(section, sort, projects, projects);
           setLoading(false);
         }
       }
@@ -129,6 +130,46 @@ export default function Profile() {
       .createSignedUrl(`${session.user.id}/${project.id}.jpeg`, 60);
 
     return data?.signedUrl || "";
+  };
+
+  // Function to change the project sorting and filtering per section
+  const setProjectLayout = (
+    sectionType: string,
+    sortType: string,
+    projectsList: any,
+    sectionProjectsList: any
+  ) => {
+    setSection(sectionType);
+    setSort(sortType);
+
+    let filteredSectionProjects: any[] = [];
+    if (sectionType === "recent") {
+      filteredSectionProjects = [...projectsList];
+    }
+    if (sectionType === "favorites") {
+      let onlyFavorites = projectsList.filter(
+        (project: any) => project.favorite
+      );
+      filteredSectionProjects = [...onlyFavorites];
+    }
+
+    if (sortType === "Alphabetical") {
+      filteredSectionProjects = [...filteredSectionProjects].sort(
+        (a: any, b: any) => a.name.localeCompare(b.name)
+      );
+    }
+    if (sortType === "Last Modified") {
+      filteredSectionProjects = [...filteredSectionProjects].sort(
+        (a: any, b: any) => dayjs(b.updated_at).diff(dayjs(a.updated_at))
+      );
+    }
+    if (sortType === "Created At") {
+      filteredSectionProjects = [...filteredSectionProjects].sort(
+        (a: any, b: any) => dayjs(b.created_at).diff(dayjs(a.created_at))
+      );
+    }
+
+    setSectionProjects([...filteredSectionProjects]);
   };
 
   return (
@@ -149,17 +190,7 @@ export default function Profile() {
                 type="single"
                 value={section}
                 onValueChange={(value) => {
-                  if (value === "recent") {
-                    setSection("recent");
-                    setSectionProjects([...projects]);
-                  }
-                  if (value === "favorites") {
-                    setSection("favorites");
-                    let onlyFavorites = projects.filter(
-                      (project: any) => project.favorite
-                    );
-                    setSectionProjects([...onlyFavorites]);
-                  }
+                  setProjectLayout(value, sort, projects, sectionProjects);
                 }}
               >
                 <ToggleGroup.Item
@@ -194,29 +225,12 @@ export default function Profile() {
                   <DropdownMenuRadioGroup
                     value={sort}
                     onValueChange={(value) => {
-                      if (value === "Alphabetical") {
-                        setSectionProjects(
-                          [...sectionProjects].sort((a: any, b: any) =>
-                            a.name.localeCompare(b.name)
-                          )
-                        );
-                      }
-                      if (value === "Last Modified") {
-                        setSectionProjects(
-                          [...sectionProjects].sort((a: any, b: any) =>
-                            dayjs(b.updated_at).diff(dayjs(a.updated_at))
-                          )
-                        );
-                      }
-                      if (value === "Created At") {
-                        setSectionProjects(
-                          [...sectionProjects].sort((a: any, b: any) =>
-                            dayjs(b.created_at).diff(dayjs(a.created_at))
-                          )
-                        );
-                      }
-
-                      setSort(value);
+                      setProjectLayout(
+                        section,
+                        value,
+                        projects,
+                        sectionProjects
+                      );
                     }}
                   >
                     <DropdownMenuRadioItem value="Alphabetical">

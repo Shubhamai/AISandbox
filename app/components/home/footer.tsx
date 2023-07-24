@@ -34,13 +34,18 @@ const Footer = async () => {
 
   const checkStatus = async () => {
     const response = await fetch(
-      "https://raw.githubusercontent.com/Shubhamai/AISandbox-Status/master/README.md"
+      "https://raw.githubusercontent.com/shubhamai/aisandbox-status/master/README.md"
     );
     const text = await response.text();
-    let status = text.split("**")[1].split("**")[0].trim();
+    let status = text
+      .split("<!--live status-->")[1]
+      .split("**")[1]
+      .split("**")[0]
+      .trim();
 
     // Remove initial emoji
     status = status.slice(2, status.length);
+    status = status.trim();
 
     return status;
   };
@@ -50,16 +55,30 @@ const Footer = async () => {
   return (
     <div className="flex flex-row justify-between items-start w-[800px] mt-[40px] mb-[30px]">
       <div className="flex flex-col gap-10">
-        <div className="flex flex-row items-center gap-2 font-semibold">
+        <Link
+          href="https://aisandbox.app"
+          className="flex flex-row items-center gap-2 font-semibold"
+        >
           <Container /> AISandbox
-        </div>
+        </Link>
         <Link
           rel="noopener noreferrer"
           target="_blank"
           href="https://status.aisandbox.app"
-          className="text-sm flex flex-row items-center gap-3 rounded-lg py-[2px] px-[5px] border"
+          className="text-sm flex flex-row items-center gap-3 rounded-lg py-[2px] px-[7px] border"
         >
-          <div className="w-2 h-2 rounded-full bg-green-600"></div>
+          <div
+            className="w-2 h-2 rounded-full"
+            style={{
+              // All systems operational, Partial outage, Major outage
+              backgroundColor:
+                status === "All systems operational"
+                  ? "#10B981"
+                  : status === "Partial outage"
+                  ? "#FBBF24"
+                  : "#EF4444",
+            }}
+          ></div>
           {status}
         </Link>
       </div>
