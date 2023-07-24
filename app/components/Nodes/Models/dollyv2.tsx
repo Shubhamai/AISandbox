@@ -10,7 +10,7 @@ import NodeExecutionTime from "../Shared/ExecutionTime";
 const DollyV2 = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode, showStats } = useAppState();
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || "";
 
   return (
     <div className="flex flex-col items-center">

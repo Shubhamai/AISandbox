@@ -19,7 +19,7 @@ const AudioOutputNode = ({ data, isConnectable }: NodeProps) => {
 
   const [hover, setHover] = useState(false);
   const { zenMode } = useAppState();
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
 
   useEffect(() => {
     if (outputAudioFile) {

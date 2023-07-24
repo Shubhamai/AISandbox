@@ -26,7 +26,7 @@ import NodeBody from "../Shared/Body";
 const TextInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   const [hover, setHover] = useState(false);
 
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
   const updateNodeData = graphState((s) => s.updateNodeData);
 
   const { zenMode } = useAppState();

@@ -137,7 +137,6 @@ const ProjectCard = ({
             </Link>
           </ContextMenuItem>
           <ContextMenuSeparator />
-          {/* TODO : Add to favorites */}
           <ContextMenuCheckboxItem
             onClick={async () => {
               const { data, error } = await supabase
@@ -169,7 +168,6 @@ const ProjectCard = ({
           >
             Copy Link
           </ContextMenuItem>
-          {/* <ContextMenuItem inset> TODO : [Share functionality] Share</ContextMenuItem> */}
           <ContextMenuItem
             inset
             onClick={async () => {

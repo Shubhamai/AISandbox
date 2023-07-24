@@ -14,9 +14,8 @@ import useAppState from "@/app/state/appState";
 import NodeTitle from "../Shared/Title";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-
 const WhisperNode = ({ data, isConnectable }: NodeProps) => {
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
   const { zenMode, showStats } = useAppState();
   const [hover, setHover] = React.useState(false);
 

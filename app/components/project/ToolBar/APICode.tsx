@@ -29,7 +29,7 @@ export const APICodeDialog = ({ projectId }: { projectId: string }) => {
     });
   }
 
-  let url = `https://aisandbox.app/api/v1/execute/`; // TODO : ${uuid}
+  let url = `https://aisandbox.app/api/v1/execute/`;
 
   const pythonCode = `
   import requests

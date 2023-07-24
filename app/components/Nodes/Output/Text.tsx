@@ -19,7 +19,7 @@ import NodeHandle from "../Shared/Handle";
 
 const TextOutputNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = useState(false);
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
   const { zenMode } = useAppState();
   const outputData = data.output.text || "Sample Output";
 

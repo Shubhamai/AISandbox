@@ -30,7 +30,7 @@ import { Button } from "@/app/components/ui/button";
 const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   const { zenMode } = useAppState();
   const [hover, setHover] = useState(false);
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || "";
   const updateNodeData = graphState((s) => s.updateNodeData);
   const [Devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
@@ -66,7 +66,6 @@ const AudioInputNode = ({ data, isConnectable, selected }: NodeProps) => {
   }, [selectedDevice]);
 
   const requestPermissionAndUpdateDevices = async () => {
-    // Disable right click, TODO : Need in better place
     document.addEventListener("contextmenu", (e) => e.preventDefault());
 
     try {

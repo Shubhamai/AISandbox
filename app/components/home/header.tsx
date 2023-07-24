@@ -16,7 +16,6 @@ import { User } from "@supabase/auth-helpers-nextjs";
 import { Button } from "../ui/button";
 import { Container } from "lucide-react";
 
-// TODO : Remove the async
 const Header = ({ user }: { user: User | null }) => {
   return (
     <div className="fixed top-3 flex flex-row items-center justify-between w-[800px] backdrop-blur-sm bg-background/70 rounded-full py-2 pl-4 pr-2">

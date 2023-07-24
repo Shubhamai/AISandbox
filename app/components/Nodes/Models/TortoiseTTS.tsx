@@ -13,11 +13,10 @@ import NodeBody from "../Shared/Body";
 import NodeHandle from "../Shared/Handle";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-
 const TortoiseTTSNode = ({ data, isConnectable }: NodeProps) => {
   const [hover, setHover] = React.useState(false);
   const { zenMode } = useAppState();
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
 
   return (
     <div className="flex flex-col items-center">

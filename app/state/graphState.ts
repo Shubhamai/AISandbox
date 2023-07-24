@@ -52,8 +52,8 @@ type RFState = {
 
 const graphState = create<RFState>((set, get) => ({
   projectId: null,
-  nodes: [], // TODO : Maybe load from local storage
-  edges: [], // TODO : Maybe load from local storage
+  nodes: [], 
+  edges: [], 
   nodeTypes: nodeTypes,
   edgeUpdateSuccessful: null,
   reactFlowWrapper: null,
@@ -179,10 +179,12 @@ const graphState = create<RFState>((set, get) => ({
         input: {
           text: null,
           image: null,
+          audio: null,
         },
         output: {
           text: null,
           image: null,
+          audio: null,
         },
         hasComputed: false,
       },

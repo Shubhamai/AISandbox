@@ -56,7 +56,6 @@ export const recorder = async (
     const audioURL = window.URL.createObjectURL(audioBlob);
     audio.src = audioURL;
 
-    // TODO: fix type
     deleteButton.onclick = (e: any) => {
       const evtTgt = e.target;
       evtTgt?.parentNode?.parentNode.removeChild(evtTgt.parentNode);

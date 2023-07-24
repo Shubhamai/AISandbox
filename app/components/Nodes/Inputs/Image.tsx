@@ -15,10 +15,10 @@ const ImageInputNode = ({ data, isConnectable }: NodeProps) => {
   const { zenMode } = useAppState();
 
   const [hover, setHover] = useState(false);
-  const [showTrash, setShowTrash] = useState(false); // add this
+  const [showTrash, setShowTrash] = useState(false);
   const [file, setFile] = useState("");
 
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || "";
   const updateNodeData = graphState((s) => s.updateNodeData);
 
   function handleChange(e: any) {

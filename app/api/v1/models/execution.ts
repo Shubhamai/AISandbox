@@ -27,15 +27,10 @@ export const nodeExecution = async (
   isFrontEnd: boolean
 ): Promise<Node> => {
   const type = node.type;
-  // const localExecution = true;
-
-  // TODO : Improve this VERY bad logic
 
   if (type === undefined) {
     throw new Error("Invalid Node");
   }
-
-  // TODO : Improve this VERY bad logic
 
   try {
     if (

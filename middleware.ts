@@ -5,6 +5,7 @@ import { supabaseService } from "./app/lib/supabase/server";
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
+// TODO : Need rate limiting for /api/v1/execute, /api/v1/models
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
@@ -55,7 +56,7 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  if (!session) {
+  if (req.nextUrl.pathname.startsWith("/dashboard") && !session) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

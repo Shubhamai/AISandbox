@@ -29,25 +29,26 @@ const footerData: Record<string, Record<string, string>[]> = {
 };
 
 const Footer = async () => {
-  // Read Status text form github readme
-  // TODO : Real Hacky, find a better way to do this
-
   const checkStatus = async () => {
     const response = await fetch(
-      "https://raw.githubusercontent.com/shubhamai/aisandbox-status/master/README.md"
+      "https://raw.githubusercontent.com/Shubhamai/AISandbox-Status/master/history/summary.json"
     );
-    const text = await response.text();
-    let status = text
-      .split("<!--live status-->")[1]
-      .split("**")[1]
-      .split("**")[0]
-      .trim();
+    const out = await response.json();
 
-    // Remove initial emoji
-    status = status.slice(2, status.length);
-    status = status.trim();
+    let totalUp = 0;
+    for (let i = 0; i < out.length; i++) {
+      if (out[i].status === "up") {
+        totalUp++;
+      }
+    }
 
-    return status;
+    if (totalUp === out.length) {
+      return "All systems operational";
+    } else if (totalUp === 0) {
+      return "Major outage";
+    } else {
+      return "Partial outage";
+    }
   };
 
   const status = await checkStatus();

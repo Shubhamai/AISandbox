@@ -13,9 +13,8 @@ import NodeTitle from "../Shared/Title";
 import useAppState from "@/app/state/appState";
 import NodeExecutionTime from "../Shared/ExecutionTime";
 
-
 const YoloXNode = ({ data, isConnectable }: NodeProps) => {
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
   const [hover, setHover] = React.useState(false);
   const { zenMode, showStats } = useAppState();
 

@@ -14,7 +14,6 @@ export const executeTortoiseTTSNode = async (
   };
 
   node.data.output.audio = data.audio;
-  node.data.hasComputed = true; // TODO : Is hasComputed needed?
 
   return node;
 };

@@ -7,7 +7,7 @@ import NodeTitle from "../Shared/Title";
 import useAppState from "@/app/state/appState";
 
 const ImageOutputNode = ({ data, isConnectable }: NodeProps) => {
-  const nodeId = useNodeId() || ""; // TODO : Fix this
+  const nodeId = useNodeId() || ""; 
   const [hover, setHover] = useState(false);
   const { zenMode } = useAppState();
 

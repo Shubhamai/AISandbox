@@ -20,7 +20,6 @@ const Settings = () => {
     },
   });
 
-  // TODO ends
 
   return (
     <Panel

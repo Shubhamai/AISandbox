@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { getRectOfNodes, getTransformForBounds } from "reactflow";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const DropDown = ({ projectName }: { projectName: string }) => {
   const router = useRouter();
@@ -59,7 +60,6 @@ const DropDown = ({ projectName }: { projectName: string }) => {
     aElement.remove();
   };
 
-  // TODO : Load will be loading a json file to the canvas
   const loadCanvas = () => {
     // Open the dialog to upload a file
     const input = document.createElement("input");
@@ -159,24 +159,40 @@ const DropDown = ({ projectName }: { projectName: string }) => {
             <Image className="mr-2 h-4 w-4" /> <span>Export Image</span>
             {/* <MenubarShortcut>Ctrl+E</MenubarShortcut> */}
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <HelpCircle className="mr-2 h-4 w-4" /> <span>Help</span>
-            {/* <MenubarShortcut>?</MenubarShortcut> */}
+          <DropdownMenuItem asChild>
+            <Link
+              className="flex flex-row items-center"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://aisandbox.app/docs"
+            >
+              <HelpCircle className="mr-2 h-4 w-4" /> <span>Docs</span>
+              {/* <MenubarShortcut>?</MenubarShortcut> */}
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={resetCanvas}>
             <Trash2 className="mr-2 h-4 w-4" /> <span>Reset the canvas</span>
           </DropdownMenuItem>
           <MenubarSeparator />
-          <DropdownMenuItem
-            onClick={() =>
-              router.push("https://github.com/Shubhamai/AISandbox")
-            }
-          >
-            <Github className="mr-2 h-4 w-4" /> <span>GitHub</span>
+          <DropdownMenuItem asChild>
+            <Link
+              className="flex flex-row items-center"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://github.com/Shubhamai/AISandbox"
+            >
+              <Github className="mr-2 h-4 w-4" /> <span>GitHub</span>
+            </Link>
           </DropdownMenuItem>
-          {/* TODO : Add router router.push("mailto:hello@aisandbox.app?subject=Hello%20there!") */}
-          <DropdownMenuItem onClick={() => {}}>
-            <Mail className="mr-2 h-4 w-4" /> <span>Email</span>
+          <DropdownMenuItem asChild>
+            <Link
+              className="flex flex-row items-center"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="mailto:hello@aisandbox.app"
+            >
+              <Mail className="mr-2 h-4 w-4" /> <span>Email</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
