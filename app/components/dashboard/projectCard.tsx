@@ -45,220 +45,67 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
 import { Star } from "lucide-react";
 import { AspectRatio } from "@/app/components/ui/aspect-ratio";
+import ProjectContext from "./projectContext";
 
 dayjs.extend(relativeTime);
 
 const ProjectCard = ({
   project,
   deleteProject,
+  changeDashboardProjectState,
 }: {
   project: any;
   deleteProject: (id: string) => void;
+  changeDashboardProjectState: (id: string, state: any) => void;
 }) => {
   const router = useRouter();
-  const supabase = createClientComponentClient();
-  const { toast } = useToast();
   const [projectState, setProjectState] = useState<any>(project);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
   return (
-    <Dialog>
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <Card
-            key={projectState.id}
-            className="border-none shadow-none"
-            onDoubleClick={() => router.push(`/project/${projectState.id}`)}
-          >
-            <CardContent className="p-0 relative">
-              {/* Same aspect ratio as when saving image */}
-              <div className="className='focus:outline-none focus:ring focus:ring-violet-300'">
-                <AspectRatio ratio={1024 / 768}>
-                  <Image
-                    className="rounded-xl border hover:shadow-xl transition-shadow"
-                    src={projectState.image}
-                    alt="Project Image"
-                    fill
-                  />
-                </AspectRatio>
-                {projectState.favorite ? (
-                  <Star className="absolute top-2 right-2 stroke-foreground/30 fill-foreground/20" />
-                ) : (
-                  <></>
-                )}
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-1 items-start p-2">
-              <input
-                ref={inputRef}
-                className="bg-transparent"
-                // focus:outline-none
-                value={projectState.name}
-                // onFocus={() => {
-                //   console.log("focus");
-                // }}
-
-                onChange={(e) => {
-                  // setName(e.target.value);
-                  setProjectState({ ...projectState, name: e.target.value });
-                }}
+    <ProjectContext
+      projectState={projectState}
+      setProjectState={setProjectState}
+      deleteProject={deleteProject}
+      changeDashboardProjectState={changeDashboardProjectState}
+    >
+      <Card
+        key={projectState.id}
+        className="border-none shadow-none"
+        onDoubleClick={() => router.push(`/project/${projectState.id}`)}
+      >
+        <CardContent className="p-0 relative">
+          {/* Same aspect ratio as when saving image */}
+          <div className="className='focus:outline-none focus:ring focus:ring-violet-300'">
+            <AspectRatio ratio={1024 / 768}>
+              <Image
+                className="rounded-xl border hover:shadow-xl transition-shadow"
+                src={project.image}
+                alt="Project Image"
+                fill
               />
-              <p className="text-xs text-foreground/50">
-                {dayjs(projectState.updated_at).fromNow()}
-              </p>
-            </CardFooter>
-          </Card>
-        </ContextMenuTrigger>
-        <ContextMenuContent
-          className="w-50"
-          onFocusOutside={(e) => {
-            e.preventDefault();
-          }}
-          onCloseAutoFocus={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <ContextMenuItem
-            onClick={() => {
-              router.push(`/project/${projectState.id}`);
+            </AspectRatio>
+            {projectState.favorite ? (
+              <Star className="absolute top-2 right-2 stroke-foreground/30 fill-foreground/20" />
+            ) : (
+              <></>
+            )}
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-1 items-start p-2">
+          <input
+            className="bg-transparent"
+            value={projectState.name}
+            onChange={(e) => {
+              setProjectState({ ...projectState, name: e.target.value });
+              changeDashboardProjectState(project.id, { name: e.target.value });
             }}
-            inset
-          >
-            Open
-          </ContextMenuItem>
-          <ContextMenuItem inset>
-            <Link
-              rel="noopener noreferrer"
-              target="_blank"
-              href={`/project/${projectState.id}`}
-            >
-              Open in New Tab
-            </Link>
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuCheckboxItem
-            onClick={async () => {
-              const { data, error } = await supabase
-                .from("projects")
-                .update({ favorite: !projectState.favorite })
-                .eq("id", projectState.id);
-              if (error) {
-                toast({
-                  title: "Error",
-                  description: error.message,
-                });
-              } else {
-                setProjectState({ ...projectState, favorite: !projectState.favorite });
-              }
-            }}
-            checked={projectState.favorite}
-          >
-            Add to your Favorites
-          </ContextMenuCheckboxItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem
-            onClick={async () => {
-              // TODO : Generate link more dynamically
-              await navigator.clipboard.writeText(
-                `https://aisandbox.com/project/${projectState.id}`
-              );
-            }}
-            inset
-          >
-            Copy Link
-          </ContextMenuItem>
-          <ContextMenuItem
-            inset
-            onClick={async () => {
-              const {
-                data: { session },
-              } = await supabase.auth.getSession();
-              if (!session) {
-                toast({
-                  title: "Unauthorized",
-                  description:
-                    "You need to be logged in to duplicate a project",
-                });
-                return;
-              }
-
-              // TODO : Generate duplicate more dynamically
-              const { data, error } = await supabase
-                .from("projects")
-                .insert([
-                  {
-                    data: projectState.data,
-                    user_id: projectState.user_id,
-                    name: `${projectState.name} (Copy)`,
-                  },
-                ])
-                .select();
-
-              if (error) {
-                toast({
-                  title: "Error",
-                  description: error.message,
-                });
-              } else {
-                await supabase.storage
-                  .from("projects")
-                  .copy(
-                    `${session?.user.id}/${projectState.id}.jpeg`,
-                    `${session?.user.id}/${data[0].id}.jpeg`
-                  );
-
-                toast({
-                  title: "Success",
-                  description: "Project duplicated successfully",
-                });
-                router.push(`/project/${data[0].id}`);
-              }
-            }}
-          >
-            Duplicate
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem
-            inset
-            onClick={async () => {
-              console.log("rename");
-              if (inputRef.current) {
-                inputRef.current.focus();
-              }
-            }}
-          >
-            Rename
-          </ContextMenuItem>
-          <DialogTrigger asChild>
-            <ContextMenuItem inset>Delete</ContextMenuItem>
-          </DialogTrigger>
-        </ContextMenuContent>
-      </ContextMenu>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="pb-4">
-            Are you sure absolutely sure?
-          </DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. Are you sure you want to permanently
-            delete this project?
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <form
-            action={async () => {
-              await deleteProject(projectState.id);
-            }}
-            className="flex flex-col gap-5"
-          >
-            <DialogClose asChild>
-              <Button type="submit">Confirm</Button>
-            </DialogClose>
-          </form>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          />
+          <p className="text-xs text-foreground/50">
+            {dayjs(projectState.updated_at).fromNow()}
+          </p>
+        </CardFooter>
+      </Card>
+    </ProjectContext>
   );
 };
 

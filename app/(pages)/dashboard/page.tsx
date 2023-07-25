@@ -30,6 +30,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/app/components/ui/table";
 
 import ListLayout from "@/app/components/dashboard/listLayout";
 dayjs.extend(relativeTime);
@@ -84,6 +91,16 @@ export default function Profile() {
           setProjects([...projects]);
           break;
         }
+      }
+    }
+  };
+
+  const changeDashboardProjectState = async (id: string, value: object) => {
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].id === id) {
+        projects[i] = { ...projects[i], ...value };
+        setProjects([...projects]);
+        break;
       }
     }
   };
@@ -282,11 +299,30 @@ export default function Profile() {
                   key={project.id}
                   project={project}
                   deleteProject={deleteProject}
+                  changeDashboardProjectState={changeDashboardProjectState}
                 />
               ))}
             </div>
           ) : (
-            <ListLayout projects={sectionProjects} />
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">Name</TableHead>
+                  <TableHead>Last Modified</TableHead>
+                  <TableHead>Created</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sectionProjects.map((project: any) => (
+                  <ListLayout
+                    key={project.id}
+                    project={project}
+                    deleteProject={deleteProject}
+                    changeDashboardProjectState={changeDashboardProjectState}
+                  />
+                ))}
+              </TableBody>
+            </Table>
           )}
         </div>
       ) : (

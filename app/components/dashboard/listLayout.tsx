@@ -11,47 +11,50 @@ import {
   TableRow,
 } from "@/app/components/ui/table";
 import Image from "next/image";
+import { useState } from "react";
+import ProjectContext from "./projectContext";
 
 dayjs.extend(relativeTime);
 
-const ListLayout = ({ projects }: { projects: any }) => {
-  // TODO : Dialog and ContextMenu just like in projectCard.tsx
+const ListLayout = ({
+  project,
+  deleteProject,
+  changeDashboardProjectState,
+}: {
+  project: any;
+  deleteProject: (id: string) => void;
+  changeDashboardProjectState: (id: string, state: any) => void;
+}) => {
+
+  const [projectState, setProjectState] = useState<any>(project);
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="text-left">Name</TableHead>
-          <TableHead>Last Modified</TableHead>
-          <TableHead>Created</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {projects.map((project: any) => (
-          <TableRow key={project.id}>
-            <TableCell className="text-left">
-              <div className="flex flex-row items-center gap-6">
-                {/* <AspectRatio ratio={1024 / 768} className="w-20 h-24"> */}
-                <Image
-                  className="rounded-xl border"
-                  unoptimized
-                  priority
-                  src={project.image}
-                  alt="Project Image"
-                  // fill
-                  width={102}
-                  height={76}
-                />
-                {/* </AspectRatio> */}
-                {project.name}
-              </div>
-            </TableCell>
-            <TableCell>{dayjs(project.updated_at).fromNow()}</TableCell>
-            <TableCell>{dayjs(project.created_at).fromNow()}</TableCell>
-            {/* <TableCell className="text-right">$250.00</TableCell> */}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+
+    <ProjectContext
+      projectState={projectState}
+      setProjectState={setProjectState}
+      deleteProject={deleteProject}
+      changeDashboardProjectState={changeDashboardProjectState}
+    >
+      <TableRow>
+        <TableCell className="text-left">
+          <div className="flex flex-row items-center gap-6">
+            <Image
+              className="rounded-xl border"
+              unoptimized
+              priority
+              src={projectState.image}
+              alt="Project Image"
+              width={102}
+              height={76}
+            />
+            {projectState.name}
+          </div>
+        </TableCell>
+        <TableCell>{dayjs(projectState.updated_at).fromNow()}</TableCell>
+        <TableCell>{dayjs(projectState.created_at).fromNow()}</TableCell>
+      </TableRow>
+    </ProjectContext>
   );
 };
 
