@@ -79,7 +79,7 @@ const ProjectCard = ({
             <AspectRatio ratio={1024 / 768}>
               <Image
                 className="rounded-xl border hover:shadow-xl transition-shadow"
-                src={project.image}
+                src={projectState.image}
                 alt="Project Image"
                 fill
               />
@@ -97,7 +97,7 @@ const ProjectCard = ({
             value={projectState.name}
             onChange={(e) => {
               setProjectState({ ...projectState, name: e.target.value });
-              changeDashboardProjectState(project.id, { name: e.target.value });
+              changeDashboardProjectState(projectState.id, { name: e.target.value });
             }}
           />
           <p className="text-xs text-foreground/50">

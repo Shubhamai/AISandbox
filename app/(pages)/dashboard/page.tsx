@@ -304,15 +304,15 @@ export default function Profile() {
               ))}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-left">Name</TableHead>
-                  <TableHead>Last Modified</TableHead>
-                  <TableHead>Created</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <div>
+              <div className="grid grid-cols-[1fr_auto_150px] gap-x-3 border-b px-16 hover:bg-foreground/5 rounded-xl py-5 mb-5">
+                <p className="text-foreground/60 text-sm">Name</p>
+                <p className="text-right text-foreground/60 text-sm">
+                  Last Modified
+                </p>
+                <p className="text-right text-foreground/60 text-sm">Created</p>
+              </div>
+              <div>
                 {sectionProjects.map((project: any) => (
                   <ListLayout
                     key={project.id}
@@ -321,8 +321,8 @@ export default function Profile() {
                     changeDashboardProjectState={changeDashboardProjectState}
                   />
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </div>
           )}
         </div>
       ) : (
