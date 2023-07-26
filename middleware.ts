@@ -2,14 +2,14 @@ import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { supabaseService } from "./app/lib/supabase/server";
-import { Ratelimit } from "@upstash/ratelimit";
+// import { Ratelimit } from "@upstash/ratelimit";
 import redis from "./app/lib/redis/client";
 
-const ratelimit = new Ratelimit({
-  redis: redis,
-  limiter: Ratelimit.slidingWindow(2, "10 s"),
-  prefix: "@upstash/ratelimit",
-});
+// const ratelimit = new Ratelimit({
+//   redis: redis,
+//   limiter: Ratelimit.slidingWindow(2, "10 s"),
+//   prefix: "@upstash/ratelimit",
+// });
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
@@ -64,9 +64,9 @@ export async function middleware(req: NextRequest) {
             ex: 60 * 60 * 24,
           });
 
-          const { success, pending, limit, reset, remaining } =
-            await ratelimit.limit(data.user_id);
-          // const success = true;
+          // const { success, pending, limit, reset, remaining } =
+          //   await ratelimit.limit(data.user_id);
+          const success = true;
 
           return success
             // ? NextResponse.json(
@@ -80,9 +80,9 @@ export async function middleware(req: NextRequest) {
               );
         }
       } else {
-        const { success, pending, limit, reset, remaining } =
-          await ratelimit.limit(cacheUserId as string);
-        // const success = true;
+        // const { success, pending, limit, reset, remaining } =
+        //   await ratelimit.limit(cacheUserId as string);
+        const success = true;
         
         return success
           // ? NextResponse.json({ error: "cache found" }, { status: 200 })
