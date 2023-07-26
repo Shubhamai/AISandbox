@@ -1,3 +1,5 @@
+// TODO : Weebhook might be a better option for this
+
 import { NextRequest, NextResponse } from "next/server";
 import { Node } from "reactflow";
 import { supabaseService } from "@/app/lib/supabase/server";
@@ -19,6 +21,8 @@ export async function POST(request: NextRequest) {
       { status: 401 }
     );
   }
+
+  // return NextResponse.json(ResponseFormat.Error("Sample output"));
 
   try {
     const { data, error } = await supabaseService
