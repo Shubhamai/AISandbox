@@ -79,8 +79,8 @@ dependencies:
     specifier: 18.2.7
     version: 18.2.7
   '@upstash/redis':
-    specifier: ^1.22.0
-    version: 1.22.0(encoding@0.1.13)
+    specifier: 1.20.3
+    version: 1.20.3(encoding@0.1.13)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.27)
@@ -4712,8 +4712,8 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: false
 
-  /@upstash/redis@1.22.0(encoding@0.1.13):
-    resolution: {integrity: sha512-sXoJDoEqqik0HbrNE7yRWckOySEFsoBxfRdCgOqkc0w6py19ZZG50SpGkDDEUXSnBqP8VgGYXhWAiBpqxrt5oA==}
+  /@upstash/redis@1.20.3(encoding@0.1.13):
+    resolution: {integrity: sha512-OBQpSQr1XRD1sbW67nxvlJD2FP9VnwzrVAEU6mg/BvXTptvLwWHZe0ot4k6ZrU1NW61J1+Wdoz3/yiNhvIMOGg==}
     dependencies:
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
     transitivePeerDependencies:
