@@ -1,0 +1,3 @@
+kv_namespaces = [
+    { binding = "AISandbox", id = "21f3cfc615f141edad5e47c65cf754fb" }
+]
