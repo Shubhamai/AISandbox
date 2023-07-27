@@ -9,6 +9,9 @@ import { cookies } from "next/headers";
 export const runtime = "edge";
 
 export default async function Profile() {
+
+  // TODO : Delete account
+
   const supabase = createServerComponentClient({ cookies });
 
   const {

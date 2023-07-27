@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@cloudflare/workers-types": "^4.20230724.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-context-menu": "^2.1.4",
@@ -66,7 +65,6 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
-    "wrangler": "^3.3.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
