@@ -6,6 +6,7 @@ import { supabaseService } from "@/app/lib/supabase/server";
 import { ExecuteNodes } from "@/app/lib/execute";
 import { Response as ResponseFormat } from "@/app/utils/response";
 import { nodeExecution } from "../models/execution";
+import { modelNodesDataKeys } from "@/app/components/Nodes/Models/modelKeys";
 
 export const runtime = "edge";
 
@@ -43,6 +44,31 @@ export async function POST(request: NextRequest) {
         node.data.input = nodeInput.data;
         node.data.output = nodeInput.data;
       }
+    }
+
+    let totalCost = 0;
+
+    // TODO : Unsure if this is the best way to calculate cost and it's safety
+    for (const node of nodes) {
+      if (modelNodesDataKeys.includes(node.type)) {
+        totalCost += 0.02; // TODO : Per post should be in config
+      }
+    }
+
+    const { data: usageData, error: usageError } = await supabaseService
+      .from("apiusage")
+      .insert([
+        {
+          project_id: ProjectId,
+          user_id: request.headers.get("UserId"),
+          api_key: request.headers.get("APIKeyId"),
+          cost: totalCost,
+        },
+      ])
+      .select();
+
+    if (usageError) {
+      return NextResponse.json(ResponseFormat.Error(usageError.message));
     }
 
     try {

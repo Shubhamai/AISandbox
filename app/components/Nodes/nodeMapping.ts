@@ -1,4 +1,4 @@
-import { inputNodes, inputNodesData } from "./Inputs/Inputs";
+import { inputNodes, inputNodesData } from "./Inputs/inputs";
 import { modelNodes, modelsNodesData } from "./Models/models";
 import { outputNodes, outputNodesData } from "./Output/outputs";
 import { ToolsNodes } from "./Tools/tools";

@@ -2,14 +2,14 @@ import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { supabaseService } from "./app/lib/supabase/server";
-// import { Ratelimit } from "@upstash/ratelimit";
+import { Ratelimit } from "@upstash/ratelimit";
 import redis from "./app/lib/redis/client";
 
-// const ratelimit = new Ratelimit({
-//   redis: redis,
-//   limiter: Ratelimit.slidingWindow(2, "10 s"),
-//   prefix: "@upstash/ratelimit",
-// });
+const ratelimit = new Ratelimit({
+  redis: redis,
+  limiter: Ratelimit.slidingWindow(2, "10 s"),
+  prefix: "@upstash/ratelimit",
+});
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
@@ -40,11 +40,17 @@ export async function middleware(req: NextRequest) {
 
       // Cached user id from redis
       // TODO : Ratelimting + caching seems to slow middleware from ~20ms to ~200-300ms, need to diagnose the latency
-      const cacheUserId = await redis.get(hash);
-      // const cacheUserId = "abc";
+      let cachedResult = await redis.get<{
+        user_id: string;
+        api_key_id: string;
+      }>(hash);
+      let api_key_id = cachedResult?.api_key_id;
+      let user_id = cachedResult?.user_id;
 
-      if (!cacheUserId) {
-        const { data, error } = await supabaseService
+      // TODO : Could be problematic in case of redis database failure, all requests will be blocked
+      let success = false;
+      if (!user_id) {
+        const { data: apiTableData, error } = await supabaseService
           .from("apikeys")
           .select("*")
           .eq("hash", hash)
@@ -57,40 +63,41 @@ export async function middleware(req: NextRequest) {
           );
         }
 
-        if (data) {
-          // 1 day expiry
-          // TODO : Need to set expiry based on the user's plan or failed to pay stripe invoice
-          await redis.set(hash, data.user_id, {
+        // 1 day expiry
+        // TODO : Need to set expiry based on the user's plan or failed to pay stripe invoice
+        user_id = apiTableData.user_id;
+        api_key_id = apiTableData.id;
+        await redis.set(
+          hash,
+          {
+            user_id,
+            api_key_id,
+          },
+          {
             ex: 60 * 60 * 24,
-          });
+          }
+        );
 
-          // const { success, pending, limit, reset, remaining } =
-          //   await ratelimit.limit(data.user_id);
-          const success = true;
-
-          return success
-            // ? NextResponse.json(
-            //     { error: "data found, set cache" },
-            //     { status: 200 }
-            //   )
-            ? res
-            : NextResponse.json(
-                { error: "Too many requests, please try again in few seconds" },
-                { status: 429 }
-              );
-        }
+        success = (await ratelimit.limit(apiTableData.user_id)).success;
       } else {
-        // const { success, pending, limit, reset, remaining } =
-        //   await ratelimit.limit(cacheUserId as string);
-        const success = true;
-        
-        return success
-          // ? NextResponse.json({ error: "cache found" }, { status: 200 })
-          ? res
-          : NextResponse.json(
-              { error: "Too many requests, please try again in few seconds" },
-              { status: 429 }
-            );
+        success = (await ratelimit.limit(user_id)).success;
+      }
+
+      // If data is found in cache or in database, log the api usage and return the response
+      if (success) {
+        if (error) {
+          return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+
+        res.headers.set("UserId", user_id as string);
+        res.headers.set("APIKeyId", api_key_id as string);
+
+        return res;
+      } else {
+        return NextResponse.json(
+          { error: "Too many requests, please try again in few seconds" },
+          { status: 429 }
+        );
       }
     }
   }

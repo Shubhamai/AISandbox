@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/app/components/ui/accordion";
-import { inputNodesData } from "../../Nodes/Inputs/Inputs";
+import { inputNodesData } from "../../Nodes/Inputs/inputs";
 import SidebarSection from "./SidebarSection";
 import { modelsNodesData } from "../../Nodes/Models/models";
 import { outputNodesData } from "../../Nodes/Output/outputs";
