@@ -198,7 +198,7 @@ export default function Profile() {
             <Loader className="w-4 h-4 ml-2 animate-spin" />
           </p>
         </div>
-      ) : projects ? (
+      ) : (projects.length !== 0) ? (
         <div className="flex flex-col gap-10">
           <div className="flex flex-row gap-4 items-center justify-between">
             <div className="flex flex-row gap-4 items-center">

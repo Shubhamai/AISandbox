@@ -183,7 +183,7 @@ export function DataTable<TData, TValue>({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: apiKeyName, user_id: session.user.id }),
+        body: JSON.stringify({ name: apiKeyName }),
       });
 
       const responseJson = await response.json();
