@@ -55,29 +55,34 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { data: usageData, error: usageError } = await supabaseService
-      .from("apiusage")
-      .insert([
-        {
-          project_id: ProjectId,
-          user_id: request.headers.get("UserId"),
-          api_key: request.headers.get("APIKeyId"),
-          cost: totalCost,
-        },
-      ])
-      .select();
-
-    if (usageError) {
-      return NextResponse.json(ResponseFormat.Error(usageError.message));
-    }
-
     try {
+      // TODO : Might not be the best way to calculate execution time
+      const startTime = Date.now();
       let processedOutputs = await ExecuteNodes(
         nodes,
         edges,
         false,
         nodeExecution
       );
+      const endTime = Date.now();
+      const responseTimeInMs = endTime - startTime;
+
+      const { data: usageData, error: usageError } = await supabaseService
+        .from("apiusage")
+        .insert([
+          {
+            project_id: ProjectId,
+            user_id: request.headers.get("UserId"),
+            api_key: request.headers.get("APIKeyId"),
+            cost: totalCost,
+            execution_time: responseTimeInMs,
+          },
+        ])
+        .select();
+
+      if (usageError) {
+        return NextResponse.json(ResponseFormat.Error(usageError.message));
+      }
 
       return new Response(JSON.stringify(processedOutputs), {
         status: 200,

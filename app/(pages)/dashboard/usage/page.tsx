@@ -4,80 +4,66 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import dayjs from "dayjs";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/app/components/ui/select";
+import { DataTableDemo } from "./data-table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
+import {
+  getDailyData,
+  getHourlyData,
+  getMonthlyData,
+  getWeeklyData,
+} from "@/app/components/dashboard/usageUtils";
 
 const Usage = () => {
-  const [data, setData] = useState<any[] | undefined>(undefined);
-  // const [rangeSelected, setRangeSelected] = useState<string>("Monthly");
+  const [data, setData] = useState<any[] | undefined>(undefined); // [
+  const [processedData, setProcessedData] = useState<any[] | undefined>(
+    undefined
+  );
+  const [rangeSelected, setRangeSelected] = useState<string>("Monthly");
 
   const supabase = createClientComponentClient();
 
   useEffect(() => {
     const getData = async () => {
-      let { data, error } = await supabase
+      let { data: supabaseData, error } = await supabase
         .from("apiusage")
-        .select("created_at,cost");
+        .select("created_at,project_id,cost,execution_time");
 
       if (error) {
         console.log(error);
       }
-      if (data) {
-        let processedData = [];
+      if (supabaseData && !data) {
+        // sort the supabaseData by created_at at descending order
 
-        // genrate a sorted list contains 12 months
-        const monthsList = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "July",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ];
+        supabaseData = supabaseData.sort((a: any, b: any) => {
+          return dayjs(b.created_at).unix() - dayjs(a.created_at).unix();
+        });
 
-        console.log(monthsList);
+        setData(supabaseData);
 
-        // loop through the monthsList
-        for (let i = 0; i < monthsList.length; i++) {
-          // get the current month
-          const currentMonth = monthsList[i];
-
-          // filter the data by current month
-          const filteredData = data.filter((d: any) => {
-            return dayjs(d.created_at).format("MMM") === currentMonth;
-          });
-
-          // get the total cost of the current month
-          const totalCost = filteredData.reduce((acc: any, curr: any) => {
-            return acc + curr.cost;
-          }, 0);
-
-          // push the data to the processedData
-          processedData.push({
-            created_at: currentMonth,
-            cost: totalCost,
-          });
-        }
-
-        console.log(processedData);
-
-        setData(processedData);
+        setProcessedData(getMonthlyData(supabaseData));
       }
     };
 
     getData();
-  }, []); //[rangeSelected]);
+
+    if (data) {
+      if (rangeSelected === "Monthly") {
+        setProcessedData(getMonthlyData(data));
+      } else if (rangeSelected === "Weekly") {
+        setProcessedData(getWeeklyData(data));
+      } else if (rangeSelected === "Daily") {
+        setProcessedData(getDailyData(data));
+      } else if (rangeSelected === "Hourly") {
+        setProcessedData(getHourlyData(data));
+      }
+    }
+  }, [rangeSelected]);
 
   return (
     <div className="p-10 flex flex-col gap-10 ">
@@ -87,25 +73,25 @@ const Usage = () => {
           Below is the statistics of your usage of the AISandbox REST API.
         </h4>
         {/* TODO : Select Stuff and data table */}
-        {/* <Select
-          defaultValue="Monthly"
+        <Select
           onValueChange={(value) => {
             setRangeSelected(value);
           }}
         >
           <SelectTrigger className="w-40 ml-auto">
-            <SelectValue>Monthly</SelectValue>
+            <SelectValue>{rangeSelected}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Monthly">Monthly</SelectItem>
             <SelectItem value="Weekly">Weekly</SelectItem>
             <SelectItem value="Daily">Daily</SelectItem>
+            <SelectItem value="Hourly">Hourly</SelectItem>
           </SelectContent>
-        </Select> */}
+        </Select>
       </div>
-      <div className="w-[800px]">
+      <div className="flex flex-col gap-16 w-[800px]">
         <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={data}>
+          <BarChart data={processedData}>
             <XAxis
               dataKey="created_at"
               stroke="#888888"
@@ -123,6 +109,9 @@ const Usage = () => {
             <Bar dataKey="cost" fill="#333333" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
+        <div className="ml-5">
+          {data ? <DataTableDemo data={data} /> : <div>Loading...</div>}
+        </div>
       </div>
     </div>
   );
