@@ -1,4 +1,3 @@
-
 import { Node } from "reactflow";
 import { executeCreatePromptNode } from "./others/utils";
 import { executeOpenAIChatGPTNode } from "./chatgpt/util";
@@ -6,7 +5,13 @@ import { executeStableDiffusionNode } from "./stablediffusion/util";
 import { executeWhisperNode } from "./whisper/util";
 import { executeYoloXNode } from "./yolox/util";
 import { executeTortoiseTTSNode } from "./tortoisetts/util";
-import { executeDollyV2Node, executeMpt7bNode, executeOpenAssistantNode, executeStableLMNode, executeVicuna13BNode } from "./replicatellm/util";
+import {
+  executeDollyV2Node,
+  executeMpt7bNode,
+  executeOpenAssistantNode,
+  executeStableLMNode,
+  executeVicuna13BNode,
+} from "./replicatellm/util";
 
 const modelFuncMapping = {
   OpenAIChatGPTNode: executeOpenAIChatGPTNode,
@@ -37,20 +42,20 @@ export const nodeExecution = async (
       previousNodes.length === 1 &&
       modelFuncMapping[type as keyof typeof modelFuncMapping]
     ) {
-      let startTime;
-      if (isFrontEnd) {
-        startTime = performance.now();
-      }
-
       const outNode = await modelFuncMapping[
         type as keyof typeof modelFuncMapping
-      ](node, previousNodes[0], isFrontEnd);
+      ](
+        node,
+        previousNodes[0],
+        isFrontEnd,
+        isFrontEnd
+          ? {
+              ProjectId: window.location.pathname.split("/")[2], // TODO : Hacky way to get project id
+              // UserId : NOTE: is added in the middleware, should be here
+            }
+          : {}
+      );
 
-      if (isFrontEnd && startTime) {
-        let endTime = performance.now();
-
-        outNode.data.output.executionTime = endTime - startTime;
-      }
       outNode.data.hasComputed = true; // TODO : Is hasComputed needed?
 
       return outNode;

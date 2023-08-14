@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchResult } from "./util";
+import { postProcess, preProcess } from "../routeUtils";
 
 export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  const res = await fetchResult(data);
+  const preOut = preProcess(request);
 
-  return NextResponse.json(res);
+  const data = await request.json();
+  const result = await fetchResult(data);
+
+  const response = await postProcess(request, result, preOut);
+
+  return NextResponse.json(response);
 }

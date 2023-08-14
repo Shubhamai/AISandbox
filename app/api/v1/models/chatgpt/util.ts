@@ -27,16 +27,17 @@ export const fetchResult = async (req: any) => {
 export const executeOpenAIChatGPTNode = async (
   node: Node,
   previousNode: Node,
-  localExecution: boolean = false
+  localExecution: boolean = false,
+  extraHeaders: any = {}
 ) => {
   try {
-
     let data;
     if (localExecution) {
       const out = await fetch("/api/v1/models/chatgpt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...extraHeaders,
         },
         body: JSON.stringify({ text: previousNode.data.output.text }),
       });
@@ -47,6 +48,7 @@ export const executeOpenAIChatGPTNode = async (
       });
     }
     node.data.output.text = data.text;
+    node.data.output.executionTime = data.executionTime;
 
     return node;
   } catch (e) {

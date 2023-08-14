@@ -32,7 +32,7 @@ const Usage = () => {
     const getData = async () => {
       let { data: supabaseData, error } = await supabase
         .from("apiusage")
-        .select("created_at,project_id,cost,execution_time");
+        .select("created_at,project_id,cost,execution_time,source,description");
 
       if (error) {
         console.log(error);

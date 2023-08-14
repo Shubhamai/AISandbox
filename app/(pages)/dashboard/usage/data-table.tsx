@@ -60,6 +60,7 @@ const exportData = (data: any[]) => {
   aElement.remove();
 };
 
+// TODO : Maybe clicking on each project id will show a list of models with their respective cost
 export const columns: any = [
   {
     accessorKey: "project_id",
@@ -69,9 +70,14 @@ export const columns: any = [
         className="underline"
         href={`/project/${row.getValue("project_id")}`}
       >
-        {row.getValue("project_id")}
+        {row.getValue("project_id").slice(0, 8)}...
       </Link>
     ),
+  },
+  {
+    accessorKey: "source",
+    header: "Source",
+    cell: ({ row }: { row: any }) => row.getValue("source"),
   },
   {
     accessorKey: "execution_time",
@@ -116,6 +122,11 @@ export const columns: any = [
 
       return <div className="font-medium">{formatted}</div>;
     },
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }: { row: any }) => row.getValue("description"),
   },
 ];
 

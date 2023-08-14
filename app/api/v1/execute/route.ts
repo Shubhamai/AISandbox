@@ -49,9 +49,11 @@ export async function POST(request: NextRequest) {
     let totalCost = 0;
 
     // TODO : Unsure if this is the best way to calculate cost and it's safety
+    let includedModels = [];
     for (const node of nodes) {
       if (modelNodesDataKeys.includes(node.type)) {
         totalCost += 0.02; // TODO : Per post should be in config
+        includedModels.push(node.type);
       }
     }
 
@@ -67,18 +69,22 @@ export async function POST(request: NextRequest) {
       const endTime = Date.now();
       const responseTimeInMs = endTime - startTime;
 
-      const { data: usageData, error: usageError } = await supabaseService
-        .from("apiusage")
-        .insert([
-          {
-            project_id: ProjectId,
-            user_id: request.headers.get("UserId"),
-            api_key: request.headers.get("APIKeyId"),
-            cost: totalCost,
-            execution_time: responseTimeInMs,
-          },
-        ])
-        .select();
+      const { data: usageData, error: usageError } =
+        await // NOTE: No await set to avoid blocking the request
+        supabaseService
+          .from("apiusage")
+          .insert([
+            {
+              project_id: ProjectId,
+              user_id: request.headers.get("UserId"),
+              api_key: request.headers.get("APIKeyId"),
+              cost: totalCost,
+              execution_time: responseTimeInMs,
+              source: "API",
+              description: `Executed ${includedModels.join(", ")}`,
+            },
+          ])
+          .select();
 
       if (usageError) {
         return NextResponse.json(ResponseFormat.Error(usageError.message));

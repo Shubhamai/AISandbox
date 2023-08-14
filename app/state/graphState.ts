@@ -268,6 +268,7 @@ graphState.subscribe((state, prevState) => {
 
       console.log("Saving...");
 
+      // TODO : Ue realtime or some better way to save
       await supabase
         .from("projects")
         .update({

@@ -76,8 +76,6 @@ export const APICodeDialog = ({ projectId }: { projectId: string }) => {
               variant="secondary"
               className="absolute gap-2 top-1 right-2 p-3 h-8 transition-all z-20 active:scale-90"
               onClick={() => {
-                console.log("click");
-
                 navigator.clipboard.writeText(url);
 
                 toast({ title: "Copied to clipboard :)" });
@@ -97,8 +95,6 @@ export const APICodeDialog = ({ projectId }: { projectId: string }) => {
               variant="secondary"
               className="absolute gap-2 top-4 bg-background right-4 p-3 h-8 transition-all z-20 active:scale-90"
               onClick={() => {
-                console.log("click");
-
                 navigator.clipboard.writeText(pythonCode);
 
                 toast({ title: "Copied to clipboard :)" });
