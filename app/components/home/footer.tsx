@@ -10,7 +10,7 @@ const footerData: Record<string, Record<string, string>[]> = {
   Documentation: [
     {
       "Getting Started": "/signup",
-      "API Reference": "/status",
+      "API Reference": "/api",
       Examples: "/docs#examples",
     },
   ],

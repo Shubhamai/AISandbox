@@ -17,7 +17,7 @@ import {
   getTransformForBounds,
 } from "reactflow";
 
-import nodeTypes from "../components/Nodes/nodeMapping";
+import nodeTypes from "../components/nodes/nodeMapping";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { compareEdges, compareNodes } from "../utils";
 import { toBlob, toJpeg, toSvg } from "html-to-image";

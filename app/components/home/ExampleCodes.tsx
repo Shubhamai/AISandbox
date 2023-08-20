@@ -55,9 +55,9 @@ const ExampleCodes = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-3">
+      <div className="flex gap-3 mb-4">
         <span
-          className="cursor-pointer border border-slate-400 rounded-lg px-3 focus:bg-slate-400 select-none"
+          className="cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
           onClick={() => {
             setLanguageCode(pythonCode);
             setLanguage("python");
@@ -66,7 +66,7 @@ const ExampleCodes = () => {
           Python 3
         </span>
         <span
-          className="cursor-pointer border border-slate-400 rounded-lg px-3 focus:bg-slate-400 select-none"
+          className="cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
           onClick={() => {
             setLanguageCode(javascriptCode);
             setLanguage("javascript");
@@ -75,7 +75,7 @@ const ExampleCodes = () => {
           Node.js
         </span>
         <span
-          className="cursor-pointer border border-slate-400 rounded-lg px-3 focus:bg-slate-400 select-none"
+          className="cursor-pointer text-sm uppercase font-semibold border border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
           onClick={() => {
             setLanguageCode(rustCode);
             setLanguage("rust");
@@ -84,6 +84,7 @@ const ExampleCodes = () => {
           Rust
         </span>
       </div>
+
       <SyntaxHighlighter language={language} style={anOldHope} showLineNumbers>
         {languageCode}
       </SyntaxHighlighter>

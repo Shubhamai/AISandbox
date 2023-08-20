@@ -6,7 +6,7 @@ import Footer from "./components/home/footer";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
-import LandingCard from "./components/landing/Card";
+import LandingCard from "./components/home/Card";
 import RandomChart from "./components/home/chart";
 import ExampleCodes from "./components/home/ExampleCodes";
 
@@ -48,45 +48,47 @@ export default async function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-100 to-slate-50 to-5%">
       <Header user={session ? session.user : null} />
 
       <div className="flex flex-col items-center gap-10 mt-[300px]">
-        <Link
-          className="border px-4 min-w-max py-2 w-36 text-center rounded-full bg-yellow-300/10 border-yellow-300 text-yellow-900 flex flex-row gap-2"
-          rel="noopener noreferrer"
-          target="_blank"
-          href="https://github.com/shubhamai/aisandbox"
-        >
-          <ArrowUpRight /> Currently In Development
-        </Link>
-        <h1 className="flex flex-col gap-2 items-center font-black text-6xl">
-          Build AI Tools
-        </h1>
-        <h4 className="font-bold text-2xl text-foreground/50 text-center">
-          Prototyping AI architectures in a node based editor.
-        </h4>
-        <div className="flex flex-row gap-5">
-          <Link href={session ? "/dashboard" : "/signup"}>
-            <Button
-              className="flex gap-2 w-fit rounded-3xl border-2 pl-6 pr-4 border-foreground font-bold hover:shadow-xl transition-transform transition-shadow"
-              size="lg"
-              // variant={'ghost'}
-            >
-              Get Started
-              <ChevronRight />
-            </Button>
+        <div className="flex flex-col items-center gap-10 border-b drop-shadow-md p-8 rounded-lg">
+          <Link
+            className="border-2 shadow-md hover:shadow-lg hover:shadow-yellow-200 shadow-yellow-300 px-3 min-w-max py-1.5 font-semibold w-36 text-center text-sm rounded-full bg-yellow-300/10 border-yellow-300 text-yellow-900 flex flex-row gap-2"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://github.com/shubhamai/aisandbox"
+          >
+            <ArrowUpRight /> Currently In Development
           </Link>
+          <h1 className="flex flex-col gap-2 items-center font-black text-6xl bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
+            Build AI Tools
+          </h1>
+          <h4 className="font-semibold text-2xl text-foreground/60 text-center">
+            Prototype AI architectures in a node based editor.
+          </h4>
+          <div className="flex flex-row gap-5">
+            <Link href={session ? "/dashboard" : "/signup"}>
+              <Button
+                className="flex gap-2 w-fit rounded-3xl border-2 pl-6 pr-4 border-foreground font-bold hover:shadow-xl transition-transform transition-shadow"
+                size="lg"
+                // variant={'ghost'}
+              >
+                Get Started
+                <ChevronRight />
+              </Button>
+            </Link>
 
-          <Link href="/docs">
-            <Button
-              className="flex gap-2 w-fit rounded-3xl border-2 px-4 border-foreground font-bold hover:shadow-xl transition-transform transition-shadow"
-              size="lg"
-              variant={"outline"}
-            >
-              Documentation
-            </Button>
-          </Link>
+            <Link href="/docs">
+              <Button
+                className="flex gap-2 w-fit rounded-3xl border-2 px-4 border-foreground font-bold hover:shadow-xl transition-transform transition-shadow"
+                size="lg"
+                variant={"outline"}
+              >
+                Documentation
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <Image
@@ -124,9 +126,9 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 grid-flow-rows gap-4 w-[1400px] mt-20">
-          <div className="col-span-1 flex flex-col gap-4 bg-gray-100 border border-slate-300 p-4 rounded-lg hover:drop-shadow-lg hover:-translate-y-3 transition-transform">
-            <div className="font-semibold text-2xl">API Integration</div>
-            <div className="text-slate-600">
+          <div className="col-span-1 flex flex-col gap-4 bg-gradient-to-b from-foreground/5 to-background border border-slate-300 p-4 rounded-lg hover:drop-shadow-lg hover:-translate-y-3 transition-transform">
+            <div className="font-bold text-2xl">API Integration</div>
+            <div className="text-slate-600 font-medium">
               AI Sandbox provides an REST API endpoint to integrate the AI
               architectures to any application. Currently supported languages
               include Python, Javascript, and Rust.
@@ -135,9 +137,9 @@ export default async function Home() {
               <ExampleCodes />
             </div>
           </div>
-          <div className="col-span-1 flex flex-col gap-4 bg-gray-100 border border-slate-300 p-4 rounded-lg hover:drop-shadow-lg hover:-translate-y-3 transition-transform">
-            <div className="font-semibold text-2xl ">Moniter Usage</div>
-            <div className="text-slate-600">
+          <div className="col-span-1 flex flex-col gap-4 bg-gradient-to-b from-foreground/5 to-background border border-slate-300 p-4 rounded-lg hover:drop-shadow-lg hover:-translate-y-3 transition-transform">
+            <div className="font-bold text-2xl">Moniter Usage</div>
+            <div className="text-slate-600 font-medium">
               All your API usage is monitered and displayed in the dashboard.
               You can also view the logs of the API calls and usage limit per
               month based on cost.

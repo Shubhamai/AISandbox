@@ -6,7 +6,7 @@ import { supabaseAdmin } from "@/app/lib/supabase/admin";
 import { ExecuteNodes } from "@/app/lib/execute";
 import { Response as ResponseFormat } from "@/app/utils/response";
 import { nodeExecution } from "../models/execution";
-import { modelNodesDataKeys } from "@/app/components/Nodes/Models/modelKeys";
+import { modelNodesDataKeys } from "@/app/components/nodes/Models/modelKeys";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {

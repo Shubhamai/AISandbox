@@ -1,4 +1,4 @@
-import allNodes, { allNodesData } from "@/app/components/Nodes/nodeMapping";
+import allNodes, { allNodesData } from "@/app/components/nodes/nodeMapping";
 import {
   Command,
   CommandEmpty,
@@ -10,7 +10,7 @@ import {
   CommandShortcut,
 } from "@/app/components/ui/command";
 import { useState } from "react";
-import { outputNodesData } from "../../Nodes/Output/outputs";
+import { outputNodesData } from "../../nodes/Output/outputs";
 import { DragEvent } from "react";
 import { Button } from "@/app/components/ui/button";
 import { XCircle } from "lucide-react";

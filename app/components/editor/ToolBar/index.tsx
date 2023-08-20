@@ -22,7 +22,7 @@ import {
 import { Button } from "@/app/components/ui/button";
 import useAppState from "@/app/state/appState";
 import ToolBarItem from "./ToolBarItem";
-import { ToolsNodesData } from "../../Nodes/Tools/tools";
+import { ToolsNodesData } from "../../nodes/Tools/tools";
 import { APICodeDialog } from "./APICode";
 import { cn } from "@/app/utils";
 import { ExecuteNodes } from "@/app/lib/execute";

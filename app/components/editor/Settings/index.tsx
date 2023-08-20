@@ -3,7 +3,7 @@ import nodeTypes, {
   inputNodes,
   outputNodes,
   modelNodes,
-} from "@/app/components/Nodes/nodeMapping";
+} from "@/app/components/nodes/nodeMapping";
 import { DragEvent, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
@@ -19,7 +19,6 @@ const Settings = () => {
       // console.log("changed selection", nodes, edges), setSelectedNode(nodes[0]);
     },
   });
-
 
   return (
     <Panel

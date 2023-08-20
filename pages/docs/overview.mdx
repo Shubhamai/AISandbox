@@ -1,3 +1,57 @@
 # Overview
 
-This is the overview page!
+AISandbox is a node-based editor that allows creating an architecture conbining multiple models with inputs and outputs to perform a range of tasks.
+Think of Figma but for designing AI systems graphically.
+
+This docs mainly contains information about the codebase and how you can build someone on top of it E.g. A new node.
+
+---
+
+### Features
+
+- [x] Both models are executed and database is saved on cloud.
+- [x] REST API Support for executing the graph.
+- [x] Records all the API & Model usage and provides a dashboard to view the usage.
+- [x] Can be Self hosted.
+
+---
+
+### Tech Stack
+
+- [NextJS 13](https://nextjs.org/) - React Framework
+- [Shadcn UI](https://ui.shadcn.com/) - UI Components
+- [ReactFlow](https://reactflow.dev/) - Graph Editor
+- [Lucid](https://lucide.dev/) - Icons
+- [Zustand](https://zustand-demo.pmnd.rs/) - State Management
+- [TailwindCSS](https://tailwindcss.com/) - CSS Framework
+
+- [Supabase](https://supabase.io/) - Database, Auth and Storage.
+- [Stripe](https://stripe.com/) - Payments
+- [OpenAI](https://openai.com/) & [Replicate](https://replicate.ai/) - API for executing models
+- [Upstash](https://upstash.com/) - Rate Limiting, Caching.
+
+- [Cloudflare](https://cloudflare.com/) - CDN, DNS, SSL and Reverse Proxy.
+- [Digital Ocean](https://digitalocean.com/) - Server
+
+---
+
+## Directory Structure
+
+```
+├── app - The main web app
+│   ├── api - API routes
+│   ├── components - React components
+│   |   ├── dashboard - Dashboard components
+│   |   ├── landing - Landing page components
+│   |   ├── nodes - Contains components for all the nodes
+|   |   ├── editor - Contains components for the main editor
+│   |   ├── ui - Shadcn UI components
+|   ├── fonts - Fonts
+│   ├── lib - Utility functions. Redis, Stripe, Supabase clients.
+│   ├── state - Zustand stores
+|   ├── utils - Utility functions
+├── examples - Contains example code for python, nodejs and rust.
+├── packages - Contains library code for python, nodejs and rust.
+├── pages - The documentation website (https://aisandbox.com/docs).
+├── public - Static files
+```

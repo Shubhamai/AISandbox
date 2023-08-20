@@ -1,3 +1,23 @@
 # Installation
 
-This is an installation page!
+To work on this application locally, you will need to get API Keys of few services.
+
+- [Supabase](https://supabase.io/) - Database and authentication. The database schema is available in the `types_db.ts` file.
+- [Stripe](https://stripe.com/) - Payment processing (for subscriptions). You will need to create a product and a price for it. In future, we will add a way to disable this feature for self-hosted instances.
+- [Upstash](https://upstash.com/) - Redis database for caching
+- [OpenAI](https://openai.com/) - For their AI models lineup.
+- [Replicated](https://www.replicated.com/) - For their AI models lineup too.
+
+2. After you have all the keys, you can copy the `.env.example` and rename it to `.env.local`. Then, fill in the keys in the file.
+
+3. Install the dependencies
+
+   ```bash
+   pnpm i
+   ```
+
+4. Run the development server
+
+   ```bash
+    pnpm dev
+   ```

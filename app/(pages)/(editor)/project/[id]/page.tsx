@@ -18,10 +18,10 @@ import {
 import styled, { ThemeProvider } from "styled-components";
 import useAppState from "@/app/state/appState";
 import graphState from "@/app/state/graphState";
-import Header from "@/app/components/project/Header";
-import ToolBar from "@/app/components/project/ToolBar";
-import ContextItems from "@/app/components/project/ContextMenu";
-import SideBar from "@/app/components/project/SideBar";
+import Header from "@/app/components/editor/Header";
+import ToolBar from "@/app/components/editor/ToolBar";
+import ContextItems from "@/app/components/editor/ContextMenu";
+import SideBar from "@/app/components/editor/SideBar";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/app/components/ui/use-toast";

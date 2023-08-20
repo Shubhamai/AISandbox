@@ -7,11 +7,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/app/components/ui/accordion";
-import { inputNodesData } from "../../Nodes/Inputs/inputs";
+import { inputNodesData } from "../../nodes/Inputs/inputs";
 import SidebarSection from "./SidebarSection";
-import { modelsNodesData } from "../../Nodes/Models/models";
-import { outputNodesData } from "../../Nodes/Output/outputs";
-import { utilsNodesData } from "../../Nodes/Others/Utils";
+import { modelsNodesData } from "../../nodes/Models/models";
+import { outputNodesData } from "../../nodes/Output/outputs";
+import { utilsNodesData } from "../../nodes/Others/Utils";
 import { Brain, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Separator } from "@/app/components/ui/separator";

@@ -59,7 +59,7 @@ response = requests.request("POST", "https://aisandbox.app/api/v1/execute", head
 
 ### Infrastructure
 
-- The site is deployed on [cloudflare](https://www.cloudflare.com/).
+- The site is ~~deployed on [cloudflare](https://www.cloudflare.com/)~~ self hosted on Digitalocean $7 droplet, with cloudflare as reverse proxy. 
 
 
 ## Self Hosting
