@@ -19,7 +19,7 @@ export const FeedbackDialogForm = () => {
     "use server";
 
     const feedback = formData.get("feedback");
-    const email = formData.get("email");
+    // const email = formData.get("email");
 
     const supabase = createServerActionClient({ cookies });
 

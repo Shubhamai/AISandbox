@@ -24,7 +24,7 @@ const Pricing = () => {
           <br /> You will be charged at the end of each month for the total
           number of requests made in that month.{" "}
           <Link
-            href="/dashboard/billing"
+            href="/dashboard/usage"
             className="underline decoration-foreground/50 hover:decoration-foreground hover:decoration-2"
           >
             You can find your current usage on your account page.

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseService } from "@/app/lib/supabase/server";
+import { supabaseAdmin } from "@/app/lib/supabase/admin";
 import { Response } from "@/app/utils/response";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json(Response.Error("No user found"));
 
-
   const reqBody = await request.json();
 
   const apiKey = "ais-" + crypto.randomUUID();
@@ -25,7 +24,7 @@ export async function POST(request: NextRequest) {
 
   const public_key = apiKey.slice(0, 4) + "..." + apiKey.slice(-4, -1);
 
-  const { data, error } = await supabaseService
+  const { data, error } = await supabaseAdmin
     .from("apikeys")
     .insert({
       hash: hashedApiKey,

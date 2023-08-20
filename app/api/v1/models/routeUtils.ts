@@ -1,4 +1,4 @@
-import { supabaseService } from "@/app/lib/supabase/server";
+import { supabaseAdmin } from "@/app/lib/supabase/admin";
 
 export const preProcess = (req: Request) => {
   const preOut = {
@@ -20,7 +20,7 @@ export const postProcess = async (
   const diff = endTimestamp - preOut.startTimestamp;
 
   // NOTE: No await set to avoid blocking the request
-  const { data: usageData, error: usageError } = await supabaseService
+  const { data: usageData, error: usageError } = await supabaseAdmin
     .from("apiusage")
     .insert([
       {

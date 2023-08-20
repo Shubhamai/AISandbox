@@ -2,11 +2,16 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { Node } from "reactflow";
-import { supabaseService } from "@/app/lib/supabase/server";
+import { supabaseAdmin } from "@/app/lib/supabase/admin";
 import { ExecuteNodes } from "@/app/lib/execute";
 import { Response as ResponseFormat } from "@/app/utils/response";
 import { nodeExecution } from "../models/execution";
 import { modelNodesDataKeys } from "@/app/components/Nodes/Models/modelKeys";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2023-08-16",
+});
 
 export const runtime = "edge";
 
@@ -26,7 +31,7 @@ export async function POST(request: NextRequest) {
   // return NextResponse.json(ResponseFormat.Error("Sample output"));
 
   try {
-    const { data, error } = await supabaseService
+    const { data, error } = await supabaseAdmin
       .from("projects")
       .select("data")
       .eq("id", ProjectId)
@@ -71,7 +76,7 @@ export async function POST(request: NextRequest) {
 
       const { data: usageData, error: usageError } =
         await // NOTE: No await set to avoid blocking the request
-        supabaseService
+        supabaseAdmin
           .from("apiusage")
           .insert([
             {
@@ -89,6 +94,28 @@ export async function POST(request: NextRequest) {
       if (usageError) {
         return NextResponse.json(ResponseFormat.Error(usageError.message));
       }
+
+      // Stripe billing
+      const { data: customerData, error: customerError } =
+        await // NOTE: No await set to avoid blocking the request
+        supabaseAdmin
+          .from("users")
+          .select("itemId")
+          .eq("user_id", request.headers.get("UserId"))
+          .single();
+
+      if (customerError) {
+        return NextResponse.json(ResponseFormat.Error(customerError.message));
+      }
+
+      const record = await stripe.subscriptionItems.createUsageRecord(
+        customerData?.itemId,
+        {
+          quantity: includedModels.length,
+          timestamp: "now",
+          action: "increment",
+        }
+      );
 
       return new Response(JSON.stringify(processedOutputs), {
         status: 200,

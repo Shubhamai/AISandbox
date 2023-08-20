@@ -1,38 +1,58 @@
-class Project:
+import json
+from typing import List
+import requests
+
+
+NODE_TYPE_TO_INPUT_MAPPIN = {
+    # Inputs
+    "TextInputNode": "text",
+    "ImageInputNode": "image",
+    "AudioInputNode": "audio",
+    # Models
+    "OpenAIChatGPTNode": "text",
+    "StableDiffusionNode": "text",
+    "WhisperNode": "text",
+    "YoloXNode": "text",
+    "TortoiseTTSNode": "text",
+    "Vicuna13B": "text",
+    "StableLM": "text",
+    "DollyV2": "text",
+    "OpenAssistant": "text",
+    "mpt7b": "text",
+    # Outputs
+    "TextOutputNode": "text",
+    "ImageOutputNode": "image",
+    "AudioOutputNode": "audio",
+}
+
+
+def execute_project(project_id: str, api_key: str, inputs: List[dict]):
     """
-    A class representing a project to run inference with inputs visa API.
+    Executes the project graph with corresponding inputs and returns the data from output nodes
+
+    Args:
+        project_id (str): The project_id of the project.
+        api_key (str) : The API Key.
+        inputs (list) : The inputs for the project graph. Example format :
+            [{
+                "id": "TextInputNode-dU-gccjt6igEbAVFnYs4x",
+                "data": {"text": "Hello!"}
+            }]
+
     """
 
-    def __init__(self, id: str):
-        """
-        Initialize a project with a given project id.
+    # TODO : Process inputs to base64 if necessary
 
-        Args:
-            id (str): The id of the project.
+    response = requests.request(
+        "POST",
+        # TODO : Might update to api/v2 in future, need backward compatability
+        "https://aisandbox.app/api/v1/execute/",
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": api_key,
+            "Project": project_id,
+        },
+        data=json.dumps({"data": inputs}),
+    )
 
-        """
-
-        self.id = id
-
-    def run_inference(self, input: str):
-        """
-        Run inference on a given input.
-
-        Args:
-            input (str): The input to run inference on.
-
-        Returns:
-            str: The output of the inference.
-
-        """
-        return "Hello World!"
-
-    def get_project_data(self):
-        """
-        Get the project data.
-
-        Returns:
-            dict: The project data.
-
-        """
-        return {"id": self.id}
+    return response

@@ -67,7 +67,7 @@ const Usage = () => {
 
   return (
     <div className="p-10 flex flex-col gap-10 ">
-      <div className="flex flex-col gap-3 ml-5 w-[800px]">
+      <div className="flex flex-col gap-3 w-[800px]">
         <h1 className="text-3xl font-bold">Usage</h1>
         <h4 className="text-foreground/50 text-sm">
           Below is the statistics of your usage of the AISandbox REST API.

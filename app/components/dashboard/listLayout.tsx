@@ -49,8 +49,6 @@ const ListLayout = ({
           )}
           <Image
             className="rounded-xl border"
-            unoptimized
-            priority
             src={projectState.image}
             alt="Project Image"
             width={102}

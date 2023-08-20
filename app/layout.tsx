@@ -3,8 +3,12 @@ import { Inter } from "next/font/google";
 import { Toaster } from "@/app/components/ui/toaster";
 import { ThemeProvider } from "@/app/components/ui/theme-provider";
 import { Metadata } from "next";
+import localFont from "next/font/local";
 
-const inter = Inter({ subsets: ["latin"] });
+const satoshiFont = localFont({
+  src: "./fonts/Satoshi-Variable.ttf",
+  variable: "--font-satoshi",
+});
 
 export const metadata: Metadata = {
   title: "AI Sandbox",
@@ -36,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`${satoshiFont.className}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div id="root" className="w-screen h-screen">
             {children}

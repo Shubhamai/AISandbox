@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { supabaseService } from "./app/lib/supabase/server";
+import { supabaseAdmin } from "./app/lib/supabase/admin";
 import { Ratelimit } from "@upstash/ratelimit";
 import redis from "./app/lib/redis/client";
 
@@ -51,7 +51,7 @@ export async function middleware(req: NextRequest) {
       // TODO : Could be problematic in case of redis database failure, all requests will be blocked
       let success = false;
       if (!user_id) {
-        const { data: apiTableData, error } = await supabaseService
+        const { data: apiTableData, error } = await supabaseAdmin
           .from("apikeys")
           .select("*")
           .eq("hash", hash)

@@ -6,8 +6,6 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    loader: "custom",
-    loaderFile: "./app/utils/imageLoader.ts",
     remotePatterns: [
       {
         protocol: "https",

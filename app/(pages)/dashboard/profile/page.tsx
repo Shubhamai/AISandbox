@@ -51,61 +51,68 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-10 w-[600px] p-6">
-      <section className="text-lg font-semibold">Account Information</section>
-      <div className="flex flex-row justify-between gap-28 items-center">
-        Email
-        <Input value={user?.email} readOnly />
+    <div className="p-10 flex flex-col gap-10">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-3xl font-bold">Account Information</h1>
+        <h4 className="text-foreground/50 text-sm">
+          Manage your account information.
+        </h4>
       </div>
+      <div className="w-[800px]">
+        <div className="flex flex-row justify-between gap-28 items-center">
+          Email
+          <Input value={user?.email} readOnly />
+        </div>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="w-40 ml-auto mt-10">Delete Account</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Delete Account</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete your account? This action cannot
-              be undone.
-            </DialogDescription>
-          </DialogHeader>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-40 mt-10">Delete Account</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Delete Account</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete your account? This action cannot
+                be undone.
+              </DialogDescription>
+            </DialogHeader>
 
-          <DialogFooter>
-            <Button
-              type="submit"
-              onClick={async () => {
-                setDeletionInProgress(true);
+            <DialogFooter>
+              <Button
+                type="submit"
+                onClick={async () => {
+                  setDeletionInProgress(true);
 
-                const response = await fetch("/api/deleteAccount", {
-                  method: "DELETE",
-                });
-
-                const responseJson = await response.json();
-
-                if (responseJson.type === "success") {
-                  toast({
-                    title: "Success",
-                    description: "Account deleted successfully",
+                  const response = await fetch("/api/deleteAccount", {
+                    method: "DELETE",
                   });
-                  router.push("/");
-                } else {
-                  toast({
-                    title: "Error",
-                    description: responseJson.message,
-                  });
-                }
-              }}
-            >
-              {!deletionInProgress ? (
-                "Delete Account"
-              ) : (
-                <Loader className="animate-spin" />
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+
+                  const responseJson = await response.json();
+
+                  if (responseJson.type === "success") {
+                    toast({
+                      title: "Success",
+                      description: "Account deleted successfully",
+                    });
+                    router.push("/");
+                  } else {
+                    toast({
+                      title: "Error",
+                      description: responseJson.message,
+                    });
+                  }
+                }}
+              >
+                {!deletionInProgress ? (
+                  "Delete Account"
+                ) : (
+                  <Loader className="animate-spin" />
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }
