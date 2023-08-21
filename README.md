@@ -53,7 +53,7 @@ print(output.json())
 
 ## Tech Stack
 
-### Front end 
+#### Front end 
 - [Nextjs 13](https://nextjs.org/docs) as the web framework. 
 - [shadcn ui](https://ui.shadcn.com/) for the UI components. 
 - [reactflow](https://reactflow.dev/) for the node editor.
@@ -67,7 +67,7 @@ print(output.json())
 - [OpenAI](https://openai.com/) and [Replicate](https://replicate.com/) to run most of the models.
 - [Upstash](https://upstash.com/) - Rate Limiting, Caching.
 
-### Infrastructure
+#### Infrastructure
 
 - The site is ~~deployed on [cloudflare](https://www.cloudflare.com/)~~ self hosted on Digitalocean $7 droplet, with cloudflare as reverse proxy. 
 
