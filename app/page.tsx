@@ -48,11 +48,11 @@ export default async function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-100 to-slate-50 to-5%">
+    <div className="min-h-screen flex flex-col items-center justify-center dotted-background">
       <Header user={session ? session.user : null} />
 
-      <div className="flex flex-col items-center gap-10 mt-[300px]">
-        <div className="flex flex-col items-center gap-10 border-b drop-shadow-md p-8 rounded-lg">
+      <div className="flex flex-col items-center gap-10 pt-[200px] mt-[100px] bg-white border shadow-sm px-20 rounded-xl shadow-sm">
+        <div className="flex flex-col items-center gap-10 drop-shadow-md p-8 rounded-lg">
           <Link
             className="border-2 shadow-md hover:shadow-lg hover:shadow-yellow-200 shadow-yellow-300 px-3 min-w-max py-1.5 font-semibold w-36 text-center text-sm rounded-full bg-yellow-300/10 border-yellow-300 text-yellow-900 flex flex-row gap-2"
             rel="noopener noreferrer"
@@ -92,7 +92,7 @@ export default async function Home() {
         </div>
 
         <Image
-          className="mt-32 border-2 shadow- rounded-xl transition-all hover:shadow-md hover:-translate-y-1 hover:scale-[1.005]"
+          className="mt-32 border-2 shadow-sm rounded-xl transition-all hover:shadow-md hover:-translate-y-1 hover:scale-[1.005]"
           src="/assets/editor.svg"
           width={1400}
           height={1400}
@@ -165,7 +165,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="border-t w-[800px] flex flex-row items-center justify-center">
+      <div className="w-screen flex flex-row items-center justify-center bg-gradient-to-r from-slate-50 via-gray-100 to-slate-50">
         <Footer />
       </div>
     </div>
