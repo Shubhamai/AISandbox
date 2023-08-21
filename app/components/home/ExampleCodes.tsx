@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/app/utils";
 import { useState } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
@@ -57,7 +58,10 @@ const ExampleCodes = () => {
     <div className="flex flex-col gap-2">
       <div className="flex gap-3 mb-4">
         <span
-          className="cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
+          className={cn(
+            `cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 select-none`,
+            language === "python" ? "bg-foreground/90 text-background" : ""
+          )}
           onClick={() => {
             setLanguageCode(pythonCode);
             setLanguage("python");
@@ -66,7 +70,10 @@ const ExampleCodes = () => {
           Python 3
         </span>
         <span
-          className="cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
+          className={cn(
+            `cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 select-none`,
+            language === "javascript" ? "bg-foreground/90 text-background" : ""
+          )}
           onClick={() => {
             setLanguageCode(javascriptCode);
             setLanguage("javascript");
@@ -75,7 +82,10 @@ const ExampleCodes = () => {
           Node.js
         </span>
         <span
-          className="cursor-pointer text-sm uppercase font-semibold border border-slate-400 rounded-lg px-2 py-0.5 focus:bg-slate-400 select-none"
+          className={cn(
+            `cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 select-none`,
+            language === "rust" ? "bg-foreground/90 text-background" : ""
+          )}
           onClick={() => {
             setLanguageCode(rustCode);
             setLanguage("rust");
