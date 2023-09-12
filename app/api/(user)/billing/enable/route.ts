@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
       //   billing_cycle_anchor: dayjs().add(1, "month").unix(),
       // },
       success_url:
-        "http://localhost:3000/dashboard/billing?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:3000/dashboard/billing",
+        "https://aisandbox.app/dashboard/billing?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://aisandbox.app/dashboard/billing",
     });
 
     return NextResponse.json(Response.Success(session.url));
@@ -101,8 +101,8 @@ export async function POST(request: NextRequest) {
       //   billing_cycle_anchor: dayjs().add(1, "month").unix(),
       // },
       success_url:
-        "http://localhost:3000/dashboard/billing?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:3000/dashboard/billing",
+        "https://aisandbox.app/dashboard/billing?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://aisandbox.app/dashboard/billing",
     });
 
     return NextResponse.json(Response.Success(session.url));
