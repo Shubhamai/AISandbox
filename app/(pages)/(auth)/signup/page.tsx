@@ -33,7 +33,7 @@ export default function Signup() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `https://aisandbox.app/auth/callback`,
         },
       });
 
@@ -56,7 +56,7 @@ export default function Signup() {
         email,
         password,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `https://aisandbox.app/auth/callback`,
         },
       });
 
@@ -155,7 +155,7 @@ export default function Signup() {
               const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-                  redirectTo: `${location.origin}/auth/callback`,
+                  redirectTo: `https://aisandbox.app/auth/callback`,
                 },
               });
             }}
@@ -175,7 +175,7 @@ export default function Signup() {
               const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: "github",
                 options: {
-                  redirectTo: `${location.origin}/auth/callback`,
+                  redirectTo: `https://aisandbox.app/auth/callback`,
                 },
               });
             }}
