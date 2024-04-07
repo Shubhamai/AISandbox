@@ -2,7 +2,7 @@
 
 [![logo](https://raw.githubusercontent.com/Shubhamai/AISandbox/main/public/assets/editor.svg)](https://tinygrad.org)
 
-( In Development, pre-alpha ) Something like Figma, but for designing AI systems. Maintained by [Shubhamai](https://github.com/shubhamai).
+( In Development, pre-alpha ) Something like Figma, but for designing AI systems.
 
 <h3>
 
@@ -69,7 +69,7 @@ print(output.json())
 
 #### Infrastructure
 
-- The site is ~~deployed on [cloudflare](https://www.cloudflare.com/)~~ self hosted on Digitalocean $7 droplet, with cloudflare as reverse proxy. 
+- The site is deployed on vercel.
 
 
 ## Self Hosting
