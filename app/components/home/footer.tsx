@@ -51,7 +51,7 @@ const Footer = async () => {
     }
   };
 
-  const status = await checkStatus();
+  const status = "All systems operational"; // await checkStatus();
 
   return (
     <div className="flex flex-row justify-between items-start w-[800px] mt-[40px] mb-[30px]">
