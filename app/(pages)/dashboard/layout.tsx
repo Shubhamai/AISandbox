@@ -52,31 +52,19 @@ export default function DashboardLayout({
           <Link className="px-2 text-base" href="/dashboard/apikeys">
             API Keys
           </Link>
-          <Link className="px-2 text-base" href="/dashboard/billing">
-            Billing
-          </Link>
         </section>
         <Separator className="" />
         <section className="pl-4 py-2 flex flex-col gap-2">
-          <h4 className="text-foreground/50 text-sm">Documentation</h4>
           <Link
             rel="noopener noreferrer"
             target="_blank"
             className="text-base flex flex-row items-center gap-2"
-            href="/docs"
+            href="https://github.com/shubhamai/aisandbox"
           >
             <ArrowUpRight className="text-foreground/50" size={21} />{" "}
-            Documentation
+            GitHub
           </Link>
-          <Link
-            rel="noopener noreferrer"
-            target="_blank"
-            className="text-base flex flex-row items-center gap-2"
-            href="/docs"
-          >
-            <ArrowUpRight className="text-foreground/50" size={21} /> API
-            Reference
-          </Link>
+        
         </section>
         <Separator className="" />
         <SignOut />
