@@ -79,15 +79,7 @@ export default async function Home() {
               </Button>
             </Link>
 
-            <Link href="/docs">
-              <Button
-                className="flex gap-2 w-fit rounded-3xl border-2 px-4 border-foreground font-bold hover:shadow-xl transition-transform transition-shadow"
-                size="lg"
-                variant={"outline"}
-              >
-                Documentation
-              </Button>
-            </Link>
+           
           </div>
         </div>
 
@@ -165,9 +157,9 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="w-screen flex flex-row items-center justify-center bg-gradient-to-r from-slate-50 via-gray-100 to-slate-50">
+      {/* <div className="w-screen flex flex-row items-center justify-center bg-gradient-to-r from-slate-50 via-gray-100 to-slate-50">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 }

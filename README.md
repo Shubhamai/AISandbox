@@ -2,7 +2,7 @@
 
 [![logo](https://raw.githubusercontent.com/Shubhamai/AISandbox/main/public/assets/editor.svg)](https://tinygrad.org)
 
-( In Development, pre-alpha ) Something like Figma, but for designing AI systems.
+Something like Figma, but for designing AI systems.
 
 <h3>
 
@@ -10,9 +10,7 @@
 
 </h3>
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/shubhamai/aisandbox)](https://github.com/shubhamai/aisandbox/stargazers)
 [![License](https://img.shields.io/github/license/shubhamai/aisandbox)](https://github.com/shubhamai/aisandbox/license)
-[![Response Time](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FShubhamai%2FAISandbox-Status%2FHEAD%2Fapi%2Fai-sandbox%2Fresponse-time.json)](https://status.aisandbox.app)
 
 </div>
 
@@ -20,8 +18,6 @@
 ## About
 
 AISandbox is a node-based editor that allows creating an architecture of multiple models with inputs and outputs to perform a range of tasks. Think of Figma but for designing AI systems graphically.
-
-Note that is still in development, pre-alpha.
 
 ### Features
 
@@ -63,18 +59,36 @@ print(output.json())
 
 #### Backend
 - [Supabase](https://supabase.com/) for user authentication and serves as the main database. 
-- [Stripe](https://stripe.com/) for Payments.
 - [OpenAI](https://openai.com/) and [Replicate](https://replicate.com/) to run most of the models.
 - [Upstash](https://upstash.com/) - Rate Limiting, Caching.
 
 #### Infrastructure
 
-- The site is deployed on vercel.
+- The site is deployed on [Verce](https://vercel.com/).
 
+
+### Directory Structure
+
+```bash
+├── app - The main web app
+│   ├── api - API routes
+│   ├── components - React components
+│   |   ├── dashboard - Dashboard components
+│   |   ├── landing - Landing page components
+│   |   ├── nodes - Contains components for all the nodes
+|   |   ├── editor - Contains components for the main editor
+│   |   ├── ui - Shadcn UI components
+|   ├── fonts - Fonts
+│   ├── lib - Utility functions. Redis, Stripe, Supabase clients.
+│   ├── state - Zustand stores
+|   ├── utils - Utility functions
+├── examples - Contains example code for python, nodejs and rust.
+├── packages - Contains library code for python, nodejs and rust.
+├── pages - The documentation website (https://aisandbox.com/docs).
+├── public - Static files
+```
 
 ## Self Hosting
-
-**(In progress)**
 
 To self-host this application ( at least some of it ), follow the steps :
 

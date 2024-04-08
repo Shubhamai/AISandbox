@@ -31,9 +31,9 @@ const Pricing = () => {
           </Link>
         </h4>
       </div>
-      <div className="border-t w-full flex flex-row items-center justify-center mt-[200px]">
+      {/* <div className="border-t w-full flex flex-row items-center justify-center mt-[200px]">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 };
