@@ -82,8 +82,8 @@ print(output.json())
 │   ├── lib - Utility functions. Redis, Stripe, Supabase clients.
 │   ├── state - Zustand stores
 |   ├── utils - Utility functions
-├── examples - Contains example code for python, nodejs and rust.
-├── packages - Contains library code for python, nodejs and rust.
+├── examples - Contains example code for python.
+├── packages - Contains library code for python.
 ├── pages - The documentation website (https://aisandbox.com/docs).
 ├── public - Static files
 ```

@@ -22,33 +22,33 @@ print(output.json())
 
 `;
 
-const javascriptCode = `import { executeProject } from "aisandbox";
+// const javascriptCode = `import { executeProject } from "aisandbox";
 
-const projectId = "91392237-fc87-48b4-b83c-59c6ce0aad9d";
-apiKey = "ais-4ad62b20-74ab-4f55-a5df-856007db6261";
+// const projectId = "91392237-fc87-48b4-b83c-59c6ce0aad9d";
+// apiKey = "ais-4ad62b20-74ab-4f55-a5df-856007db6261";
 
-const inputs = [
-    { id: "TextInputNode-dU-gccjt6igEbAVFnYs4x", 
-      data: { text: "Hello!" } },
-];
+// const inputs = [
+//     { id: "TextInputNode-dU-gccjt6igEbAVFnYs4x", 
+//       data: { text: "Hello!" } },
+// ];
 
-const output = await executeProject(projectId, apiKey, inputs);
-console.log(output);
-`;
+// const output = await executeProject(projectId, apiKey, inputs);
+// console.log(output);
+// `;
 
-const rustCode = `use aisandbox::execute_project;
+// const rustCode = `use aisandbox::execute_project;
 
-let project_id: &str = "91392237-fc87-48b4-b83c-59c6ce0aad9d";
-let api_key: &str = "ais-4ad62b20-74ab-4f55-a5df-856007db6261";
+// let project_id: &str = "91392237-fc87-48b4-b83c-59c6ce0aad9d";
+// let api_key: &str = "ais-4ad62b20-74ab-4f55-a5df-856007db6261";
 
-let inputs = vec![(
-    "TextInputNode-dU-gccjt6igEbAVFnYs4x",
-    json!({ "text": "Hello!" }),
-)];
+// let inputs = vec![(
+//     "TextInputNode-dU-gccjt6igEbAVFnYs4x",
+//     json!({ "text": "Hello!" }),
+// )];
 
-let output = execute_project(project_id, api_key, inputs)
-             .unwrap();
-println!("{}", output);`;
+// let output = execute_project(project_id, api_key, inputs)
+//              .unwrap();
+// println!("{}", output);`;
 
 const ExampleCodes = () => {
   const [languageCode, setLanguageCode] = useState(pythonCode);
@@ -69,7 +69,7 @@ const ExampleCodes = () => {
         >
           Python 3
         </span>
-        <span
+        {/* <span
           className={cn(
             `cursor-pointer border text-sm uppercase font-semibold border-slate-400 rounded-lg px-2 py-0.5 select-none`,
             language === "javascript" ? "bg-foreground/90 text-background" : ""
@@ -92,7 +92,7 @@ const ExampleCodes = () => {
           }}
         >
           Rust
-        </span>
+        </span> */}
       </div>
 
       <SyntaxHighlighter language={language} style={anOldHope} showLineNumbers>

@@ -53,14 +53,14 @@ export default async function Home() {
 
       <div className="flex flex-col items-center gap-10 pt-[200px] mt-[100px] bg-white border shadow-sm px-20 rounded-xl shadow-sm">
         <div className="flex flex-col items-center gap-10 drop-shadow-md p-8 rounded-lg">
-          <Link
+          {/* <Link
             className="border-2 shadow-md hover:shadow-lg hover:shadow-yellow-200 shadow-yellow-300 px-3 min-w-max py-1.5 font-semibold w-36 text-center text-sm rounded-full bg-yellow-300/10 border-yellow-300 text-yellow-900 flex flex-row gap-2"
             rel="noopener noreferrer"
             target="_blank"
             href="https://github.com/shubhamai/aisandbox"
           >
             <ArrowUpRight /> Currently In Development
-          </Link>
+          </Link> */}
           <h1 className="flex flex-col gap-2 items-center font-black text-6xl bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
             Build AI Tools
           </h1>
@@ -122,8 +122,7 @@ export default async function Home() {
             <div className="font-bold text-2xl">API Integration</div>
             <div className="text-slate-600 font-medium">
               AI Sandbox provides an REST API endpoint to integrate the AI
-              architectures to any application. Currently supported languages
-              include Python, Javascript, and Rust.
+              architectures to any application. Currently supportes Python.
             </div>
             <div>
               <ExampleCodes />

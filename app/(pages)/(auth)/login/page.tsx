@@ -135,12 +135,12 @@ export default function Login() {
           {/* <Button variant={"secondary"} className="rounded-md w-full">
         Continue with Google
       </Button> */}
-          <div className="flex flex-row items-center gap-2 w-full">
+          {/* <div className="flex flex-row items-center gap-2 w-full">
             <Separator className="flex-1" />
             <div className="text-xs">OR</div>
             <Separator className="flex-1" />
-          </div>
-          <Button
+          </div> */}
+          {/* <Button
             variant={"secondary"}
             className="flex flex-row items-center gap-3 rounded-md w-full"
             onClick={async () => {
@@ -180,7 +180,7 @@ export default function Login() {
               alt="GitHub Logo"
             />{" "}
             <div>Continue with GitHub</div>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
